@@ -1,0 +1,6 @@
+# ignore user file
+*.pro.user
+
+#ignore autosave files
+*.autosave
+

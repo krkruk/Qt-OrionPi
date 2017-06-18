@@ -1,0 +1,3 @@
+source ./setEnvVar.sh
+
+qtcreator
