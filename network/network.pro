@@ -32,7 +32,9 @@ SOURCES += RootNode.cpp \
     IpcServer.cpp \
     IpcSocket.cpp \
     TcpGlobalServerFactory.cpp \
-    TcpLocalSocketFactory.cpp
+    TcpLocalSocketFactory.cpp \
+    PeripheralNode.cpp \
+    TcpLocalServerFactory.cpp
 
 HEADERS += RootNode.h\
         network_global.h \
@@ -56,7 +58,10 @@ HEADERS += RootNode.h\
     IfceSocket.h \
     IfceSocketFactory.h \
     TcpLocalSocketFactory.h \
-    IfceLocalSocketFactory.h
+    IfceLocalSocketFactory.h \
+    PeripheralNode.h \
+    IfceLocalServerFactory.h \
+    TcpLocalServerFactory.h
 
 unix {
     target.path = /usr/lib

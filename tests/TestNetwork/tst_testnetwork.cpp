@@ -41,6 +41,8 @@
 #include "IfceSocketFactory.h"
 #include "TcpLocalSocketFactory.h"
 
+#include "PeripheralNode.h"
+#include "TcpLocalServerFactory.h"
 
 class TestNetwork : public QObject
 {
@@ -83,6 +85,8 @@ private Q_SLOTS:
     void test_global_server_factory();
     void test_local_socket_factory();
     void test_root_node_append_local_sockets();
+    void test_peripheral_node_remote_to_local_pathway();
+    void test_peripheral_node_local_to_remote_pathway();
 };
 
 TestNetwork::TestNetwork()
@@ -449,6 +453,48 @@ void TestNetwork::test_root_node_append_local_sockets()
     if( auto s = st.toStrongRef() )
         recvd = s->getLastRemoteMessage();
     QCOMPARE( recvd, driveData.toLatin1() );
+}
+
+void TestNetwork::test_peripheral_node_remote_to_local_pathway()
+{
+    const QHostAddress localAddress { QHostAddress::LocalHost };
+    const auto localPort { 5000 };
+    const QString ipcServerName { "pl.projektorion.localserver" };
+
+    QSharedPointer<IfceServer> localConnManager{ new PeripheralNode(localAddress, localPort, ipcServerName) };
+    QScopedPointer<IfceIpcSocket> ipcClient{ new IpcSocket(ipcServerName) };
+    auto factory { QSharedPointer<TcpLocalServerFactory>::create() };
+    factory->setAddress(localAddress);
+    factory->setPort(localPort);
+    qSharedPointerCast<PeripheralNode>(localConnManager)->setLocalServerFactory(factory);
+    QVERIFY( localConnManager->start() );
+    runEventLoop(150);
+    localConnManager->onRemoteMessageReceived(driveData.toLatin1());
+    runEventLoop(20);
+    const auto result { ipcClient->getLastRemoteMessage() };
+    QCOMPARE( result, driveData.toLatin1() );
+}
+
+void TestNetwork::test_peripheral_node_local_to_remote_pathway()
+{
+    const QHostAddress localAddress { QHostAddress::LocalHost };
+    const auto localPort { 5000 };
+    const QString ipcServerName { "pl.projektorion.localserver" };
+
+    QSharedPointer<IfceServer> localConnManager{ new PeripheralNode(localAddress, localPort, ipcServerName) };
+    QScopedPointer<IfceIpcSocket> ipcClient{ new IpcSocket(ipcServerName) };
+    auto factory { QSharedPointer<TcpLocalServerFactory>::create() };
+    factory->setAddress(localAddress);
+    factory->setPort(localPort);
+    qSharedPointerCast<PeripheralNode>(localConnManager)->setLocalServerFactory(factory);
+    QVERIFY( localConnManager->start() );
+    runEventLoop(150);
+    ipcClient->onLocalMessageReceived(driveData.toLatin1());
+    runEventLoop(10);
+    localConnManager->onRemoteMessageReceived(driveData.toLatin1());
+    runEventLoop(10);
+    const auto result { ipcClient->getLastLocalMessage() };
+    QCOMPARE( result, driveData.toLatin1() );
 }
 
 QTEST_MAIN(TestNetwork)
