@@ -2,6 +2,7 @@
 #include <QSerialPortInfo>
 #include <QSerialPort>
 #include <QVariant>
+#include <QDebug>
 #include "SerialSettings.h"
 
 
@@ -22,9 +23,10 @@ AsyncDeviceFinder::~AsyncDeviceFinder()
 
 QList<QSharedPointer<IfceDevice>> AsyncDeviceFinder::discover()
 {
-    for( auto availableSerial : QSerialPortInfo::availablePorts() )
+    for( auto availableSerial : QSerialPortInfo::availablePorts() ) {
+        availablePortNames.append(availableSerial.portName());
         prepare_serial(availableSerial);
-
+    }
 
     return QList<QSharedPointer<IfceDevice>>();
 }
@@ -32,12 +34,15 @@ QList<QSharedPointer<IfceDevice>> AsyncDeviceFinder::discover()
 void AsyncDeviceFinder::onReadyRead()
 {
     QPointer<QSerialPort> serial = qobject_cast<QSerialPort*>(sender());
-    if( !serial && !serial->canReadLine() )
+    if( !serial ) return;
+    if( !serial->canReadLine() ) {
+        emit signalSerialError(QString("%1: cannot read a line.").arg(serial->portName()));
         return;
+    }
+
     const auto portName { serial->portName() };
     auto sharedSerial { serials.value(portName) };
     auto line { sharedSerial->readLine() };
-
     const auto serialInfo { availableSerials.value(portName) };
 
     QSharedPointer<IfceDevice> device;
@@ -50,6 +55,8 @@ void AsyncDeviceFinder::onReadyRead()
     }
 
     emit signalDeviceFound(device);
+    unregister_port(serial->portName());
+    check_discovery_finished();
     sharedSerial->close();
     sharedSerial.clear();
 }
@@ -63,6 +70,9 @@ void AsyncDeviceFinder::onErrorOccurred(QSerialPort::SerialPortError error)
     auto sharedSerial { serials.value(serial->portName()) };
     emit signalSerialError(QString("%1: %2").arg(sharedSerial->portName()).arg(sharedSerial->errorString()));
 
+    unregister_port(serial->portName());
+    check_discovery_finished();
+
     if( sharedSerial->isOpen() )
         sharedSerial->close();
     sharedSerial.clear();     //delete later
@@ -74,6 +84,7 @@ void AsyncDeviceFinder::prepare_serial(const QSerialPortInfo &serialInfo)
 
     auto serial { DeviceFinder::createSerial(serialInfo, true) };
     connect(serial.data(), &QSerialPort::readyRead, this, &AsyncDeviceFinder::onReadyRead);
+    connect(serial.data(), &QSerialPort::errorOccurred, this, &AsyncDeviceFinder::onErrorOccurred);
     serial->setProperty(PROPERTY_READ_ATTEMPT, START_READ_LINE_ATTEMPT);
     serials.insert(serialInfo.portName(), serial);
     availableSerials.insert(serialInfo.portName(), serialInfo);
@@ -89,6 +100,19 @@ void AsyncDeviceFinder::action_parsing_error(QSharedPointer<QSerialPort> serial)
         return;
     }
 
+    unregister_port(serial->portName());
+    check_discovery_finished();
     serial->close();
     serial.clear();
+}
+
+void AsyncDeviceFinder::unregister_port(const QString &portName)
+{
+    availablePortNames.removeOne(portName);
+}
+
+void AsyncDeviceFinder::check_discovery_finished()
+{
+    if( availablePortNames.isEmpty() )
+        emit signalDiscoveryFinished();
 }

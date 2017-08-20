@@ -26,6 +26,7 @@ public:
 
 signals:
     void signalDeviceFound(QSharedPointer<IfceDevice> device);
+    void signalDiscoveryFinished();
 
 
 private slots:
@@ -36,11 +37,14 @@ private slots:
 private:
     void prepare_serial(const QSerialPortInfo &serialInfo);
     void action_parsing_error(QSharedPointer<QSerialPort> serial);
+    void unregister_port(const QString &portName);
+    void check_discovery_finished();
 
     static int MAX_READLINE_ATTEMPT;
     QScopedPointer<IfceDeviceFactory> deviceFactory;
     QHash<QString, QSerialPortInfo> availableSerials;
     QHash<QString, QSharedPointer<QSerialPort>> serials;
+    QList<QString> availablePortNames;
 };
 
 #endif // ASYNCDEVICEFINDER_H
