@@ -90,15 +90,17 @@ void TestDriveModel::test_wheel_model_notification_ability()
     constexpr auto omega { 100.0 };
     constexpr auto current { 5.0 };
     constexpr auto temperature { 88.5 };
-    const QByteArray data(QString("{\"ID\":0, \"%1\": %2, \"%3\":%4, \"%5\": %6}")
+    const QByteArray data(QString("{\"ID\":0,\"%1\": %2,\"%3\":%4,\"%5\":%6}")
                           .arg(KEY_ANG_VEL).arg(omega)
                           .arg(KEY_CURRENT).arg(current)
                           .arg(KEY_SINK_TEMP).arg(temperature).toLatin1());
+    qDebug() << data;
     auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
     MockWheelObserver observer;
     frontLeftWheel->addObserver(&observer);
     frontLeftWheel->update(data);
     frontLeftWheel->notifyObservers();
+    qDebug() << "OBSERVER:" << observer.getRawData(frontLeftId);
     QCOMPARE( getAngularVelocity(observer.getRawData(frontLeftId)), omega );
 }
 
@@ -172,8 +174,8 @@ void TestDriveModel::test_set_drive_mode_algorithm_direct()
     const QByteArray turnLeft( R"({"RROW":100.0, "LROW":-100.0})");
     orionChassis.onRemoteDataReceived(turnLeft);
     orionChassis.notifyAll();
-    QCOMPARE( getAngularVelocity(observer.getRawData(frontLeftId)), -100.0 );
-    QCOMPARE( getAngularVelocity(observer.getRawData(frontRightId)), 100.0 );
+    QCOMPARE( frontLeftWheel->getExpectedAngularVelocity(), -100.0 );
+    QCOMPARE( frontRightWheel->getExpectedAngularVelocity(), 100.0 );
 }
 
 

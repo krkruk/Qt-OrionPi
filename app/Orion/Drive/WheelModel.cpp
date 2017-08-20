@@ -37,6 +37,8 @@ public:
     void addObserver(IfceSerialObserver *observer);
     bool delObserver(IfceSerialObserver *observer);
     void notifyObservers();
+
+
 private:
 
     QByteArray exportData();
@@ -108,7 +110,11 @@ void WheelModel::WheelModelPrivate::notifyObservers()
 QByteArray WheelModel::WheelModelPrivate::exportData()
 {
     QJsonObject obj;
-    obj[KEY_ANG_VEL] = expectedAngularVelocity;
+    obj[KEY_ANG_VEL] = getCurrentAngularVelocity();
+    obj[KEY_CURRENT] = getCurrent();
+    obj[KEY_SINK_TEMP] = getHeatSinkTemperature();
+    obj[KEY_PWM] = this->pwm;
+    obj[KEY_ERROR_CODE] = this->errorCode;
     QJsonDocument doc(obj);
     return doc.toJson(QJsonDocument::Compact);
 }
