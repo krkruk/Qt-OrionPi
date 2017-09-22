@@ -30,7 +30,7 @@ public:
      * @return True if parsing is successful.
      * @throws ParsingExeption in an event of unsuccessful parsing.
      */
-    virtual bool parse(const QByteArray &data) throw(ParsingException) = 0;
+    virtual bool parse(const QByteArray &data) = 0;
 
     /**
      * @brief getId Returns an ID of the device

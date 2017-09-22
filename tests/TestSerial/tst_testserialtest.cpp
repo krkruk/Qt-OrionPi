@@ -19,6 +19,7 @@
 #include "include/SerialController.h"
 #include "include/ThreadedDeviceFinder.h"
 #include "include/AsyncDeviceFinder.h"
+#include "include/SerialFactory.h"
 
 #include "MockDeviceFinder.h"
 #include "MockFoundDevice.h"
@@ -37,6 +38,7 @@ class TestSerialTest : public QObject
     Q_OBJECT
 
     const int mockId {1};
+    const QString mockIdTag = "ID";
     const int mockValue {20};
     const QString mockPortName = "mockedPort";
     const QByteArray mockSerialData = QString("{\"ID\":%1,\"ROT\":%2}\r\n")
@@ -47,6 +49,7 @@ class TestSerialTest : public QObject
     QList<int> resultIDs;
     QList<QString> resultConnectedDevices;
     QList<QSharedPointer<IfceDevice>> mockDevices;
+    QSharedPointer<DefaultSerialSettings> defaultSettings = QSharedPointer<DefaultSerialSettings>::create();
 
 public:
     TestSerialTest() {}
@@ -86,13 +89,13 @@ void TestSerialTest::initTestCase()
 {
     resultIDs << 0 << 1 << 2;
     resultConnectedDevices << mockPortName;
-    mockDevices << QSharedPointer<MockFoundDevice>::create(mockId, mockPortName);
+    mockDevices << QSharedPointer<MockFoundDevice>::create(mockId, mockPortName, defaultSettings);
 }
 
 void TestSerialTest::test_parse_json_id_serial_json_parser()
 {
     const QByteArray line(mockSerialData);
-    JsonSerialParser parser;
+    JsonSerialParser parser(mockIdTag);
     parser.parse(line);
     QVERIFY(parser.getId());
 }
@@ -100,7 +103,7 @@ void TestSerialTest::test_parse_json_id_serial_json_parser()
 void TestSerialTest::test_parse_invalid_json_id_serial_json_parser()
 {
     const QByteArray line(mockSerialData + "{\"\r\n");
-    JsonSerialParser parser;
+    JsonSerialParser parser(mockIdTag);
     QVERIFY_EXCEPTION_THROWN(parser.parse(line), ParsingException);
 }
 
@@ -108,7 +111,9 @@ void TestSerialTest::test_parse_invalid_json_id_serial_json_parser()
 void TestSerialTest::test_parsing_of_single_bin_line_with_id()
 {
     QByteArray line(mockSerialData);
-    QScopedPointer<IfceDevice> device { new JsonDevice(line, QSerialPortInfo()) };
+    QSharedPointer<IfceSerialSettings> settings = QSharedPointer<DefaultSerialSettings>::create();
+    QScopedPointer<IfceDevice> device { new JsonDevice(settings, QSerialPortInfo()) };
+    device->parse(line);
 
     QVERIFY(device->getId() == 1);
 }
@@ -116,16 +121,18 @@ void TestSerialTest::test_parsing_of_single_bin_line_with_id()
 void TestSerialTest::test_parsing_of_single_bin_line_with_id_trash_char_at_end()
 {
     QByteArray line(mockSerialData + "{\"\r\n");
-    QVERIFY_EXCEPTION_THROWN(QScopedPointer<IfceDevice> device { new JsonDevice(line, QSerialPortInfo()) },
-                             ParsingException);
+    QSharedPointer<IfceSerialSettings> settings = QSharedPointer<DefaultSerialSettings>::create();
+    QScopedPointer<IfceDevice> device { new JsonDevice(settings, QSerialPortInfo()) };
+    QVERIFY_EXCEPTION_THROWN( device->parse(line), ParsingException);
 
 }
 
 void TestSerialTest::test_parsing_of_single_bin_line_with_id_no_init_brace()
 {
     QByteArray line("\"ID\":1}\r\n");
-    QVERIFY_EXCEPTION_THROWN(QScopedPointer<IfceDevice> device { new JsonDevice(line, QSerialPortInfo()) },
-                             ParsingException);
+    QSharedPointer<IfceSerialSettings> settings = QSharedPointer<DefaultSerialSettings>::create();
+    QScopedPointer<IfceDevice> device { new JsonDevice(settings, QSerialPortInfo()) };
+    QVERIFY_EXCEPTION_THROWN( device->parse(line), ParsingException);
 }
 
 void TestSerialTest::test_discover_three_mocked_devices_by_id()
@@ -154,7 +161,8 @@ void TestSerialTest::test_discover_invalid_data_received()
 
 void TestSerialTest::test_create_serial_instance_hard_delete_mock_data()
 {
-    auto serial { DeviceFinder::createSerial(QSerialPortInfo()) };
+    SerialFactory serialFactory;
+    auto serial { serialFactory.create(QSerialPortInfo()) };
     QVERIFY( !serial.isNull() );
 }
 

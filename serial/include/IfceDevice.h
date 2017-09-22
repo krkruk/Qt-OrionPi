@@ -24,7 +24,7 @@ public:
      * @brief parse Parser incoming data.
      * @param data Raw data.
      */
-    virtual void parse(const QByteArray &data) throw(ParsingException) = 0;
+    virtual void parse(const QByteArray &data) = 0;
     virtual int getId() const = 0;
     virtual QString getPortName() const = 0;
     virtual QSerialPortInfo getSerialInfo() const = 0;

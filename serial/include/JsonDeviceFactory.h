@@ -15,8 +15,9 @@ public:
     JsonDeviceFactory();
     ~JsonDeviceFactory();
 
-    QSharedPointer<IfceDevice> create(const QByteArray &data, const QSerialPortInfo &portInfo) throw(ParsingException) override;
-    QSharedPointer<IfceDevice> create(int id, const QSerialPortInfo &portInfo) override;
+    QSharedPointer<IfceDevice> create(int id, const QSerialPortInfo &portInfo, QWeakPointer<IfceSerialSettings> settings) override;
+    QSharedPointer<IfceDevice> create(const QByteArray &data, const QSerialPortInfo &portInfo, QWeakPointer<IfceSerialSettings> settings) override;
 };
+
 
 #endif // JSONDEVICEFACTORY_H

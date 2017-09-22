@@ -24,11 +24,11 @@ class JsonDevice : public IfceDevice
 
 
 public:
-    explicit JsonDevice(int id, QSerialPortInfo portInfo = QSerialPortInfo());
-    explicit JsonDevice(const QByteArray &lineData, const QSerialPortInfo &portInfo) throw(ParsingException);
+    JsonDevice(int id, QSharedPointer<IfceSerialSettings> settings, QSerialPortInfo portInfo = QSerialPortInfo());
+    JsonDevice(QSharedPointer<IfceSerialSettings> settings, QSerialPortInfo portInfo = QSerialPortInfo());
     ~JsonDevice();
 
-    void parse(const QByteArray &data) throw(ParsingException) override;
+    void parse(const QByteArray &data) override;
     int getId() const override;
     QString getPortName() const override;
     QSerialPortInfo getSerialInfo() const override;    

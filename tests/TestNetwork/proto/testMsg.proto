@@ -1,0 +1,15 @@
+syntax="proto3";
+
+package NetTest;
+
+message TestMsg {
+enum Sample {
+    Unknown = 0;
+    First = 1;
+    Second = 2;
+}
+Sample sample = 1;
+string text = 2;
+int64 integerValue = 3;
+}
+

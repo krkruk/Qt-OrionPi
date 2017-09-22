@@ -6,6 +6,7 @@
 
 class IfceDevice;
 class QSerialPortInfo;
+class IfceSerialSettings;
 
 
 /**
@@ -15,8 +16,8 @@ class IfceDeviceFactory
 {
 public:
     virtual ~IfceDeviceFactory() {}
-    virtual QSharedPointer<IfceDevice> create(const QByteArray &data, const QSerialPortInfo &portInfo) throw(ParsingException) = 0;
-    virtual QSharedPointer<IfceDevice> create(int id, const QSerialPortInfo &portInfo) = 0;
+    virtual QSharedPointer<IfceDevice> create(const QByteArray &data, const QSerialPortInfo &portInfo, QWeakPointer<IfceSerialSettings> settings) = 0;
+    virtual QSharedPointer<IfceDevice> create(int id, const QSerialPortInfo &portInfo, QWeakPointer<IfceSerialSettings> settings) = 0;
 };
 
 

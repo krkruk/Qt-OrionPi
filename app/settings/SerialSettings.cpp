@@ -69,12 +69,6 @@ SerialSettings::~SerialSettings()
     settings.endGroup();
 }
 
-SerialSettings *SerialSettings::instance()
-{
-    static SerialSettings settings;
-    return &settings;
-}
-
 QString SerialSettings::getId() const
 {
     return vars->id;

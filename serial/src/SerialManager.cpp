@@ -1,7 +1,7 @@
 #include "SerialManager.h"
 #include "IfceDevice.h"
 #include "DeviceFinder.h"
-#include <SerialConstants.h>
+#include "SerialFactory.h"
 #include <QDebug>
 
 
@@ -22,11 +22,12 @@ SerialManager::~SerialManager()
 
 void SerialManager::setDevices(const QList<QSharedPointer<IfceDevice> > &devices)
 {
+    SerialFactory serialFactory;
     for( const auto &device : devices )
     {
         const auto id { device->getId() };
         const auto portName { device->getPortName() };
-        auto serial { DeviceFinder::createSerial(device->getSerialInfo(), true) };
+        auto serial { serialFactory.create(device->getSerialInfo(), true) };
         portNamesById[id] = portName;
         serialsByPortName[portName] = serial;
     }
@@ -82,7 +83,7 @@ void SerialManager::send(int id, const QByteArray &data)
     auto serial { serialsByPortName.value(portName) };
     if( serial.isNull() ) return;
     qDebug() << "Data sent" << data;
-    serial->write(data + CONST::SETTINGS::SERIAL::END_LINE);
+    serial->write(data + /*CONST::SETTINGS::SERIAL::END_LINE*/"\r\n");
     lastSent[id] = data;
 }
 

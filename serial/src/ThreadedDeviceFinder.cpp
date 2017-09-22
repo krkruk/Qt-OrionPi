@@ -14,9 +14,7 @@ ThreadedDeviceFinder::~ThreadedDeviceFinder()
 
 QList<QSharedPointer<IfceDevice> > ThreadedDeviceFinder::discover()
 {
-    QList<QSharedPointer<IfceDevice>> devices;
     QList<QFuture<QSharedPointer<IfceDevice>>> futures;
-
     const auto availablePorts { QSerialPortInfo::availablePorts() };
     for( const auto &availablePort : availablePorts )
         futures.append( QtConcurrent::run([&](const QSerialPortInfo &portInfo) {
@@ -24,6 +22,7 @@ QList<QSharedPointer<IfceDevice> > ThreadedDeviceFinder::discover()
             }, availablePort)
         );
 
+    QList<QSharedPointer<IfceDevice>> devices;
     for( auto future : futures ) {
         future.waitForFinished();
         if( auto &&device = future.result() )

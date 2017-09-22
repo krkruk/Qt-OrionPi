@@ -26,7 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += tst_testnetwork.cpp \
-    MockRemoteSocket.cpp
+    proto/testMsg.pb.cc
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += \
@@ -41,8 +42,7 @@ DEPENDPATH += \
 
 HEADERS += \
     ../../GlobalConstants.h \
-    MockRemoteSocket.h \
-    MockObserver.h
+    proto/testMsg.pb.h
 
 win32:CONFIG(release, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
 else:win32:CONFIG(debug, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
@@ -50,3 +50,10 @@ else:unix: LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
 
 INCLUDEPATH += $$PWD/../../network
 DEPENDPATH += $$PWD/../../network
+
+LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+INCLUDEPATH += $$(PROTOBUF)/include
+DEPENDPATH += $$(PROTOBUF)/include
+
+DISTFILES += \
+    proto/testMsg.proto

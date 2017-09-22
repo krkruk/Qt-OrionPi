@@ -2,13 +2,13 @@
 #define SERIALSETTINGS_H
 #include "../GlobalConstants.h"
 #include "SerialConstants.h"
+#include "include/IfceSerialSettings.h"
 #include <QScopedPointer>
 
 
-class SerialSettings
+class SerialSettings : public IfceSerialSettings
 {
     class SettingsVariables;
-    SerialSettings();
     SerialSettings(const SerialSettings&) = delete;
     SerialSettings(SerialSettings&&) = delete;
     SerialSettings &operator=(const SerialSettings &) = delete;
@@ -16,17 +16,17 @@ class SerialSettings
 
     void load_data();
 public:
-    static SerialSettings *instance();
+    SerialSettings();
     ~SerialSettings();
 
-    QString getId() const;
-    int getBaudrate() const;
-    int getDataBits() const;
-    int getFlowControl() const;
-    int getParity() const;
-    int getStopBits() const;
-    int getWaitForReadLineMs() const;
-    int getAttemptsForReadLine() const;
+    QString getId() const override;
+    int getBaudrate() const override;
+    int getDataBits() const override;
+    int getFlowControl() const override;
+    int getParity() const override;
+    int getStopBits() const override;
+    int getWaitForReadLineMs() const override;
+    int getAttemptsForReadLine() const override;
 
 private:
     QScopedPointer<SettingsVariables> vars;

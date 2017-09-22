@@ -28,14 +28,8 @@ public:
      */
     QList<QSharedPointer<IfceDevice>> discover() override;
 
-    /**
-     * @brief createSerial Creates an instance of QSerialPort.
-     * Creates an instance of QSerialPort based on read {@link SerialSettings} values
-     * @param serialInfo Information about serial port the method creates an instance of QSerialPort
-     * @param deleteItLater Creates an object with a custom deleter QSerialPort::deleteLater();
-     * @return Instance of {@link QSerialPort}
-     */
-    static QSharedPointer<QSerialPort> createSerial(const QSerialPortInfo &serialInfo, bool deleteItLater = false);
+
+    void setSerialSettings(QSharedPointer<IfceSerialSettings> settings);
 
 
 protected:
@@ -53,6 +47,7 @@ protected:
 private:
     static const char READ_LINE_ERR_MSG[];
     QScopedPointer<IfceDeviceFactory> factory;
+    QSharedPointer<IfceSerialSettings> settings;
 
     /**
      * @brief open_serial Opens serial.

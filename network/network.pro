@@ -24,46 +24,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += RootNode.cpp \
-    JsonDispatchEngine.cpp \
-    TcpGlobalServer.cpp \
-    TcpLocalSocket.cpp \
-    TcpLocalServer.cpp \
-    IpcServer.cpp \
-    IpcSocket.cpp \
-    TcpGlobalServerFactory.cpp \
-    TcpLocalSocketFactory.cpp \
-    PeripheralNode.cpp \
-    TcpLocalServerFactory.cpp
 
-HEADERS += RootNode.h\
-        network_global.h \
-    IfceDispatchEngine.h \
-    JsonDispatchEngine.h \
-    IfceGlobalServer.h \
-    TcpGlobalServer.h \
-    IfceLocalSocket.h \
-    TcpLocalSocket.h \
-    IfceServer.h \
-    IfceLocalServer.h \
-    IfceIpcServer.h \
-    TcpLocalServer.h \
-    IpcServer.h \
-    IfceIpcSocket.h \
-    IpcSocket.h \
-    Observer.h \
-    Observable.h \
-    TcpGlobalServerFactory.h \
-    IfceServerFactory.h \
-    IfceSocket.h \
-    IfceSocketFactory.h \
-    TcpLocalSocketFactory.h \
-    IfceLocalSocketFactory.h \
-    PeripheralNode.h \
-    IfceLocalServerFactory.h \
-    TcpLocalServerFactory.h
+HEADERS +=  network_global.h \
+    include/IfceServer.h \
+    include/IpSocket.h \
+    TcpServer.h \
+    TcpSocket.h
 
 unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+SOURCES += \
+    TcpServer.cpp \
+    TcpSocket.cpp

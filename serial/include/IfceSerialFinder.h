@@ -6,7 +6,7 @@
 
 class IfceDevice;
 class IfceDeviceFactory;
-
+class IfceSerialSettings;
 
 /**
  * @brief The IfceSerialFinder interface allows implementing discovering of serial devices.
@@ -25,6 +25,12 @@ public:
      * @return List of discovered devices
      */
     virtual QList<QSharedPointer<IfceDevice>> discover() = 0;
+
+    /**
+     * @brief setSerialSettings Sets settings to the class.
+     * @param settings
+     */
+    virtual void setSerialSettings(QSharedPointer<IfceSerialSettings> settings) = 0;
 
 signals:
     /**

@@ -3,8 +3,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-const QString JsonSerialParser::_ID = SerialSettings::instance()->getId();
-
 class JsonSerialParser::SerialJsonParserPrivate {
 private:
     friend class JsonSerialParser;
@@ -13,13 +11,15 @@ private:
     int id {-1};
 };
 
-JsonSerialParser::JsonSerialParser()
-    : var{new SerialJsonParserPrivate}
+JsonSerialParser::JsonSerialParser(const QString &idTag)
+    : _ID(idTag),
+      var{new SerialJsonParserPrivate}
 {
 }
 
-JsonSerialParser::JsonSerialParser(int id)
-    : var{new SerialJsonParserPrivate}
+JsonSerialParser::JsonSerialParser(const QString &idTag, int id)
+    : _ID(idTag),
+      var{new SerialJsonParserPrivate}
 {
     var->id = id;
 }
@@ -28,7 +28,7 @@ JsonSerialParser::~JsonSerialParser()
 {
 }
 
-bool JsonSerialParser::parse(const QByteArray &data) throw(ParsingException)
+bool JsonSerialParser::parse(const QByteArray &data)
 {
     QJsonParseError error;
     QJsonDocument doc { QJsonDocument::fromJson(data, &error) };

@@ -1,13 +1,17 @@
 #include "OrionEngine.h"
 #include <QTime>
+#include "settings/SerialSettings.h"
 
 
-static constexpr auto MAX_PENDING_CONN { 1 };
-static constexpr auto LISTEN_PORT { 5000 };
-static constexpr auto ID_FRONT_LEFT_WHEEL { 0 };
-static constexpr auto ID_FRONT_RIGHT_WHEEL { 1 };
-static constexpr auto ID_REAR_LEFT_WHEEL { 2 };
-static constexpr auto ID_REAR_RIGHT_WHEEL { 3 };
+namespace {
+constexpr auto MAX_PENDING_CONN { 1 };
+constexpr auto LISTEN_PORT { 5000 };
+constexpr auto ID_FRONT_LEFT_WHEEL { 0 };
+constexpr auto ID_FRONT_RIGHT_WHEEL { 1 };
+constexpr auto ID_REAR_LEFT_WHEEL { 2 };
+constexpr auto ID_REAR_RIGHT_WHEEL { 3 };
+
+}
 
 
 OrionEngine::OrionEngine(QObject *parent)
@@ -83,6 +87,7 @@ void OrionEngine::connections()
 void OrionEngine::setup_serial()
 {
     QScopedPointer<DeviceFinder> finder(new ThreadedDeviceFinder( new JsonDeviceFactory, this));
+    finder->setSerialSettings(QSharedPointer<SerialSettings>::create());
     QTime t1 = QTime::currentTime();
     t1.start();
     qDebug() << "Starting discovery of serial devices...";

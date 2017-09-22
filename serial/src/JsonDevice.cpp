@@ -1,30 +1,26 @@
 #include "JsonDevice.h"
-#include "SerialSettings.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QDebug>
 
+#include "IfceSerialSettings.h"
 
-JsonDevice::JsonDevice(int id, QSerialPortInfo portInfo)
-    : portInfo{ portInfo }, parser(id)
+JsonDevice::JsonDevice(int id, QSharedPointer<IfceSerialSettings> settings, QSerialPortInfo portInfo)
+    : portInfo{ portInfo },
+      parser(settings->getId(), id)
 {
 }
 
-JsonDevice::JsonDevice(const QByteArray &lineData, const QSerialPortInfo &portInfo) throw(ParsingException)
-    : portInfo{ portInfo }
+JsonDevice::JsonDevice(QSharedPointer<IfceSerialSettings> settings, QSerialPortInfo portInfo)
+    : portInfo { portInfo }, parser(settings->getId())
 {
-    try {
-        parse(lineData);
-    } catch(...) {
-        throw;
-    }
 }
 
 JsonDevice::~JsonDevice() {}
 
-void JsonDevice::parse(const QByteArray &data) throw(ParsingException)
+void JsonDevice::parse(const QByteArray &data)
 {
     try {
         parser.parse(data);

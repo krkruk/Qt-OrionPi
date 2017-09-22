@@ -19,9 +19,8 @@ public:
     explicit AsyncDeviceFinder(IfceDeviceFactory *deviceFactory, QObject *parent = 0);
     ~AsyncDeviceFinder();
 
-
-public:
     QList<QSharedPointer<IfceDevice> > discover() override;
+    void setSerialSettings(QSharedPointer<IfceSerialSettings> settings) override;
 
 
 signals:
@@ -45,6 +44,7 @@ private:
     QHash<QString, QSerialPortInfo> availableSerials;
     QHash<QString, QSharedPointer<QSerialPort>> serials;
     QList<QString> availablePortNames;
+    QSharedPointer<IfceSerialSettings> settings;
 };
 
 #endif // ASYNCDEVICEFINDER_H

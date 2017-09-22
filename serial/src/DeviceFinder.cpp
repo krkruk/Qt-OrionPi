@@ -1,12 +1,15 @@
 #include "DeviceFinder.h"
 #include "include/JsonDevice.h"
-#include "SerialSettings.h"
+#include "DefaultSerialSettings.h"
+#include "SerialFactory.h"
 #include <QDebug>
 
 const char DeviceFinder::READ_LINE_ERR_MSG[] = "Cannot read a line";
 
 DeviceFinder::DeviceFinder(IfceDeviceFactory *factory, QObject *parent)
-    : IfceSerialFinder(parent), factory{factory}
+    : IfceSerialFinder(parent),
+      factory{factory},
+      settings{QSharedPointer<DefaultSerialSettings>::create()}
 {
 }
 
@@ -25,29 +28,16 @@ QList<QSharedPointer<IfceDevice> > DeviceFinder::discover()
     return devices;
 }
 
-QSharedPointer<QSerialPort> DeviceFinder::createSerial(const QSerialPortInfo &serialInfo, bool deleteItLater)
+void DeviceFinder::setSerialSettings(QSharedPointer<IfceSerialSettings> settings)
 {
-    QSharedPointer<QSerialPort> serial;
-    if( deleteItLater )
-        serial = QSharedPointer<QSerialPort>{ new QSerialPort(serialInfo), &QSerialPort::deleteLater };
-    else
-        serial = QSharedPointer<QSerialPort>::create(serialInfo);
-
-    auto *s { SerialSettings::instance() };
-
-    serial->setBaudRate( static_cast<QSerialPort::BaudRate>(s->getBaudrate()),
-                         QSerialPort::AllDirections);
-    serial->setDataBits( static_cast<QSerialPort::DataBits>(s->getDataBits()) );
-    serial->setFlowControl( static_cast<QSerialPort::FlowControl>(s->getFlowControl()) );
-    serial->setParity( static_cast<QSerialPort::Parity>(s->getParity()) );
-    serial->setStopBits( static_cast<QSerialPort::StopBits>(s->getStopBits()) );
-
-    return serial;
+    this->settings = settings;
 }
 
 QSharedPointer<IfceDevice> DeviceFinder::run_serial(const QSerialPortInfo &serialInfo)
 {
-    QSharedPointer<QSerialPort> serial { createSerial(serialInfo) };
+    SerialFactory serialFactory;
+    serialFactory.setSerialSettings(settings);
+    QSharedPointer<QSerialPort> serial { serialFactory.create(serialInfo) };
 
     if( !open_serial(serial) )
         return QSharedPointer<IfceDevice>();
@@ -56,7 +46,7 @@ QSharedPointer<IfceDevice> DeviceFinder::run_serial(const QSerialPortInfo &seria
         return handle_error_msg(serial, serial->errorString());
 
 
-    const auto max_attempts { SerialSettings::instance()->getAttemptsForReadLine() };
+    const auto max_attempts { settings->getAttemptsForReadLine() };
     auto attempt {0};
     do {
         if( !wait_for_read_line(serial) )
@@ -65,7 +55,7 @@ QSharedPointer<IfceDevice> DeviceFinder::run_serial(const QSerialPortInfo &seria
         auto line { serial->readLine() };
         try {
             return (QSharedPointer<IfceDevice>{
-                        factory->create(line, serialInfo) });
+                        factory->create(line, serialInfo, settings) });
         } catch(ParsingException &e) {
             emit signalSerialError(QString("%1: %2").arg(serialInfo.portName()).arg(e.what()));
         }
@@ -87,23 +77,30 @@ bool DeviceFinder::open_serial(QSharedPointer<QSerialPort> &serial)
 
 bool DeviceFinder::wait_for_connection(QSharedPointer<QSerialPort> &serial)
 {
-    const auto waitForReadLine{ SerialSettings::instance()->getWaitForReadLineMs() };
+    const auto waitForReadLine{ settings->getWaitForReadLineMs() };
     return serial->waitForReadyRead(waitForReadLine);
 }
 
 bool DeviceFinder::wait_for_read_line(QSharedPointer<QSerialPort> &serial)
 {
-    const auto waitForReadLine{ SerialSettings::instance()->getWaitForReadLineMs() };
-    const auto MAX_READ_ATTEMPT { SerialSettings::instance()->getAttemptsForReadLine() };
+    const auto waitForReadLine{ settings->getWaitForReadLineMs() };
+    const auto MAX_READ_ATTEMPT { settings->getAttemptsForReadLine() };
     auto attempt {0};
 
-    while( !serial->canReadLine() ) {
-        serial->waitForReadyRead(waitForReadLine);
+    while( serial->waitForReadyRead(waitForReadLine) && !serial->canReadLine() ) {
         if( ++attempt >= MAX_READ_ATTEMPT )
             return false;
     }
 
+//    while( ++attempt >= MAX_READ_ATTEMPT ) {
+//        if ( serial->waitForReadyRead() && serial->canReadLine() ) {
+//            qDebug() << "LINE:" << serial->readLine();
+//            return true;
+//        }
+//    }
+
     return true;
+//    return false;
 }
 
 QSharedPointer<IfceDevice> DeviceFinder::handle_error_msg(QSharedPointer<QSerialPort> &serial, const QString &msg)
@@ -113,3 +110,4 @@ QSharedPointer<IfceDevice> DeviceFinder::handle_error_msg(QSharedPointer<QSerial
                      .arg(msg));
     return QSharedPointer<IfceDevice>();
 }
+

@@ -4,7 +4,7 @@ QT -= gui
 CONFIG += c++11
 
 TARGET = OrionPiApp
-DESTDIR = ${ORION_BUILDPATH}
+DESTDIR = $$(ORION_BUILDPATH)
 
 CONFIG += console
 CONFIG -= app_bundle
@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     Orion/Drive/ChassisModel.cpp \
     Orion/Drive/DriveModeDirect.cpp \
     OrionDriveSettings.cpp \
-    OrionEngine.cpp
+    OrionEngine.cpp \
+    settings/SerialSettings.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -40,18 +41,20 @@ HEADERS += \
     Orion/Drive/IfceChassisModel.h \
     Orion/Network/IfceNetworkReceiver.h \
     Orion/Drive/IfceWheelModel.h \
-    OrionEngine.h
+    OrionEngine.h \
+    settings/SerialConstants.h \
+    settings/SerialSettings.h
 
-win32:CONFIG(release, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lserial
-else:win32:CONFIG(debug, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lseriald
+win32:CONFIG(release, debug|release): LIBS += -L$$(ORION_BUILDPATH_LIBS) -lserial
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$(ORION_BUILDPATH_LIBS) -lseriald
 else:unix: LIBS += -L${ORION_BUILDPATH_LIBS} -lserial
 
 INCLUDEPATH += $$PWD/../serial
 DEPENDPATH += $$PWD/../serial
 
-win32:CONFIG(release, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
-else:win32:CONFIG(debug, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
-else:unix: LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
+win32:CONFIG(release, debug|release): LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
+else:unix: LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
 
 INCLUDEPATH += $$PWD/../network
 DEPENDPATH += $$PWD/../network

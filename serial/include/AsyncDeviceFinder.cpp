@@ -3,14 +3,18 @@
 #include <QSerialPort>
 #include <QVariant>
 #include <QDebug>
-#include "SerialSettings.h"
+#include "DefaultSerialSettings.h"
+#include "SerialFactory.h"
 
+namespace {
+    constexpr char PROPERTY_READ_ATTEMPT[] = "PROPERTY_READ_ATTEMPT";
+}
 
-int AsyncDeviceFinder::MAX_READLINE_ATTEMPT = SerialSettings::instance()->getAttemptsForReadLine();
-static constexpr char PROPERTY_READ_ATTEMPT[] = "PROPERTY_READ_ATTEMPT";
 
 AsyncDeviceFinder::AsyncDeviceFinder(IfceDeviceFactory *deviceFactory, QObject *parent)
-    : IfceSerialFinder(parent), deviceFactory(deviceFactory)
+    : IfceSerialFinder(parent),
+      deviceFactory(deviceFactory),
+      settings{QSharedPointer<DefaultSerialSettings>::create()}
 {    
 }
 
@@ -31,6 +35,11 @@ QList<QSharedPointer<IfceDevice>> AsyncDeviceFinder::discover()
     return QList<QSharedPointer<IfceDevice>>();
 }
 
+void AsyncDeviceFinder::setSerialSettings(QSharedPointer<IfceSerialSettings> settings)
+{
+    this->settings = settings;
+}
+
 void AsyncDeviceFinder::onReadyRead()
 {
     QPointer<QSerialPort> serial = qobject_cast<QSerialPort*>(sender());
@@ -47,7 +56,7 @@ void AsyncDeviceFinder::onReadyRead()
 
     QSharedPointer<IfceDevice> device;
     try {
-        device = deviceFactory->create(line, serialInfo);
+        device = deviceFactory->create(line, serialInfo, settings);
     } catch( ParsingException &e ) {
         emit signalSerialError(QString("%1: %2").arg(portName).arg(e.what()));
         action_parsing_error(sharedSerial);
@@ -80,9 +89,11 @@ void AsyncDeviceFinder::onErrorOccurred(QSerialPort::SerialPortError error)
 
 void AsyncDeviceFinder::prepare_serial(const QSerialPortInfo &serialInfo)
 {
+    SerialFactory serialFactory;
+    serialFactory.setSerialSettings(settings);
     constexpr auto START_READ_LINE_ATTEMPT {0};
 
-    auto serial { DeviceFinder::createSerial(serialInfo, true) };
+    auto serial { serialFactory.create(serialInfo, true) };
     connect(serial.data(), &QSerialPort::readyRead, this, &AsyncDeviceFinder::onReadyRead);
     connect(serial.data(), &QSerialPort::errorOccurred, this, &AsyncDeviceFinder::onErrorOccurred);
     serial->setProperty(PROPERTY_READ_ATTEMPT, START_READ_LINE_ATTEMPT);
@@ -95,6 +106,7 @@ void AsyncDeviceFinder::prepare_serial(const QSerialPortInfo &serialInfo)
 void AsyncDeviceFinder::action_parsing_error(QSharedPointer<QSerialPort> serial)
 {
     auto attemptCount { serial->property(PROPERTY_READ_ATTEMPT).toInt() };
+    const auto MAX_READLINE_ATTEMPT { settings->getAttemptsForReadLine() };
     if( ++attemptCount < MAX_READLINE_ATTEMPT ) {
         serial->setProperty(PROPERTY_READ_ATTEMPT, attemptCount);
         return;

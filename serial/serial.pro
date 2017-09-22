@@ -25,7 +25,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    src/SerialSettings.cpp \
     src/SerialManager.cpp \
     src/SerialController.cpp \
     src/JsonSerialParser.cpp \
@@ -33,13 +32,13 @@ SOURCES += \
     src/JsonDevice.cpp \
     src/DeviceFinder.cpp \
     src/ThreadedDeviceFinder.cpp \
-    include/AsyncDeviceFinder.cpp
+    include/AsyncDeviceFinder.cpp \
+    include/SerialFactory.cpp
 
 HEADERS +=\
     ../GlobalConstants.h \
     exceptions/ParsingException.h \
     include/serial_global.h \
-    include/SerialSettings.h \
     include/SerialManager.h \
     include/SerialController.h \
     include/IfceSerialController.h \
@@ -53,9 +52,11 @@ HEADERS +=\
     include/IfceDevice.h \
     include/DeviceFinder.h \
     include/IfceSerialFinder.h \
-    include/SerialConstants.h \
     include/ThreadedDeviceFinder.h \
-    include/AsyncDeviceFinder.h
+    include/AsyncDeviceFinder.h \
+    include/IfceSerialSettings.h \
+    include/DefaultSerialSettings.h \
+    include/SerialFactory.h
 
 INCLUDEPATH += \
     $$PWD/../GlobalConstants.h \
