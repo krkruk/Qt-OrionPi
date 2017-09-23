@@ -15,7 +15,7 @@
 #include "include/JsonDeviceFactory.h"
 #include "include/JsonSerialParser.h"
 #include "include/SerialManager.h"
-#include "include/IfceSerialModel.h"
+#include "include/interface/IfceSerialModel.h"
 #include "include/SerialController.h"
 #include "include/ThreadedDeviceFinder.h"
 #include "include/AsyncDeviceFinder.h"

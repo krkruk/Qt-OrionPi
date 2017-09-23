@@ -4,7 +4,7 @@
 #include <QScopedPointer>
 
 #include "exceptions/ParsingException.h"
-#include "IfceSerialParser.h"
+#include "interface/IfceSerialParser.h"
 
 
 class JsonSerialParser : public IfceSerialParser

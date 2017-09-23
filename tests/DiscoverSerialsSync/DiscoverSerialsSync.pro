@@ -6,6 +6,7 @@ CONFIG += c++11
 TARGET = DiscoverSerialsSync
 CONFIG += console
 CONFIG -= app_bundle
+DESTDIR = $$(ORION_BUILDPATH_TEST)/apps
 
 TEMPLATE = app
 

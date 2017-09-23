@@ -1,6 +1,6 @@
 #ifndef DEVICEFINDER_H
 #define DEVICEFINDER_H
-#include "IfceSerialFinder.h"
+#include "interface/IfceSerialFinder.h"
 
 #include <QSerialPortInfo>
 #include <QSerialPort>

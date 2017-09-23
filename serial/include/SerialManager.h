@@ -8,8 +8,8 @@
 
 
 #include "serial_global.h"
-#include "IfceSerialFinder.h"
-#include "IfceSerialObserver.h"
+#include "interface/IfceSerialFinder.h"
+#include "interface/IfceSerialObserver.h"
 #include "SerialController.h"
 
 class SerialController;

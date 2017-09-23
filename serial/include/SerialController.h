@@ -4,8 +4,8 @@
 #include <QHash>
 #include <QSharedPointer>
 
-#include "IfceSerialModel.h"
-#include "IfceSerialController.h"
+#include "interface/IfceSerialModel.h"
+#include "interface/IfceSerialController.h"
 
 class SerialController : public IfceSerialController
 {

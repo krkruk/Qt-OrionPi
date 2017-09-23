@@ -1,8 +1,8 @@
 #ifndef SERIALSETTINGS_H
 #define SERIALSETTINGS_H
-#include "../GlobalConstants.h"
+#include "../../GlobalConstants.h"
 #include "SerialConstants.h"
-#include "include/IfceSerialSettings.h"
+#include "include/interface/IfceSerialSettings.h"
 #include <QScopedPointer>
 
 

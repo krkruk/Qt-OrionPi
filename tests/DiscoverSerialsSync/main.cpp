@@ -5,7 +5,7 @@
 #include <QList>
 #include "include/DeviceFinder.h"
 #include "include/JsonDeviceFactory.h"
-#include "include/IfceDevice.h"
+#include "include/interface/IfceDevice.h"
 
 int main(int argc, char *argv[])
 {

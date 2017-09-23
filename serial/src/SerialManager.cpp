@@ -1,5 +1,5 @@
 #include "SerialManager.h"
-#include "IfceDevice.h"
+#include "interface/IfceDevice.h"
 #include "DeviceFinder.h"
 #include "SerialFactory.h"
 #include <QDebug>

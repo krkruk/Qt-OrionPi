@@ -3,7 +3,7 @@
 #include <QByteArray>
 #include <QHash>
 
-#include "include/IfceSerialObserver.h"
+#include "include/interface/IfceSerialObserver.h"
 
 class MockWheelObserver : public IfceSerialObserver
 {

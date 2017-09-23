@@ -13,6 +13,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += c++11
 TEMPLATE = app
+DESTDIR = $$(ORION_BUILDPATH_TEST)/tst
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -29,27 +30,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 
-win32:CONFIG(release, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lserial
-else:win32:CONFIG(debug, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lseriald
-else:unix: LIBS += -L${ORION_BUILDPATH_LIBS} -lserial
+unix:!macx: LIBS += -L$$(ORION_BUILDPATH_LIBS) -lserial
 
-INCLUDEPATH += $$PWD/../../serial \
-    ../../app/Orion/Drive/ \
-    ../../app/
-DEPENDPATH += $$PWD/../../serial \
-    ../../app/Orion/Drive/ \
-    ../../app/
+INCLUDEPATH += $$PWD/../../serial
+DEPENDPATH += $$PWD/../../serial
+
+INCLUDEPATH += \
+    ../../apps/onboard/Orion/Drive/ \
+    ../../apps/onboard
+DEPENDPATH += \
+    ../../apps/onboardOrion/Drive/ \
+    ../../apps/onboard
 
 HEADERS += \
     ../../GlobalConstants.h \
-    ../../app/Orion/Drive/WheelModel.h \
-    ../../app/Orion/Drive/ChassisModel.h \
-    ../../app/Orion/Drive/DriveModeDirect.h \
-    ../../app/OrionDriveSettings.h \
+    ../../apps/onboard/Orion/Drive/WheelModel.h \
+    ../../apps/onboard/Orion/Drive/ChassisModel.h \
+    ../../apps/onboard/Orion/Drive/DriveModeDirect.h \
+    ../../apps/onboard/OrionDriveSettings.h \
     MockWheelObserver.h
 
 SOURCES += tst_testdrivemodel.cpp \
-    ../../app/Orion/Drive/WheelModel.cpp \
-    ../../app/Orion/Drive/DriveModeDirect.cpp \
-    ../../app/OrionDriveSettings.cpp \
-    ../../app/Orion/Drive/ChassisModel.cpp
+    ../../apps/onboard/Orion/Drive/WheelModel.cpp \
+    ../../apps/onboard/Orion/Drive/DriveModeDirect.cpp \
+    ../../apps/onboard/OrionDriveSettings.cpp \
+    ../../apps/onboard/Orion/Drive/ChassisModel.cpp

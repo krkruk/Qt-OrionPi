@@ -15,6 +15,8 @@ CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += c++11
 
+DESTDIR = $$(ORION_BUILDPATH_TEST)/tst
+
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use

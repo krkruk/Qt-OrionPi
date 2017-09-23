@@ -4,8 +4,8 @@
 #include <QJsonDocument>
 #include <QList>
 #include <QDebug>
-#include "include/IfceSerialObserver.h"
-#include "include/IfceSerialModel.h"
+#include "include/interface/IfceSerialObserver.h"
+#include "include/interface/IfceSerialModel.h"
 
 class MockSerialModel : public IfceSerialModel
 {

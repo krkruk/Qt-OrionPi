@@ -5,7 +5,7 @@
 #include <QSharedPointer>
 
 #include "MockWheelObserver.h"
-#include "include/IfceSerialModel.h"
+#include "include/interface/IfceSerialModel.h"
 #include "WheelModel.h"
 #include "ChassisModel.h"
 #include "IfceDriveMode.h"

@@ -1,6 +1,6 @@
 #include "JsonDeviceFactory.h"
 #include <QSharedPointer>
-#include "IfceSerialSettings.h"
+#include "interface/IfceSerialSettings.h"
 
 JsonDeviceFactory::JsonDeviceFactory()
 {

@@ -7,8 +7,8 @@
 #include <QList>
 #include <QHash>
 
-#include "IfceSerialFinder.h"
-#include "IfceDeviceFactory.h"
+#include "interface/IfceSerialFinder.h"
+#include "interface/IfceDeviceFactory.h"
 #include "DeviceFinder.h"
 
 

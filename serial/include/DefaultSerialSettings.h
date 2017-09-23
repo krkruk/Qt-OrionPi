@@ -1,6 +1,6 @@
 #ifndef DEFAULTSERIALSETTINGS_H
 #define DEFAULTSERIALSETTINGS_H
-#include "IfceSerialSettings.h"
+#include "interface/IfceSerialSettings.h"
 
 class DefaultSerialSettings : public IfceSerialSettings
 {

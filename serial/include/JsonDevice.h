@@ -4,8 +4,8 @@
 #include <QObject>
 
 #include "exceptions/ParsingException.h"
-#include "IfceDevice.h"
-#include "IfceDeviceFactory.h"
+#include "interface/IfceDevice.h"
+#include "interface/IfceDeviceFactory.h"
 #include "JsonSerialParser.h"
 
 

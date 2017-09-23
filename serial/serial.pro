@@ -32,34 +32,34 @@ SOURCES += \
     src/JsonDevice.cpp \
     src/DeviceFinder.cpp \
     src/ThreadedDeviceFinder.cpp \
-    include/AsyncDeviceFinder.cpp \
-    include/SerialFactory.cpp
+    src/AsyncDeviceFinder.cpp \
+    src/SerialFactory.cpp
+
 
 HEADERS +=\
-    ../GlobalConstants.h \
-    exceptions/ParsingException.h \
     include/serial_global.h \
-    include/SerialManager.h \
-    include/SerialController.h \
-    include/IfceSerialController.h \
-    include/IfceSerialModel.h \
-    include/IfceSerialObserver.h \
-    include/IfceSerialParser.h \
-    include/JsonSerialParser.h \
-    include/JsonDevice.h \
-    include/JsonDeviceFactory.h \
-    include/IfceDeviceFactory.h \
-    include/IfceDevice.h \
+    exceptions/ParsingException.h \
+    include/interface/IfceSerialController.h \
+    include/interface/IfceSerialModel.h \
+    include/interface/IfceSerialObserver.h \
+    include/interface/IfceSerialParser.h \
+    include/interface/IfceSerialFinder.h \
+    include/interface/IfceSerialSettings.h \
+    include/interface/IfceDeviceFactory.h \
+    include/interface/IfceDevice.h \
+    include/DefaultSerialSettings.h \
     include/DeviceFinder.h \
-    include/IfceSerialFinder.h \
     include/ThreadedDeviceFinder.h \
     include/AsyncDeviceFinder.h \
-    include/IfceSerialSettings.h \
-    include/DefaultSerialSettings.h \
-    include/SerialFactory.h
+    include/SerialFactory.h \
+    include/SerialManager.h \
+    include/SerialController.h \
+    include/JsonSerialParser.h \
+    include/JsonDevice.h \
+    include/JsonDeviceFactory.h
+
 
 INCLUDEPATH += \
-    $$PWD/../GlobalConstants.h \
     include/
 
 unix {

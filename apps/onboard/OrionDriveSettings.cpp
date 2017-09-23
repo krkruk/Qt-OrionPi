@@ -1,5 +1,5 @@
 #include "OrionDriveSettings.h"
-#include "../GlobalConstants.h"
+#include "../../GlobalConstants.h"
 #include "Orion/Drive/DriveConstants.h"
 #include <QSettings>
 #include <cstring>

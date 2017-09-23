@@ -1,7 +1,7 @@
 #ifndef JSONDEVICEFACTORY_H
 #define JSONDEVICEFACTORY_H
 
-#include "IfceDeviceFactory.h"
+#include "interface/IfceDeviceFactory.h"
 #include "JsonDevice.h"
 
 

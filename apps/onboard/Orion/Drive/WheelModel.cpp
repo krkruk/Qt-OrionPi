@@ -8,7 +8,7 @@
 #include <QDebug>
 
 #include "exceptions/ParsingException.h"
-#include "include/IfceSerialObserver.h"
+#include "include/interface/IfceSerialObserver.h"
 #include "../../OrionDriveSettings.h"
 
 using namespace Orion;

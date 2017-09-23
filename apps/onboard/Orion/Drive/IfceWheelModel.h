@@ -1,6 +1,6 @@
 #ifndef IFCEWHEELMODEL_H
 #define IFCEWHEELMODEL_H
-#include "include/IfceSerialModel.h"
+#include "include/interface/IfceSerialModel.h"
 
 namespace Orion {
 

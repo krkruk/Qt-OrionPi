@@ -5,7 +5,7 @@
 #include <QJsonParseError>
 #include <QDebug>
 
-#include "IfceSerialSettings.h"
+#include "interface/IfceSerialSettings.h"
 
 JsonDevice::JsonDevice(int id, QSharedPointer<IfceSerialSettings> settings, QSerialPortInfo portInfo)
     : portInfo{ portInfo },

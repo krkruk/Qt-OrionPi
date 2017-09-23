@@ -1,7 +1,7 @@
 #ifndef MOCKDEVICEFINDER_H
 #define MOCKDEVICEFINDER_H
-#include "include/IfceSerialFinder.h"
-#include "include/IfceDeviceFactory.h"
+#include "include/interface/IfceSerialFinder.h"
+#include "include/interface/IfceDeviceFactory.h"
 #include "exceptions/ParsingException.h"
 #include "include/DefaultSerialSettings.h"
 
