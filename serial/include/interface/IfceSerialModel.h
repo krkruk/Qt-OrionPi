@@ -1,6 +1,6 @@
 #ifndef IFCESERIALMODEL_H
 #define IFCESERIALMODEL_H
-
+#include <QWeakPointer>
 class QByteArray;
 class IfceSerialObserver;
 
@@ -34,8 +34,8 @@ public:
      */
     virtual void update(const QByteArray &line) = 0;
 
-    virtual void addObserver(IfceSerialObserver *observer) = 0;
-    virtual bool delObserver(IfceSerialObserver *observer) = 0;
+    virtual void addObserver(QWeakPointer<IfceSerialObserver> observer) = 0;
+    virtual bool delObserver(QWeakPointer<IfceSerialObserver> observer) = 0;
     virtual void notifyObservers() = 0;
 };
 

@@ -13,13 +13,7 @@ public:
                         .arg(errorString)
                         .toStdString()
                         .c_str())
-    {
-    }
-
-    const char *what() const throw() override
-    {
-        return runtime_error::what();
-    }
+    {}
 };
 
 #endif // PARSINGEXCEPTION_H

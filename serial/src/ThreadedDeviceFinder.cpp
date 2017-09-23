@@ -1,11 +1,11 @@
 #include "ThreadedDeviceFinder.h"
+#include <QtConcurrent/QtConcurrent>
 #include <QFuture>
 
 
 ThreadedDeviceFinder::ThreadedDeviceFinder(IfceDeviceFactory *factory, QObject *parent)
     : DeviceFinder(factory, parent)
 {
-
 }
 
 ThreadedDeviceFinder::~ThreadedDeviceFinder()

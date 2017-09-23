@@ -169,6 +169,7 @@ void TestSerialTest::test_create_serial_instance_hard_delete_mock_data()
 void TestSerialTest::test_real_serial_device_with_id_one()
 {
     if( !ENABLE_IO_TEST ) QSKIP("Disabled IO test");
+    runEventLoop(50);
     QScopedPointer<IfceSerialFinder> discoverer { new DeviceFinder(new JsonDeviceFactory) };
     connect(dynamic_cast<DeviceFinder*>(discoverer.data()), &DeviceFinder::signalSerialError,
             this, [&](const QString &err){ qDebug() << "ERROR"  << err; });
@@ -185,6 +186,7 @@ void TestSerialTest::test_real_serial_device_with_id_one()
 void TestSerialTest::test_real_serial_device_with_id_one_threaded_finder()
 {
     if( !ENABLE_IO_TEST ) QSKIP("Disabled IO test");
+    runEventLoop(50);
     QScopedPointer<IfceSerialFinder> discoverer { new ThreadedDeviceFinder(new JsonDeviceFactory) };
     connect(dynamic_cast<DeviceFinder*>(discoverer.data()), &DeviceFinder::signalSerialError,
             this, [&](const QString &err){ qDebug() << "ERROR"  << err; });
@@ -201,6 +203,7 @@ void TestSerialTest::test_real_serial_device_with_id_one_threaded_finder()
 void TestSerialTest::test_create_serial_manager_based_on_discovered_devices()
 {
     if( !ENABLE_IO_TEST ) QSKIP("Disabled IO test");
+    runEventLoop(50);
     QScopedPointer<IfceSerialFinder> discoverer { new DeviceFinder(new JsonDeviceFactory) };
     SerialManager manager;
     auto devices { discoverer->discover() };
@@ -227,11 +230,11 @@ void TestSerialTest::test_start_device_not_created()
 void TestSerialTest::test_test_controller_data_sent_by_manager()
 {
     SerialManager manager;
-    SerialController controller;
-    manager.setController(&controller);
+    auto controller { QSharedPointer<SerialController>::create() };
+    manager.setController(controller);
 
-    manager.onLineReceived(mockId, mockSerialData);
-    QCOMPARE( controller.getLastReceived(mockId), mockSerialData );
+    manager.onReceiveFromSerial(mockId, mockSerialData);
+    QCOMPARE( controller->getLastReceived(mockId), mockSerialData );
 }
 
 void TestSerialTest::test_model_parsing_json_data()
@@ -257,18 +260,19 @@ void TestSerialTest::test_communication_between_controller_and_model()
 void TestSerialTest::test_communication_between_model_and_view()
 {
     if( !ENABLE_IO_TEST ) QSKIP("Disabled IO test");
+    runEventLoop(50);
     QScopedPointer<IfceSerialFinder> discoverer { new DeviceFinder(new JsonDeviceFactory) };
-    SerialManager manager;
+    QSharedPointer<SerialManager> manager { QSharedPointer<SerialManager>::create() };
     auto devices { discoverer->discover() };
     if( devices.isEmpty() ) QSKIP( "No device found" );
-    manager.setDevices(devices);
-    manager.start();
+    manager->setDevices(devices);
+    manager->start();
 
     QSharedPointer<IfceSerialModel> model { QSharedPointer<MockSerialModel>::create(mockId) };
-    model->addObserver(&manager);
+    model->addObserver(manager);
     model->update(mockSerialData);
     model->notifyObservers();
-    QCOMPARE( manager.getLastSent(mockId), mockSerialData );
+    QCOMPARE( manager->getLastSent(mockId), mockSerialData );
 }
 
 void TestSerialTest::test_communication_full_mvc_stack()
@@ -276,24 +280,25 @@ void TestSerialTest::test_communication_full_mvc_stack()
     qDebug() << "MVC full stack started";
     if( !ENABLE_IO_TEST ) QSKIP("Disabled IO test");
     if( !ENABLE_EVENT_LOOP_TEST ) QSKIP("Disabled event loop test");
+    runEventLoop(50);
     QEventLoop loop;
     QScopedPointer<IfceSerialFinder> discoverer { new DeviceFinder(new JsonDeviceFactory) };
-    SerialManager manager;
-    connect(&manager, &SerialManager::serialError, this,
+    QSharedPointer<SerialManager> manager { QSharedPointer<SerialManager>::create() };
+    connect(manager.data(), &SerialManager::serialError, this,
             [&](int id, const QString &errorString){
         qDebug() << QString("Error occured! DeviceId: %1 - error: %2").arg(id).arg(errorString);
     });
 
-    SerialController controller;
+    auto controller { QSharedPointer<SerialController>::create() };
     QSharedPointer<IfceSerialModel> model { QSharedPointer<MockSerialModel>::create(mockId) };
-    manager.setController(&controller);
-    controller.addModel(model);
-    model->addObserver(&manager);
+    manager->setController(controller);
+    controller->addModel(model);
+    model->addObserver(manager);
     auto devices { discoverer->discover() };
     if( devices.isEmpty() ) QSKIP( "No device found" );
-    manager.setDevices(devices);
+    manager->setDevices(devices);
 
-    auto devicesNotConnected { manager.start() };
+    auto devicesNotConnected { manager->start() };
     for( int deviceId : devicesNotConnected ) qDebug() << "Not connected. Id of the device:" << deviceId;
 
     QTimer::singleShot(5000, &loop, SLOT(quit()));
@@ -306,7 +311,7 @@ void TestSerialTest::test_communication_full_mvc_stack()
 void TestSerialTest::test_async_device_search()
 {
     if( !ENABLE_DEVICE_TEST ) QSKIP("SKIPPED 4 device test");
-
+    runEventLoop(50);
     constexpr int DEVICE_COUNT { 4 };
     if( !ENABLE_EVENT_LOOP_TEST ) QSKIP("Disabled event loop test");
     QScopedPointer<IfceSerialFinder> discoverer { new AsyncDeviceFinder(new JsonDeviceFactory) };
@@ -328,7 +333,7 @@ void TestSerialTest::test_async_device_search()
 void TestSerialTest::test_serial_to_pc_comm()
 {
     if( !ENABLE_IO_TEST ) QSKIP("Disabled IO test");
-
+    runEventLoop(50);
     const QString toBeReceived {"{\"ID\":1,\"TEMP\":70,\"ROT\":20,\"CUR\":5}\r\n"};
     QScopedPointer<IfceSerialFinder> finder { new ThreadedDeviceFinder(new JsonDeviceFactory) };
     const auto devices { finder->discover() };
@@ -339,11 +344,11 @@ void TestSerialTest::test_serial_to_pc_comm()
     if( selectedDevice.isEmpty() ) QSKIP("No device present");
 
     SerialManager manager;
-    SerialController controller;
+    auto controller { QSharedPointer<SerialController>::create() };
     QSharedPointer<IfceSerialModel> model ( QSharedPointer<MockSerialModel>::create(mockId) );
-    controller.addModel(model);
+    controller->addModel(model);
     manager.setDevices(selectedDevice);
-    manager.setController(&controller);
+    manager.setController(controller);
     manager.start();
     runEventLoop(3000);
     const auto receivedData = qSharedPointerCast<MockSerialModel>(model)->getRawData();

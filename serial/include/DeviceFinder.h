@@ -29,6 +29,10 @@ public:
     QList<QSharedPointer<IfceDevice>> discover() override;
 
 
+    /**
+     * @brief setSerialSettings Sets serial-related settings. If none is set, default is loaded.
+     * @param settings
+     */
     void setSerialSettings(QSharedPointer<IfceSerialSettings> settings);
 
 

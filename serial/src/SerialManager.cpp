@@ -44,7 +44,7 @@ bool SerialManager::hasSerial(int id) const
     return !serial.isNull();
 }
 
-void SerialManager::setController(IfceSerialController *controller)
+void SerialManager::setController(QSharedPointer<IfceSerialController> controller)
 {
     this->controller = controller;
 }
@@ -70,7 +70,7 @@ QList<int> SerialManager::start()
     return serialFailedToStart;
 }
 
-void SerialManager::onLineReceived(int id, const QByteArray &data)
+void SerialManager::onReceiveFromSerial(int id, const QByteArray &data)
 {
     if( controller )
         controller->onLineReceived(id, data);
@@ -82,8 +82,8 @@ void SerialManager::send(int id, const QByteArray &data)
     if( portName.isEmpty() ) return;
     auto serial { serialsByPortName.value(portName) };
     if( serial.isNull() ) return;
-    qDebug() << "Data sent" << data;
-    serial->write(data + /*CONST::SETTINGS::SERIAL::END_LINE*/"\r\n");
+
+    serial->write(data + "\r\n");
     lastSent[id] = data;
 }
 
@@ -122,7 +122,7 @@ void SerialManager::connections(QSharedPointer<QSerialPort> serial)
         if( !device ) return;
         const auto portName { device->portName() };
         const auto id { get_id_based_on_port_name(portName) };
-        if( device->canReadLine() ) onLineReceived(id, device->readLine());
+        if( device->canReadLine() ) onReceiveFromSerial(id, device->readLine());
     });
 
     connect(serial.data(), &QSerialPort::errorOccurred,

@@ -26,7 +26,7 @@ class WheelModel::WheelModelPrivate
 public:
     WheelModelPrivate(WheelModel *model) : model {model}{}
     ~WheelModelPrivate(){}
-    void parse(const QByteArray &data) throw(ParsingException);
+    void parse(const QByteArray &data);
 
     void updateAngularVelocity(double currentAngularVelocity);
 
@@ -34,8 +34,8 @@ public:
     double getCurrent() const;
     double getHeatSinkTemperature() const;
 
-    void addObserver(IfceSerialObserver *observer);
-    bool delObserver(IfceSerialObserver *observer);
+    void addObserver(QWeakPointer<IfceSerialObserver> observer);
+    bool delObserver(QWeakPointer<IfceSerialObserver> observer);
     void notifyObservers();
 
 
@@ -49,11 +49,11 @@ private:
     int pwm { 0 };
     int errorCode { 0 };
 
-    QList<IfceSerialObserver*> observers;
+    QList<QWeakPointer<IfceSerialObserver>> observers;
 };
 
 
-void WheelModel::WheelModelPrivate::parse(const QByteArray &data) throw(ParsingException)
+void WheelModel::WheelModelPrivate::parse(const QByteArray &data)
 {
     QJsonParseError parseError;
     auto doc { QJsonDocument::fromJson(data, &parseError) };
@@ -90,12 +90,12 @@ double WheelModel::WheelModelPrivate::getHeatSinkTemperature() const
     return heatSinkTemp;
 }
 
-void WheelModel::WheelModelPrivate::addObserver(IfceSerialObserver *observer)
+void WheelModel::WheelModelPrivate::addObserver(QWeakPointer<IfceSerialObserver> observer)
 {
     observers.append(observer);
 }
 
-bool WheelModel::WheelModelPrivate::delObserver(IfceSerialObserver *observer)
+bool WheelModel::WheelModelPrivate::delObserver(QWeakPointer<IfceSerialObserver> observer)
 {
     return observers.removeOne(observer);
 }
@@ -104,7 +104,8 @@ void WheelModel::WheelModelPrivate::notifyObservers()
 {
     const auto data { exportData() };
     for( auto &observer : observers )
-        observer->send(model->getId(), data);
+        if( auto effector = observer.toStrongRef() )
+            effector->send(model->getId(), data);
 }
 
 QByteArray WheelModel::WheelModelPrivate::exportData()
@@ -140,12 +141,12 @@ void WheelModel::update(const QByteArray &line)
     }
 }
 
-void WheelModel::addObserver(IfceSerialObserver *observer)
+void WheelModel::addObserver(QWeakPointer<IfceSerialObserver> observer)
 {
     member->addObserver(observer);
 }
 
-bool WheelModel::delObserver(IfceSerialObserver *observer)
+bool WheelModel::delObserver(QWeakPointer<IfceSerialObserver> observer)
 {
     return member->delObserver(observer);
 }

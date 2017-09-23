@@ -92,15 +92,7 @@ bool DeviceFinder::wait_for_read_line(QSharedPointer<QSerialPort> &serial)
             return false;
     }
 
-//    while( ++attempt >= MAX_READ_ATTEMPT ) {
-//        if ( serial->waitForReadyRead() && serial->canReadLine() ) {
-//            qDebug() << "LINE:" << serial->readLine();
-//            return true;
-//        }
-//    }
-
     return true;
-//    return false;
 }
 
 QSharedPointer<IfceDevice> DeviceFinder::handle_error_msg(QSharedPointer<QSerialPort> &serial, const QString &msg)

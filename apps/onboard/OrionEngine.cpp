@@ -17,7 +17,7 @@ constexpr auto ID_REAR_RIGHT_WHEEL { 3 };
 OrionEngine::OrionEngine(QObject *parent)
     : QObject(parent),
       serialManager( new SerialManager(this) ),
-      serialController( new SerialController ),
+      serialController( QSharedPointer<SerialController>::create() ),
       chassisModel ( new Orion::ChassisModel(this) ),
       server( new QTcpServer(this) )
 {
@@ -112,11 +112,11 @@ void OrionEngine::setup_serial()
     serialController->addModel(rearLeftWheel);
     serialController->addModel(rearRightWheel);
 
-    serialManager->setController(serialController.data());
-    frontLeftWheel->addObserver(serialManager.data());
-    frontRightWheel->addObserver(serialManager.data());
-    rearLeftWheel->addObserver(serialManager.data());
-    rearRightWheel->addObserver(serialManager.data());
+    serialManager->setController(serialController);
+    frontLeftWheel->addObserver(serialManager);
+    frontRightWheel->addObserver(serialManager);
+    rearLeftWheel->addObserver(serialManager);
+    rearRightWheel->addObserver(serialManager);
 
     serialManager->setDevices(devices);
     auto notConnected { serialManager->start() };

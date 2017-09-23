@@ -14,8 +14,8 @@ namespace Orion {
         ~WheelModel();
 
         void update(const QByteArray &line) override;
-        void addObserver(IfceSerialObserver *observer) override;
-        bool delObserver(IfceSerialObserver *observer) override;
+        void addObserver(QWeakPointer<IfceSerialObserver> observer) override;
+        bool delObserver(QWeakPointer<IfceSerialObserver> observer) override;
 
         /**
          * @brief notifyObservers Notifies observers

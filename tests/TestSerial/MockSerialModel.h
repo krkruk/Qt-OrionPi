@@ -11,7 +11,7 @@ class MockSerialModel : public IfceSerialModel
 {
     int value;
     QByteArray rawData;
-    QList<IfceSerialObserver*> observers;
+    QList<QWeakPointer<IfceSerialObserver>> observers;
 public:
     MockSerialModel(int id) : IfceSerialModel(id)
     {}
@@ -32,12 +32,12 @@ public:
     void setValue(int value) { this->value = value; }
     int getValue() const { return value; }
     QByteArray getRawData() const { return rawData; }
-    void addObserver(IfceSerialObserver *observer) override
+    void addObserver(QWeakPointer<IfceSerialObserver> observer) override
     {
         observers.append(observer);
     }
 
-    bool delObserver(IfceSerialObserver *observer) override
+    bool delObserver(QWeakPointer<IfceSerialObserver> observer) override
     {
         return observers.removeOne(observer);
     }
@@ -48,8 +48,9 @@ public:
         const auto msg { QString("{\"ID\":%1,\"ROT\":%2}\r\n")
                     .arg(id).arg(value).toLatin1() };
 
-        for( auto *observer : observers )
-            observer->send(id, msg);
+        for( auto &observer : observers )
+            if( auto effector = observer.toStrongRef() )
+                effector->send(id, msg);
     }
 };
 

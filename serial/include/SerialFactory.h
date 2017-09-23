@@ -6,6 +6,13 @@ class IfceSerialSettings;
 class QSerialPort;
 class QSerialPortInfo;
 
+
+/**
+ * @brief The SerialFactory class creates QSerialPort instance.
+ *
+ * The class allows creating a QSerialPort instance. If {@link IfceSerialSettings}
+ * the serial port is created according to the settings.
+ */
 class SerialFactory
 {
 public:

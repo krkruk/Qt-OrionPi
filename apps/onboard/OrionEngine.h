@@ -46,8 +46,8 @@ private:
     void echo_found_serials(const QList<QSharedPointer<IfceDevice> > &foundDevices);
     void echo_not_connected_devices(const QList<int> &notConnectedIds);
 
-    QScopedPointer<SerialManager> serialManager;
-    QScopedPointer<SerialController> serialController;
+    QSharedPointer<SerialManager> serialManager;
+    QSharedPointer<SerialController> serialController;
     QScopedPointer<Orion::ChassisModel> chassisModel;
 
     QScopedPointer<QTcpServer, QScopedPointerObjectDeleteLater<QTcpServer>> server;

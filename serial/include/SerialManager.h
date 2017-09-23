@@ -24,7 +24,7 @@ public:
     void setDevices(const QList<QSharedPointer<IfceDevice>> &devices);
     bool hasSerial(int id) const;
 
-    void setController(IfceSerialController *controller);
+    void setController(QSharedPointer<IfceSerialController> controller);
 
     QByteArray getLastSent(int id) const;
 
@@ -35,7 +35,7 @@ signals:
 
 
 public slots:
-    void onLineReceived(int id, const QByteArray &data);
+    void onReceiveFromSerial(int id, const QByteArray &data);
     void send(int id, const QByteArray &data) override;
 
 
@@ -47,7 +47,7 @@ private:
     QHash<int, QString> portNamesById;
     QHash<QString, QSharedPointer<QSerialPort>> serialsByPortName;
     QHash<int, QByteArray> lastSent;
-    IfceSerialController *controller;
+    QSharedPointer<IfceSerialController> controller;
 
     bool setup_port(QSharedPointer<QSerialPort> serial);
     void connections(QSharedPointer<QSerialPort> serial);

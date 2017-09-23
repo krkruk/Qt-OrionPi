@@ -96,12 +96,12 @@ void TestDriveModel::test_wheel_model_notification_ability()
                           .arg(KEY_SINK_TEMP).arg(temperature).toLatin1());
     qDebug() << data;
     auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
-    MockWheelObserver observer;
-    frontLeftWheel->addObserver(&observer);
+    QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
+    frontLeftWheel->addObserver(observer);
     frontLeftWheel->update(data);
     frontLeftWheel->notifyObservers();
-    qDebug() << "OBSERVER:" << observer.getRawData(frontLeftId);
-    QCOMPARE( getAngularVelocity(observer.getRawData(frontLeftId)), omega );
+    qDebug() << "OBSERVER:" << observer->getRawData(frontLeftId);
+    QCOMPARE( getAngularVelocity(observer->getRawData(frontLeftId)), omega );
 }
 
 void TestDriveModel::test_chassis_model_data_acquisition()
@@ -125,24 +125,24 @@ void TestDriveModel::test_chassis_model_data_acquisition()
 
     const QString data(QString("{\"ID\":%4, \"%1\": 100.0, \"%2\":5.0, \"%3\":88.5}")
                        .arg(KEY_ANG_VEL).arg(KEY_CURRENT).arg(KEY_SINK_TEMP));
-    MockWheelObserver observer;
-    frontLeftWheel->addObserver(&observer);
+    QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
+    frontLeftWheel->addObserver(observer);
     frontLeftWheel->update(data.arg(frontLeftId).toLatin1());
 
-    frontRightWheel->addObserver(&observer);
+    frontRightWheel->addObserver(observer);
     frontRightWheel->update(data.arg(frontRightId).toLatin1());
 
-    rearLeftWheel->addObserver(&observer);
+    rearLeftWheel->addObserver(observer);
     rearLeftWheel->update(data.arg(rearLeftId).toLatin1());
 
-    rearRightWheel->addObserver(&observer);
+    rearRightWheel->addObserver(observer);
     rearRightWheel->update(data.arg(rearRightId).toLatin1());
 
     orionChassis.notifyAll();
-    QCOMPARE( getAngularVelocity(observer.getRawData(frontLeftId)), value );
-    QCOMPARE( getAngularVelocity(observer.getRawData(frontRightId)), value );
-    QCOMPARE( getAngularVelocity(observer.getRawData(rearLeftId)), value );
-    QCOMPARE( getAngularVelocity(observer.getRawData(rearRightId)), value );
+    QCOMPARE( getAngularVelocity(observer->getRawData(frontLeftId)), value );
+    QCOMPARE( getAngularVelocity(observer->getRawData(frontRightId)), value );
+    QCOMPARE( getAngularVelocity(observer->getRawData(rearLeftId)), value );
+    QCOMPARE( getAngularVelocity(observer->getRawData(rearRightId)), value );
 }
 
 void TestDriveModel::test_drive_mode_direct_parsing()
@@ -167,9 +167,9 @@ void TestDriveModel::test_set_drive_mode_algorithm_direct()
     orionChassis.setDriveAlgorithm( QSharedPointer<Orion::DriveModeDirect>::create() );
     orionChassis.addWheel(frontLeftWheel);
     orionChassis.addWheel(frontRightWheel);
-    MockWheelObserver observer;
-    frontLeftWheel->addObserver(&observer);
-    frontRightWheel->addObserver(&observer);
+    QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
+    frontLeftWheel->addObserver(observer);
+    frontRightWheel->addObserver(observer);
 
     const QByteArray turnLeft( R"({"RROW":100.0, "LROW":-100.0})");
     orionChassis.onRemoteDataReceived(turnLeft);
