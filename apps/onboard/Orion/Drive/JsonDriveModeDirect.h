@@ -1,5 +1,5 @@
-#ifndef DRIVEMODEDIRECT_H
-#define DRIVEMODEDIRECT_H
+#ifndef JSONDRIVEMODEDIRECT_H
+#define JSONDRIVEMODEDIRECT_H
 #include <QByteArray>
 #include <QScopedPointer>
 #include "IfceDriveMode.h"
@@ -7,12 +7,12 @@
 
 namespace Orion {
 
-    class DriveModeDirect : public IfceDriveMode
+    class JsonDriveModeDirect : public IfceDriveMode
     {
         class DriveModeDirectPrivate;
     public:
-        DriveModeDirect();
-        ~DriveModeDirect();
+        JsonDriveModeDirect();
+        ~JsonDriveModeDirect();
 
         void processInput(const QByteArray &rawData) override;
         double getValue(int wheel) override;
@@ -23,4 +23,4 @@ namespace Orion {
     };
 
 }
-#endif // DRIVEMODEDIRECT_H
+#endif // JSONDRIVEMODEDIRECT_H

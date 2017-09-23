@@ -53,7 +53,7 @@ void OrionEngine::onSocketReadyRead()
     if( socket->canReadLine() ) {
         const auto line { socket->readLine() };
         qDebug() << "Data received:" << line;
-        chassisModel->onRemoteDataReceived(line);
+        chassisModel->updateModel(line);
         chassisModel->notifyAll();
     }
 }
@@ -101,7 +101,7 @@ void OrionEngine::setup_serial()
     auto rearLeftWheel { QSharedPointer<Orion::WheelModel>::create(ID_REAR_LEFT_WHEEL) };
     auto rearRightWheel { QSharedPointer<Orion::WheelModel>::create(ID_REAR_RIGHT_WHEEL) };
 
-    chassisModel->setDriveAlgorithm(QSharedPointer<Orion::DriveModeDirect>::create());
+    chassisModel->setDriveAlgorithm(QSharedPointer<Orion::JsonDriveModeDirect>::create());
     chassisModel->addWheel(frontLeftWheel);
     chassisModel->addWheel(frontRightWheel);
     chassisModel->addWheel(rearLeftWheel);

@@ -41,7 +41,7 @@ public:
 
 private:
 
-    QByteArray exportData();
+    QByteArray exportDataToSerial();
     double currentAngularVelocity { 0.0 };
     double expectedAngularVelocity { 0.0 };
     double current { 0.0 };
@@ -102,20 +102,20 @@ bool WheelModel::WheelModelPrivate::delObserver(QWeakPointer<IfceSerialObserver>
 
 void WheelModel::WheelModelPrivate::notifyObservers()
 {
-    const auto data { exportData() };
+    const auto data { exportDataToSerial() };
     for( auto &observer : observers )
         if( auto effector = observer.toStrongRef() )
             effector->send(model->getId(), data);
 }
 
-QByteArray WheelModel::WheelModelPrivate::exportData()
+QByteArray WheelModel::WheelModelPrivate::exportDataToSerial()
 {
     QJsonObject obj;
-    obj[KEY_ANG_VEL] = getCurrentAngularVelocity();
-    obj[KEY_CURRENT] = getCurrent();
-    obj[KEY_SINK_TEMP] = getHeatSinkTemperature();
-    obj[KEY_PWM] = this->pwm;
-    obj[KEY_ERROR_CODE] = this->errorCode;
+    obj[KEY_ANG_VEL] = (int)model->getExpectedAngularVelocity();
+//    obj[KEY_CURRENT] = getCurrent();
+//    obj[KEY_SINK_TEMP] = getHeatSinkTemperature();
+//    obj[KEY_PWM] = this->pwm;
+//    obj[KEY_ERROR_CODE] = this->errorCode;
     QJsonDocument doc(obj);
     return doc.toJson(QJsonDocument::Compact);
 }

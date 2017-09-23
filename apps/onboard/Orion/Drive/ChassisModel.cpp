@@ -34,7 +34,7 @@ void ChassisModel::notifyAll()
     notify_right_side();
 }
 
-void ChassisModel::onRemoteDataReceived(const QByteArray &cmd)
+void ChassisModel::updateModel(const QByteArray &cmd)
 {
     if( driveAlgorithm.isNull() )
         return;

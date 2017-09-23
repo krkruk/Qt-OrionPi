@@ -5,15 +5,14 @@
 #include <QHash>
 #include "IfceDriveMode.h"
 #include "IfceChassisModel.h"
-#include "../Network/IfceNetworkReceiver.h"
+
 
 namespace Orion {
     class IfceWheelModel;
 
 
-    class ChassisModel : public QObject, public IfceChassisModel, public IfceNetworkReceiver
+    class ChassisModel : public QObject, public IfceChassisModel
     {
-        Q_OBJECT
     public:
         explicit ChassisModel(QObject *parent = nullptr);
         ~ChassisModel();
@@ -21,10 +20,7 @@ namespace Orion {
         void setDriveAlgorithm(QSharedPointer<IfceDriveMode> algorithm) override;
         void addWheel(QSharedPointer<IfceWheelModel> wheel) override;
         void notifyAll() override;
-
-
-    public slots:
-        void onRemoteDataReceived(const QByteArray &cmd) override;
+        void updateModel(const QByteArray &cmd) override;
 
 
     private:

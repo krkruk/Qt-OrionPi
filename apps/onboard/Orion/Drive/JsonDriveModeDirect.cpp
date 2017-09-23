@@ -1,4 +1,4 @@
-#include "DriveModeDirect.h"
+#include "JsonDriveModeDirect.h"
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -10,9 +10,9 @@
 
 using namespace Orion;
 
-class DriveModeDirect::DriveModeDirectPrivate
+class JsonDriveModeDirect::DriveModeDirectPrivate
 {
-    friend class DriveModeDirect;
+    friend class JsonDriveModeDirect;
     const QString KEY_LEFT_WHEEL_ROW = OrionDriveSettings::instance()->getDriveMode(
                 CONST::SETTINGS::DRIVE::MODE::DIRECT::KEY::LEFT_WHEEL_ROW);
     const QString KEY_RIGHT_WHEEL_ROW = OrionDriveSettings::instance()->getDriveMode(
@@ -27,16 +27,16 @@ private:
     double rightRow {0.0};
 };
 
-DriveModeDirect::DriveModeDirect()
+JsonDriveModeDirect::JsonDriveModeDirect()
     : member(new DriveModeDirectPrivate)
 {
 }
 
-DriveModeDirect::~DriveModeDirect()
+JsonDriveModeDirect::~JsonDriveModeDirect()
 {
 }
 
-void DriveModeDirect::processInput(const QByteArray &rawData)
+void JsonDriveModeDirect::processInput(const QByteArray &rawData)
 {
     QJsonParseError parseErr;
     auto doc { QJsonDocument::fromJson(rawData, &parseErr) };
@@ -48,7 +48,7 @@ void DriveModeDirect::processInput(const QByteArray &rawData)
     member->rightRow = obj.value(member->KEY_RIGHT_WHEEL_ROW).toDouble();
 }
 
-double DriveModeDirect::getValue(int wheel)
+double JsonDriveModeDirect::getValue(int wheel)
 {
     /*
      * Left row of wheels is number in 0,2,4... manner (even numbers)

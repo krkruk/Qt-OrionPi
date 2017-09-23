@@ -46,12 +46,12 @@ HEADERS += \
     ../../GlobalConstants.h \
     ../../apps/onboard/Orion/Drive/WheelModel.h \
     ../../apps/onboard/Orion/Drive/ChassisModel.h \
-    ../../apps/onboard/Orion/Drive/DriveModeDirect.h \
+    ../../apps/onboard/Orion/Drive/JsonDriveModeDirect.h \
     ../../apps/onboard/OrionDriveSettings.h \
     MockWheelObserver.h
 
 SOURCES += tst_testdrivemodel.cpp \
     ../../apps/onboard/Orion/Drive/WheelModel.cpp \
-    ../../apps/onboard/Orion/Drive/DriveModeDirect.cpp \
+    ../../apps/onboard/Orion/Drive/JsonDriveModeDirect.cpp \
     ../../apps/onboard/OrionDriveSettings.cpp \
     ../../apps/onboard/Orion/Drive/ChassisModel.cpp

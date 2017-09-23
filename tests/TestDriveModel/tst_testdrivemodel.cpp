@@ -9,7 +9,7 @@
 #include "WheelModel.h"
 #include "ChassisModel.h"
 #include "IfceDriveMode.h"
-#include "DriveModeDirect.h"
+#include "JsonDriveModeDirect.h"
 #include "OrionDriveSettings.h"
 #include "DriveConstants.h"
 
@@ -147,11 +147,11 @@ void TestDriveModel::test_chassis_model_data_acquisition()
 
 void TestDriveModel::test_drive_mode_direct_parsing()
 {
-    QScopedPointer<Orion::IfceDriveMode> drive { new Orion::DriveModeDirect };
+    QScopedPointer<Orion::IfceDriveMode> drive { new Orion::JsonDriveModeDirect };
     const QByteArray turnLeft( R"({"RROW":100.0, "LROW":-100.0})");
     drive->processInput(turnLeft);
-    auto frontLeft { drive->getValue(Orion::DriveModeDirect::LEFT_0) };
-    auto frontRight { drive->getValue(Orion::DriveModeDirect::RIGHT_0) };
+    auto frontLeft { drive->getValue(Orion::JsonDriveModeDirect::LEFT_0) };
+    auto frontRight { drive->getValue(Orion::JsonDriveModeDirect::RIGHT_0) };
     QCOMPARE( frontLeft, -100.0 );
     QCOMPARE( frontRight, 100.0 );
 }
@@ -164,7 +164,7 @@ void TestDriveModel::test_set_drive_mode_algorithm_direct()
     auto frontRightWheel { QSharedPointer<Orion::WheelModel>::create(frontRightId) };
 
     Orion::ChassisModel orionChassis;
-    orionChassis.setDriveAlgorithm( QSharedPointer<Orion::DriveModeDirect>::create() );
+    orionChassis.setDriveAlgorithm( QSharedPointer<Orion::JsonDriveModeDirect>::create() );
     orionChassis.addWheel(frontLeftWheel);
     orionChassis.addWheel(frontRightWheel);
     QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
@@ -172,7 +172,7 @@ void TestDriveModel::test_set_drive_mode_algorithm_direct()
     frontRightWheel->addObserver(observer);
 
     const QByteArray turnLeft( R"({"RROW":100.0, "LROW":-100.0})");
-    orionChassis.onRemoteDataReceived(turnLeft);
+    orionChassis.updateModel(turnLeft);
     orionChassis.notifyAll();
     QCOMPARE( frontLeftWheel->getExpectedAngularVelocity(), -100.0 );
     QCOMPARE( frontRightWheel->getExpectedAngularVelocity(), 100.0 );

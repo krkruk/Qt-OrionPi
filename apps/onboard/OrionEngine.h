@@ -16,7 +16,7 @@
 #include "include/SerialManager.h"
 #include "include/SerialController.h"
 #include "Orion/Drive/WheelModel.h"
-#include "Orion/Drive/DriveModeDirect.h"
+#include "Orion/Drive/JsonDriveModeDirect.h"
 #include "Orion/Drive/ChassisModel.h"
 
 

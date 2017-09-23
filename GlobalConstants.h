@@ -3,7 +3,7 @@
 
 
 namespace CONST {
-    static constexpr char APP_NAME[] = "OrionPI";
-    static constexpr char ORGANIZATION[] = "Orion Project";
+    constexpr char APP_NAME[] = "OrionPI";
+    constexpr char ORGANIZATION[] = "Orion Project";
 }
 #endif // GLOBALCONSTANTS_H
