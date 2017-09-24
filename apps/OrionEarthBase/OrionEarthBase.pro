@@ -28,15 +28,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    DriveFeedbackWidget.cpp
+    DriveFeedbackWidget.cpp \
+    ../protos/earthBaseToRoverComm.pb.cc
 
 HEADERS  += mainwindow.h \
-    DriveFeedbackWidget.h
+    DriveFeedbackWidget.h \
+    ../protos/earthBaseToRoverComm.pb.h
 
 FORMS    += mainwindow.ui \
     DriveFeedbackWidget.ui
+
+INCLUDEPATH += \
+    ../protos/
+
 
 unix:!macx: LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
 
 INCLUDEPATH += $$PWD/../../network
 DEPENDPATH += $$PWD/../../network
+
+LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+INCLUDEPATH += $$(PROTOBUF)/include
+DEPENDPATH += $$(PROTOBUF)/include
+
+DISTFILES += \
+    ../protos/earthBaseToRoverComm.proto

@@ -22,7 +22,6 @@ void DriveFeedbackWidget::setWheelName(const QString &name)
 
 void DriveFeedbackWidget::setAngularVelocity(double degPerSecond)
 {
-    qDebug() << "set ang velocity" << degPerSecond;
     ui->labelAngularVelocity->setText(QString::number(degPerSecond));
 }
 

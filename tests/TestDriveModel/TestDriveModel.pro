@@ -37,7 +37,9 @@ DEPENDPATH += $$PWD/../../serial
 
 INCLUDEPATH += \
     ../../apps/OrionPiOnboard/Orion/Drive/ \
-    ../../apps/OrionPiOnboard
+    ../../apps/OrionPiOnboard \
+    ../../apps/protos/
+
 DEPENDPATH += \
     ../../apps/OrionPiOnboardOrion/Drive/ \
     ../../apps/OrionPiOnboard
@@ -47,14 +49,22 @@ HEADERS += \
     ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.h \
     ../../apps/OrionPiOnboard/Orion/Drive/ChassisModel.h \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonDriveModeDirect.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/ProtobufDriveModeDirect.h \
     ../../apps/OrionPiOnboard/settings/DriveSettings.h \
     ../../apps/OrionPiOnboard/Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.h \
-    MockWheelObserver.h
+    MockWheelObserver.h \
+    ../../apps/protos/earthBaseToRoverComm.pb.h
 
 SOURCES += tst_testdrivemodel.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonDriveModeDirect.cpp \
+    ../../apps/OrionPiOnboard/Orion/Drive/ProtobufDriveModeDirect.cpp \
     ../../apps/OrionPiOnboard/settings/DriveSettings.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/ChassisModel.cpp \
-    ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp
+    ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp \
+    ../../apps/protos/earthBaseToRoverComm.pb.cc
+
+LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+INCLUDEPATH += $$(PROTOBUF)/include
+DEPENDPATH += $$(PROTOBUF)/include

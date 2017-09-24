@@ -12,9 +12,12 @@
 #include "ChassisModel.h"
 #include "interface/IfceDriveMode.h"
 #include "JsonDriveModeDirect.h"
+#include "ProtobufDriveModeDirect.h"
 #include "JsonChassisFeedbackGenerator.h"
 #include "settings/DriveSettings.h"
 #include "DriveConstants.h"
+
+#include "earthBaseToRoverComm.pb.h"
 
 static const QString KEY_ANG_VEL = "w";
 
@@ -49,6 +52,7 @@ private Q_SLOTS:
     void test_chassis_model_data_acquisition();
     void test_drive_mode_direct_parsing();
     void test_set_drive_mode_algorithm_direct();
+    void test_protobuf_algorithm_direct();
     void test_feedback_generator();
     void test_full_json_feedback_gen();
 };
@@ -175,6 +179,32 @@ void TestDriveModel::test_set_drive_mode_algorithm_direct()
     frontRightWheel->addObserver(observer);
 
     const QByteArray turnLeft( R"({"RROW":100.0, "LROW":-100.0})");
+    orionChassis.updateState(turnLeft);
+    orionChassis.notifyAll();
+    QCOMPARE( frontLeftWheel->getExpectedAngularVelocity(), -100.0 );
+    QCOMPARE( frontRightWheel->getExpectedAngularVelocity(), 100.0 );
+}
+
+void TestDriveModel::test_protobuf_algorithm_direct()
+{
+    constexpr auto frontLeftId { 0 };
+    constexpr auto frontRightId { 1 };
+    auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
+    auto frontRightWheel { QSharedPointer<Orion::WheelModel>::create(frontRightId) };
+
+    Orion::ChassisModel orionChassis;
+    orionChassis.setDriveAlgorithm( QSharedPointer<Orion::ProtobufDriveModeDirect>::create() );
+    orionChassis.addWheel(frontLeftWheel);
+    orionChassis.addWheel(frontRightWheel);
+    QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
+    frontLeftWheel->addObserver(observer);
+    frontRightWheel->addObserver(observer);
+
+    ORION_COMM::Chassis data;
+    data.set_leftrowangularvelocity(-100);
+    data.set_rightrowangularvelocity(100);
+    auto serialized = data.SerializeAsString();
+    const QByteArray turnLeft(serialized.c_str(), serialized.size());
     orionChassis.updateState(turnLeft);
     orionChassis.notifyAll();
     QCOMPARE( frontLeftWheel->getExpectedAngularVelocity(), -100.0 );

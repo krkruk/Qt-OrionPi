@@ -10,6 +10,8 @@
 #include <QDebug>
 
 #include "TcpSocket.h"
+#include "earthBaseToRoverComm.pb.h"
+
 
 namespace {
     const QHostAddress bindAddress = QHostAddress::LocalHost;
@@ -163,14 +165,19 @@ void MainWindow::apply_gamepad_to_widget()
 
 void MainWindow::write_gamepad_input_to_server()
 {
-    QJsonObject obj{
-        QPair<QString, QJsonValue>(LEFT_WHEEL_ROW, leftAxis),
-        QPair<QString, QJsonValue>(RIGHT_WHEEL_ROW, rightAxis),
-    };
-    QJsonDocument doc(obj);
+//    QJsonObject obj{
+//        QPair<QString, QJsonValue>(LEFT_WHEEL_ROW, leftAxis),
+//        QPair<QString, QJsonValue>(RIGHT_WHEEL_ROW, rightAxis),
+//    };
+//    QJsonDocument doc(obj);
 
+    ORION_COMM::Command cmd;
+    cmd.set_cmdtype(ORION_COMM::Drive);
+    auto *drive = cmd.mutable_drive();
+    drive->set_leftrowangularvelocity(leftAxis);
+    drive->set_rightrowangularvelocity(rightAxis);
     if( socket )
-        socket->send(doc.toJson(QJsonDocument::Compact));
+        socket->send(cmd.SerializeAsString());
 }
 
 void MainWindow::on_pushButtonAcceptGamepad_clicked()

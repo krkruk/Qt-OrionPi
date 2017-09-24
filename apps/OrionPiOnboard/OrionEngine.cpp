@@ -4,7 +4,10 @@
 #include <QTime>
 #include "settings/SerialSettings.h"
 #include "Orion/Drive/JsonChassisFeedbackGenerator.h"
-#include <TcpServer.h>
+#include "Orion/Drive/ProtobufDriveModeDirect.h"
+#include "TcpServer.h"
+
+#include "earthBaseToRoverComm.pb.h"
 
 namespace {
 constexpr auto MAX_PENDING_CONN { 1 };
@@ -41,7 +44,15 @@ void OrionEngine::onRemoteMessageReceived(const QByteArray &message)
     if( !chassisModel )
         return;
 
-    chassisModel->updateState(QByteArray(message.toStdString().c_str()));
+    ORION_COMM::Command cmd;
+    qDebug() << "Parsed?" << cmd.ParseFromArray(message.data(), message.size());
+    if( cmd.cmdtype() != ORION_COMM::Drive )
+        return;
+
+    auto driveCmd = cmd.drive();
+    QByteArray serialzedDriveCmd(driveCmd.SerializeAsString().c_str(),
+                                 driveCmd.ByteSize());
+    chassisModel->updateState(serialzedDriveCmd);
     chassisModel->notifyAll();
 }
 
@@ -82,7 +93,7 @@ void OrionEngine::setup_serial()
     auto rearLeftWheel { QSharedPointer<Orion::WheelModel>::create(ID_REAR_LEFT_WHEEL) };
     auto rearRightWheel { QSharedPointer<Orion::WheelModel>::create(ID_REAR_RIGHT_WHEEL) };
 
-    chassisModel->setDriveAlgorithm(QSharedPointer<Orion::JsonDriveModeDirect>::create());
+    chassisModel->setDriveAlgorithm(QSharedPointer<Orion::ProtobufDriveModeDirect>::create());
     chassisModel->setFeedbackGeneratorAlgorithm(QSharedPointer<Orion::JsonChassisFeedbackGenerator>::create());
     chassisModel->addWheel(frontLeftWheel);
     chassisModel->addWheel(frontRightWheel);

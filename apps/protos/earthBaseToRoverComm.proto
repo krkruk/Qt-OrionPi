@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package ORION_COMM;
+
+enum Commands {
+    Undefined = 0;
+    Drive = 1;
+}
+
+message Chassis {
+    int32 leftRowAngularVelocity = 1;
+    int32 rightRowAngularVelocity = 2;
+}
+
+
+message Command {
+    Commands cmdType = 1;
+    
+    oneof cmd_msgs {
+        Chassis drive = 2;
+    }
+}
+
