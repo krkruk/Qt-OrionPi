@@ -32,15 +32,22 @@ void TcpServer::send(const QString &data)
 {
     if( !currentSocket || !currentSocket->isOpen() ) return;
 
-    const std::string str_data { data.toLocal8Bit().toStdString() };
-    write_to_server(str_data.c_str());
+    write_to_server(data.toLocal8Bit());
 }
 
 void TcpServer::send(const std::string &data)
 {
     if( !currentSocket || !currentSocket->isOpen() ) return;
 
-    write_to_server(data.c_str());
+    const QByteArray d(data.c_str(), data.size());
+    write_to_server(d);
+}
+
+void TcpServer::send(const QByteArray &data)
+{
+    if( !currentSocket || !currentSocket->isOpen() ) return;
+
+    write_to_server(data);
 }
 
 void TcpServer::setMaxPendingConnections(int numConnections)
@@ -96,10 +103,13 @@ void TcpServer::connections_socket()
             this, &TcpServer::_on_socket_error);
 }
 
-void TcpServer::write_to_server(const char *data)
+void TcpServer::write_to_server(const QByteArray &data)
 {
+    if( currentSocket && !currentSocket->isOpen() )
+        return;
+
     QByteArray pkg;
-    QDataStream out(&pkg, QIODevice::WriteOnly);
+    QDataStream out(&pkg, QIODevice::ReadWrite);
     out.setDevice(currentSocket.data());
     out.setVersion(QDataStream::Qt_5_8);
     out << data;

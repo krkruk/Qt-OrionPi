@@ -53,8 +53,10 @@ HEADERS += \
     ../../apps/OrionPiOnboard/settings/DriveSettings.h \
     ../../apps/OrionPiOnboard/Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
     MockWheelObserver.h \
-    ../../apps/protos/earthBaseToRoverComm.pb.h
+    ../../apps/protos/earthBaseToRoverComm.pb.h \
+    ../../apps/protos/roverToEarthBaseComm.pb.h
 
 SOURCES += tst_testdrivemodel.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.cpp \
@@ -63,8 +65,12 @@ SOURCES += tst_testdrivemodel.cpp \
     ../../apps/OrionPiOnboard/settings/DriveSettings.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/ChassisModel.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp \
-    ../../apps/protos/earthBaseToRoverComm.pb.cc
+    ../../apps/OrionPiOnboard/Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
+    ../../apps/protos/earthBaseToRoverComm.pb.cc \
+    ../../apps/protos/roverToEarthBaseComm.pb.cc
 
 LIBS += -L$$(PROTOBUF)/lib -lprotobuf
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
+QMAKE_CXXFLAGS += -isystem $$(PROTOBUF)/include
+QMAKE_CXXFLAGS += -isystem ../protos

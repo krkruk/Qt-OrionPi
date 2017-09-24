@@ -23,6 +23,7 @@ public:
     void listen(const QHostAddress &address, int port) override;
     void send(const QString &data) override;
     void send(const std::string &data) override;
+    void send(const QByteArray &data) override;
     void setMaxPendingConnections(int numConnections) override;
     std::string lastReceived() const override;
 
@@ -35,7 +36,7 @@ private slots:
 private:
     void connections();
     void connections_socket();
-    void write_to_server(const char *data);
+    void write_to_server(const QByteArray &data);
 
     QScopedPointer<QTcpServer> server;
     QSharedPointer<QTcpSocket> currentSocket;

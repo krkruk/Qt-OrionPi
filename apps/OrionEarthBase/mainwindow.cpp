@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <string>
 #include <QGamepadManager>
 #include <QGamepad>
 #include <QJsonDocument>
@@ -11,7 +12,7 @@
 
 #include "TcpSocket.h"
 #include "earthBaseToRoverComm.pb.h"
-
+#include "roverToEarthBaseComm.pb.h"
 
 namespace {
     const QHostAddress bindAddress = QHostAddress::LocalHost;
@@ -104,21 +105,40 @@ void MainWindow::display_available_gamepads()
 
 void MainWindow::parse_feedback_data(const QByteArray &data)
 {
-    QJsonDocument doc { QJsonDocument::fromJson(QString(data).toLocal8Bit()) };
-    QJsonObject obj { doc.object() };
-    QJsonArray driveRelated = obj["DRIVE"].toArray();
+//    QJsonDocument doc { QJsonDocument::fromJson(QString(data).toLocal8Bit()) };
+//    QJsonObject obj { doc.object() };
+//    QJsonArray driveRelated = obj["DRIVE"].toArray();
 
-    for( auto wheelDict : driveRelated ) {
-        auto wheel = wheelDict.toObject();
-        if( wheel.keys().size() == 0 ) continue;
-        const auto wheelName = wheel.keys()[0];
-        auto wheelValue = wheel[wheelName].toObject();
-        const auto angVelocity = wheelValue["ROT"].toDouble();
-        const auto heatSinkTemp = wheelValue["TEMP"].toDouble();
-        const auto current = wheelValue["CUR"].toDouble();
-        const auto pwm = wheelValue["PWM"].toInt();
-        const auto errorCode = wheelValue["ERR"].toInt();
+//    for( auto wheelDict : driveRelated ) {
+//        auto wheel = wheelDict.toObject();
+//        if( wheel.keys().size() == 0 ) continue;
+//        const auto wheelName = wheel.keys()[0];
+//        auto wheelValue = wheel[wheelName].toObject();
+//        const auto angVelocity = wheelValue["ROT"].toDouble();
+//        const auto heatSinkTemp = wheelValue["TEMP"].toDouble();
+//        const auto current = wheelValue["CUR"].toDouble();
+//        const auto pwm = wheelValue["PWM"].toInt();
+//        const auto errorCode = wheelValue["ERR"].toInt();
 
+//        apply_data_to_feedback_widget(wheelName,
+//                                      angVelocity,
+//                                      heatSinkTemp,
+//                                      current,
+//                                      pwm,
+//                                      errorCode);
+//    }
+
+    ORION_COMM::Feedback msg;
+    msg.ParseFromArray(data.data(), data.size());
+
+    auto wheels = msg.chassis().wheel();
+    for( const ORION_COMM::WheelTelemetry &wheel : wheels ) {
+        const auto wheelName = QString::number(wheel.id());
+        const auto angVelocity = wheel.angularvelocity();
+        const auto heatSinkTemp = wheel.heatsinktemperature();
+        const auto current = wheel.current();
+        const auto pwm = wheel.pwm();
+        const auto errorCode = wheel.errorcode();
         apply_data_to_feedback_widget(wheelName,
                                       angVelocity,
                                       heatSinkTemp,

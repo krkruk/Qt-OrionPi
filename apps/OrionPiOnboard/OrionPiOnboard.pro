@@ -27,7 +27,9 @@ HEADERS += \
     Orion/Drive/JsonDriveModeDirect.h \
     Orion/Drive/JsonChassisFeedbackGenerator.h \
     Orion/Drive/ProtobufDriveModeDirect.h \
-    ../protos/earthBaseToRoverComm.pb.h
+    Orion/Drive/ProtobufChassisFeedbackGenerator.h \
+    ../protos/earthBaseToRoverComm.pb.h \
+    ../protos/roverToEarthBaseComm.pb.h
 
 SOURCES += main.cpp \
     Orion/Drive/WheelModel.cpp \
@@ -38,7 +40,9 @@ SOURCES += main.cpp \
     Orion/Drive/JsonDriveModeDirect.cpp \
     Orion/Drive/JsonChassisFeedbackGenerator.cpp \
     Orion/Drive/ProtobufDriveModeDirect.cpp \
-    ../protos/earthBaseToRoverComm.pb.cc
+    Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
+    ../protos/earthBaseToRoverComm.pb.cc \
+    ../protos/roverToEarthBaseComm.pb.cc
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -66,6 +70,9 @@ DEPENDPATH += $$PWD/../../network
 LIBS += $$(PROTOBUF)/lib/libprotobuf.a
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
+QMAKE_CXXFLAGS += -isystem $$(PROTOBUF)/include
+QMAKE_CXXFLAGS += -isystem ../protos
 
 DISTFILES += \
-    ../protos/earthBaseToRoverComm.proto
+    ../protos/earthBaseToRoverComm.proto \
+    ../protos/roverToEarthBaseComm.proto

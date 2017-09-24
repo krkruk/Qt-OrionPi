@@ -29,11 +29,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     DriveFeedbackWidget.cpp \
-    ../protos/earthBaseToRoverComm.pb.cc
+    ../protos/earthBaseToRoverComm.pb.cc \
+    ../protos/roverToEarthBaseComm.pb.cc
 
 HEADERS  += mainwindow.h \
     DriveFeedbackWidget.h \
-    ../protos/earthBaseToRoverComm.pb.h
+    ../protos/earthBaseToRoverComm.pb.h \
+    ../protos/roverToEarthBaseComm.pb.h
 
 FORMS    += mainwindow.ui \
     DriveFeedbackWidget.ui
@@ -51,6 +53,9 @@ DEPENDPATH += $$PWD/../../network
 LIBS += $$(PROTOBUF)/lib/libprotobuf.a
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
+QMAKE_CXXFLAGS += -isystem $$(PROTOBUF)/include
+QMAKE_CXXFLAGS += -isystem ../protos
 
 DISTFILES += \
-    ../protos/earthBaseToRoverComm.proto
+    ../protos/earthBaseToRoverComm.proto \
+    ../protos/roverToEarthBaseComm.proto

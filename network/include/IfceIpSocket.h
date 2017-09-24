@@ -20,6 +20,7 @@ public:
     virtual void disconnectFromHost() = 0;
     virtual void send(const QString &data) = 0;
     virtual void send(const std::string &data) = 0;
+    virtual void send(const QByteArray &data) = 0;
 
     virtual std::string lastServerResponse() const = 0;
     virtual bool isOpen() const = 0;

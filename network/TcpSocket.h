@@ -22,6 +22,7 @@ public:
     void disconnectFromHost() override;
     void send(const QString &data) override;
     void send(const std::string &data) override;
+    void send(const QByteArray &data) override;
     std::string lastServerResponse() const override;
     bool isOpen() const override;
 
@@ -35,7 +36,7 @@ private slots:
 
 private:
     void connections();
-    void write_to_server(const char *data);
+    void write_to_server(const QByteArray &data);
 
     QScopedPointer<QTcpSocket> socket;
     QHostAddress address;

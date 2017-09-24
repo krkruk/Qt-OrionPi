@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ORION_COMM;
+import "earthBaseToRoverComm.proto";
+
+message WheelTelemetry {
+    int32 ID = 1;
+    double angularVelocity = 2;
+    double current = 3;
+    double heatSinkTemperature = 4;
+    int32 pwm = 5;
+    int32 errorCode = 6;
+}
+
+message ChassisTelemetry {
+    repeated WheelTelemetry wheel = 1;
+}
+
+message Feedback {
+    Commands cmd = 1;
+
+    oneof feedback_content {
+        ChassisTelemetry chassis = 2;
+    }
+}

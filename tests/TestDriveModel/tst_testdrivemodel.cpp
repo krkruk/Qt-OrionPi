@@ -14,10 +14,14 @@
 #include "JsonDriveModeDirect.h"
 #include "ProtobufDriveModeDirect.h"
 #include "JsonChassisFeedbackGenerator.h"
+#include "ProtobufChassisFeedbackGenerator.h"
 #include "settings/DriveSettings.h"
 #include "DriveConstants.h"
 
+#include <google/protobuf/util/message_differencer.h>
+#include <google/protobuf/util/json_util.h>
 #include "earthBaseToRoverComm.pb.h"
+#include "roverToEarthBaseComm.pb.h"
 
 static const QString KEY_ANG_VEL = "w";
 
@@ -55,6 +59,7 @@ private Q_SLOTS:
     void test_protobuf_algorithm_direct();
     void test_feedback_generator();
     void test_full_json_feedback_gen();
+    void test_full_protobuf_feedback_gen();
 };
 
 TestDriveModel::TestDriveModel()
@@ -276,6 +281,49 @@ void TestDriveModel::test_full_json_feedback_gen()
     QJsonDocument genDocument {QJsonDocument::fromJson(dataToCompare)};
     QJsonObject objToCompare {genDocument.object()};
     QCOMPARE( objToCompare, toBeGenerated );
+}
+
+void TestDriveModel::test_full_protobuf_feedback_gen()
+{
+    constexpr auto frontLeftId { 3 };
+    const auto omega{100};
+    const auto current{23.3};
+    const auto heatSinkTemp{45.5};
+    const auto pwm{200};
+    const auto errorCode{1};
+
+    QJsonObject data;
+    data[KEY_ANG_VEL] = omega;
+    data[KEY_CURRENT] = current;
+    data[KEY_SINK_TEMP] = heatSinkTemp;
+    data[KEY_PWM] = pwm;
+    data[KEY_ERROR_CODE] = errorCode;
+
+    auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
+    Orion::ChassisModel chassis;
+    chassis.setDriveAlgorithm(QSharedPointer<Orion::JsonDriveModeDirect>::create());
+    chassis.setFeedbackGeneratorAlgorithm(QSharedPointer<Orion::ProtobufChassisFeedbackGenerator>::create());
+    chassis.addWheel(frontLeftWheel);
+    QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
+    frontLeftWheel->addObserver(observer);
+    frontLeftWheel->updateModel(QJsonDocument(data).toJson(QJsonDocument::Compact));
+    auto dataToCompare = chassis.getFeedbackData();
+    if( dataToCompare.isEmpty() ) QFAIL("No feedback data received");
+    ORION_COMM::Feedback received;
+    received.ParseFromArray(dataToCompare.data(), dataToCompare.size());
+
+    ORION_COMM::Feedback feedback;
+    feedback.set_cmd(ORION_COMM::Drive);
+    ORION_COMM::ChassisTelemetry *chassisTelemetry = feedback.mutable_chassis();
+    ORION_COMM::WheelTelemetry *wheel = chassisTelemetry->add_wheel();
+    wheel->set_id(frontLeftId);
+    wheel->set_angularvelocity(omega);
+    wheel->set_current(current);
+    wheel->set_heatsinktemperature(heatSinkTemp);
+    wheel->set_pwm(pwm);
+    wheel->set_errorcode(errorCode);
+
+    QVERIFY( google::protobuf::util::MessageDifferencer::Equals(received, feedback) );
 }
 
 

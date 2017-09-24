@@ -18,6 +18,7 @@ public:
     virtual void listen(const QHostAddress &address, int port) = 0;
     virtual void send(const QString &data) = 0;
     virtual void send(const std::string &data) = 0;
+    virtual void send(const QByteArray &data) = 0;
     virtual void setMaxPendingConnections(int numConnections) = 0;
     virtual std::string lastReceived() const = 0;
 

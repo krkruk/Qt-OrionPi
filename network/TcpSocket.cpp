@@ -34,13 +34,18 @@ void TcpSocket::disconnectFromHost()
 
 void TcpSocket::send(const QString &data)
 {
-    const std::string str_data { data.toLocal8Bit().toStdString() };
-    write_to_server(str_data.c_str());
+    write_to_server(data.toLocal8Bit());
 }
 
 void TcpSocket::send(const std::string &data)
 {
-    write_to_server(data.c_str());
+    const QByteArray d(data.c_str(), data.size());
+    write_to_server(d);
+}
+
+void TcpSocket::send(const QByteArray &data)
+{
+    write_to_server(data);
 }
 
 std::string TcpSocket::lastServerResponse() const
@@ -91,7 +96,7 @@ void TcpSocket::connections()
     connect(socket.data(), &QTcpSocket::readyRead, this, &TcpSocket::_on_socket_ready_read);
 }
 
-void TcpSocket::write_to_server(const char *data)
+void TcpSocket::write_to_server(const QByteArray &data)
 {
     if( !isOpen() ) return;
 
