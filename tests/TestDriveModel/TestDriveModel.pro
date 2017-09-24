@@ -43,18 +43,18 @@ DEPENDPATH += \
     ../../apps/onboard
 
 HEADERS += \
-    ../../GlobalConstants.h \
+    ../../apps/onboard/GlobalConstants.h \
     ../../apps/onboard/Orion/Drive/WheelModel.h \
     ../../apps/onboard/Orion/Drive/ChassisModel.h \
     ../../apps/onboard/Orion/Drive/JsonDriveModeDirect.h \
-    ../../apps/onboard/OrionDriveSettings.h \
-    ../../apps/onboard/Orion/Drive/IfceChassisFeedbackGenerator.h \
+    ../../apps/onboard/settings/DriveSettings.h \
+    ../../apps/onboard/Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
     ../../apps/onboard/Orion/Drive/JsonChassisFeedbackGenerator.h \
     MockWheelObserver.h
 
 SOURCES += tst_testdrivemodel.cpp \
     ../../apps/onboard/Orion/Drive/WheelModel.cpp \
     ../../apps/onboard/Orion/Drive/JsonDriveModeDirect.cpp \
-    ../../apps/onboard/OrionDriveSettings.cpp \
+    ../../apps/onboard/settings/DriveSettings.cpp \
     ../../apps/onboard/Orion/Drive/ChassisModel.cpp \
     ../../apps/onboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp

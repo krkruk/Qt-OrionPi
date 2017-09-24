@@ -4,7 +4,7 @@
 #include <QJsonValue>
 #include <QJsonParseError>
 #include "DriveConstants.h"
-#include "../../OrionDriveSettings.h"
+#include "settings/DriveSettings.h"
 #include <QDebug>
 
 
@@ -13,9 +13,9 @@ using namespace Orion;
 class JsonDriveModeDirect::DriveModeDirectPrivate
 {
     friend class JsonDriveModeDirect;
-    const QString KEY_LEFT_WHEEL_ROW = OrionDriveSettings::instance()->getDriveMode(
+    const QString KEY_LEFT_WHEEL_ROW = DriveSettings::instance()->getDriveMode(
                 CONST::SETTINGS::DRIVE::MODE::DIRECT::KEY::LEFT_WHEEL_ROW);
-    const QString KEY_RIGHT_WHEEL_ROW = OrionDriveSettings::instance()->getDriveMode(
+    const QString KEY_RIGHT_WHEEL_ROW = DriveSettings::instance()->getDriveMode(
                 CONST::SETTINGS::DRIVE::MODE::DIRECT::KEY::RIGHT_WHEEL_ROW);
 public:
     DriveModeDirectPrivate() {}

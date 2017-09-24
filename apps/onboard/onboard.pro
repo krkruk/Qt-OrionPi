@@ -12,25 +12,25 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 HEADERS += \
-    ../../GlobalConstants.h \
+    Orion/Drive/interface/IfceDriveMode.h \
+    Orion/Drive/interface/IfceChassisModel.h \
+    Orion/Drive/interface/IfceWheelModel.h \
+    Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
+    GlobalConstants.h \
     Orion/Drive/WheelModel.h \
     Orion/Drive/ChassisModel.h \
-    Orion/Drive/IfceDriveMode.h \
-    OrionDriveSettings.h \
+    settings/DriveSettings.h \
     Orion/Drive/DriveConstants.h \
-    Orion/Drive/IfceChassisModel.h \
-    Orion/Drive/IfceWheelModel.h \
     OrionEngine.h \
     settings/SerialConstants.h \
     settings/SerialSettings.h \
     Orion/Drive/JsonDriveModeDirect.h \
-    Orion/Drive/IfceChassisFeedbackGenerator.h \
     Orion/Drive/JsonChassisFeedbackGenerator.h
 
 SOURCES += main.cpp \
     Orion/Drive/WheelModel.cpp \
     Orion/Drive/ChassisModel.cpp \
-    OrionDriveSettings.cpp \
+    settings/DriveSettings.cpp \
     OrionEngine.cpp \
     settings/SerialSettings.cpp \
     Orion/Drive/JsonDriveModeDirect.cpp \

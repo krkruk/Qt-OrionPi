@@ -7,13 +7,13 @@
 
 #include "MockWheelObserver.h"
 #include "include/interface/IfceSerialModel.h"
-#include "IfceChassisFeedbackGenerator.h"
+#include "interface/IfceChassisFeedbackGenerator.h"
 #include "WheelModel.h"
 #include "ChassisModel.h"
-#include "IfceDriveMode.h"
+#include "interface/IfceDriveMode.h"
 #include "JsonDriveModeDirect.h"
 #include "JsonChassisFeedbackGenerator.h"
-#include "OrionDriveSettings.h"
+#include "settings/DriveSettings.h"
 #include "DriveConstants.h"
 
 static const QString KEY_ANG_VEL = "w";
@@ -22,15 +22,15 @@ static const QString KEY_ANG_VEL = "w";
 class TestDriveModel : public QObject
 {
     Q_OBJECT
-    const QString KEY_ANG_VEL = OrionDriveSettings::instance()->getKeyAngularVelocity();
-    const QString KEY_CURRENT = OrionDriveSettings::instance()->getKeyCurrent();
-    const QString KEY_SINK_TEMP = OrionDriveSettings::instance()->getKeyHeatSinkTemperature();
-    const QString KEY_PWM = OrionDriveSettings::instance()->getKeyPwm();
-    const QString KEY_ERROR_CODE = OrionDriveSettings::instance()->getKeyErrorCode();
+    const QString KEY_ANG_VEL = DriveSettings::instance()->getKeyAngularVelocity();
+    const QString KEY_CURRENT = DriveSettings::instance()->getKeyCurrent();
+    const QString KEY_SINK_TEMP = DriveSettings::instance()->getKeyHeatSinkTemperature();
+    const QString KEY_PWM = DriveSettings::instance()->getKeyPwm();
+    const QString KEY_ERROR_CODE = DriveSettings::instance()->getKeyErrorCode();
 
-    const QString KEY_LEFT_WHEEL_ROW = OrionDriveSettings::instance()->getDriveMode(
+    const QString KEY_LEFT_WHEEL_ROW = DriveSettings::instance()->getDriveMode(
                 CONST::SETTINGS::DRIVE::MODE::DIRECT::KEY::LEFT_WHEEL_ROW);
-    const QString KEY_RIGHT_WHEEL_ROW = OrionDriveSettings::instance()->getDriveMode(
+    const QString KEY_RIGHT_WHEEL_ROW = DriveSettings::instance()->getDriveMode(
                 CONST::SETTINGS::DRIVE::MODE::DIRECT::KEY::RIGHT_WHEEL_ROW);
 public:
     TestDriveModel();
@@ -199,7 +199,7 @@ void TestDriveModel::test_feedback_generator()
     QJsonObject dataWithId;
     dataWithId[QString::number(frontLeftId)] = data;
     QJsonObject toBeGenerated;
-    toBeGenerated[OrionDriveSettings::instance()->getKeyGroup()] = QJsonArray{dataWithId};
+    toBeGenerated[DriveSettings::instance()->getKeyGroup()] = QJsonArray{dataWithId};
 
     auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
     frontLeftWheel->updateModel(QJsonDocument(data).toJson(QJsonDocument::Compact));
@@ -231,7 +231,7 @@ void TestDriveModel::test_full_json_feedback_gen()
     QJsonObject dataWithId;
     dataWithId[QString::number(frontLeftId)] = data;
     QJsonObject toBeGenerated;
-    toBeGenerated[OrionDriveSettings::instance()->getKeyGroup()] = QJsonArray{dataWithId};
+    toBeGenerated[DriveSettings::instance()->getKeyGroup()] = QJsonArray{dataWithId};
 
     auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
 

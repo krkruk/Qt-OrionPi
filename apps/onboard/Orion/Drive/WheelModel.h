@@ -2,7 +2,7 @@
 #define WHEELMODEL_H
 #include <memory>
 
-#include "IfceWheelModel.h"
+#include "interface/IfceWheelModel.h"
 
 namespace Orion {
     class WheelModel : public IfceWheelModel

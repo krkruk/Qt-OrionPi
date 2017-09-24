@@ -2,7 +2,7 @@
 #define JSONDRIVEMODEDIRECT_H
 #include <QByteArray>
 #include <QScopedPointer>
-#include "IfceDriveMode.h"
+#include "interface/IfceDriveMode.h"
 
 
 namespace Orion {

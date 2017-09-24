@@ -1,5 +1,5 @@
-#include "OrionDriveSettings.h"
-#include "../../GlobalConstants.h"
+#include "DriveSettings.h"
+#include "GlobalConstants.h"
 #include "Orion/Drive/DriveConstants.h"
 #include <QSettings>
 #include <cstring>
@@ -13,11 +13,11 @@ static void store_settings(QSettings &settings, const QString &key, const QVaria
 }
 
 
-class OrionDriveSettings::OrionDriveSettingsPrivate
+class DriveSettings::DriveSettingsPrivate
 {
-    friend class OrionDriveSettings;
+    friend class DriveSettings;
 public:
-    OrionDriveSettingsPrivate(){}
+    DriveSettingsPrivate(){}
 
 private:
     QString keyGroupName;
@@ -31,13 +31,13 @@ private:
     QString keyDirectModeRightWheelRow;
 };
 
-OrionDriveSettings::OrionDriveSettings()
-    : member(new OrionDriveSettingsPrivate)
+DriveSettings::DriveSettings()
+    : member(new DriveSettingsPrivate)
 {    
     load_data();
 }
 
-OrionDriveSettings::~OrionDriveSettings()
+DriveSettings::~DriveSettings()
 {
     QSettings settings(ORGANIZATION, APP_NAME);
     settings.beginGroup(SETTINGS::DRIVE::GROUP_NAME);
@@ -59,43 +59,43 @@ OrionDriveSettings::~OrionDriveSettings()
     settings.endGroup();
 }
 
-OrionDriveSettings *OrionDriveSettings::instance()
+DriveSettings *DriveSettings::instance()
 {
-    static OrionDriveSettings s;
+    static DriveSettings s;
     return &s;
 }
 
-QString OrionDriveSettings::getKeyGroup() const
+QString DriveSettings::getKeyGroup() const
 {
     return member->keyGroupName;
 }
 
-QString OrionDriveSettings::getKeyAngularVelocity() const
+QString DriveSettings::getKeyAngularVelocity() const
 {
     return member->keyAngularVelocity;
 }
 
-QString OrionDriveSettings::getKeyCurrent() const
+QString DriveSettings::getKeyCurrent() const
 {
     return member->keyCurrent;
 }
 
-QString OrionDriveSettings::getKeyHeatSinkTemperature() const
+QString DriveSettings::getKeyHeatSinkTemperature() const
 {
     return member->keyHeatSinkTemperature;
 }
 
-QString OrionDriveSettings::getKeyPwm() const
+QString DriveSettings::getKeyPwm() const
 {
     return member->keyPwm;
 }
 
-QString OrionDriveSettings::getKeyErrorCode() const
+QString DriveSettings::getKeyErrorCode() const
 {
     return member->keyErrorCode;
 }
 
-QString OrionDriveSettings::getDriveMode(const char specifiedModeKey[]) const
+QString DriveSettings::getDriveMode(const char specifiedModeKey[]) const
 {
     auto isMode = [&](const char comparable[]) {
         return strcmp(specifiedModeKey, comparable) == 0;
@@ -109,7 +109,7 @@ QString OrionDriveSettings::getDriveMode(const char specifiedModeKey[]) const
     return "";
 }
 
-void OrionDriveSettings::load_data()
+void DriveSettings::load_data()
 {
     QSettings settings(ORGANIZATION, APP_NAME);
     settings.beginGroup(SETTINGS::DRIVE::GROUP_NAME);

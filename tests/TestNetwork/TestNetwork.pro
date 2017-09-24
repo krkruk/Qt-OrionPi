@@ -42,7 +42,6 @@ DEPENDPATH += \
     ../../app/
 
 HEADERS += \
-    ../../GlobalConstants.h \
     proto/testMsg.pb.h
 
 win32:CONFIG(release, debug|release): LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork

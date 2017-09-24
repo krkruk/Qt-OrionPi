@@ -7,19 +7,19 @@
 #include <QByteArray>
 #include <QList>
 
-#include "IfceWheelModel.h"
-#include "OrionDriveSettings.h"
+#include "interface/IfceWheelModel.h"
+#include "settings/DriveSettings.h"
 
 
 using namespace Orion;
 
 class JsonChassisFeedbackGenerator::JsonGeneratorPrivate
 {
-    const QString KEY_ANG_VEL = OrionDriveSettings::instance()->getKeyAngularVelocity();
-    const QString KEY_CURRENT = OrionDriveSettings::instance()->getKeyCurrent();
-    const QString KEY_SINK_TEMP = OrionDriveSettings::instance()->getKeyHeatSinkTemperature();
-    const QString KEY_PWM = OrionDriveSettings::instance()->getKeyPwm();
-    const QString KEY_ERROR_CODE = OrionDriveSettings::instance()->getKeyErrorCode();
+    const QString KEY_ANG_VEL = DriveSettings::instance()->getKeyAngularVelocity();
+    const QString KEY_CURRENT = DriveSettings::instance()->getKeyCurrent();
+    const QString KEY_SINK_TEMP = DriveSettings::instance()->getKeyHeatSinkTemperature();
+    const QString KEY_PWM = DriveSettings::instance()->getKeyPwm();
+    const QString KEY_ERROR_CODE = DriveSettings::instance()->getKeyErrorCode();
 
 
     friend class JsonChassisFeedbackGenerator;
@@ -47,7 +47,7 @@ void JsonChassisFeedbackGenerator::addInput(QWeakPointer<Orion::IfceWheelModel> 
 
 QByteArray JsonChassisFeedbackGenerator::generate()
 {
-    const auto GROUP_KEY = OrionDriveSettings::instance()->getKeyGroup();
+    const auto GROUP_KEY = DriveSettings::instance()->getKeyGroup();
     QJsonArray wheelFeedback;
     for( QSharedPointer<Orion::IfceWheelModel> wheel : priv->wheels )
     {

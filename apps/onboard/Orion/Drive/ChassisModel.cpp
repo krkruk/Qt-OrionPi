@@ -1,6 +1,8 @@
 #include "ChassisModel.h"
-#include "IfceWheelModel.h"
-#include "IfceChassisFeedbackGenerator.h"
+#include "interface/IfceDriveMode.h"
+#include "interface/IfceWheelModel.h"
+#include "interface/IfceChassisFeedbackGenerator.h"
+
 #include <QDebug>
 
 using namespace Orion;

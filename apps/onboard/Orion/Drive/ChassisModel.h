@@ -1,15 +1,14 @@
 #ifndef CHASSISMODEL_H
 #define CHASSISMODEL_H
-#include <QObject>
 #include <QSharedPointer>
+#include <QObject>
 #include <QHash>
-#include "IfceDriveMode.h"
-#include "IfceChassisModel.h"
+#include "interface/IfceChassisModel.h"
 
 
 namespace Orion {
     class IfceWheelModel;
-
+    class IfceDriveMode;
 
     class ChassisModel : public QObject, public IfceChassisModel
     {

@@ -1,4 +1,7 @@
 #include "SerialSettings.h"
+#include "GlobalConstants.h"
+#include "SerialConstants.h"
+
 #include <QSettings>
 
 

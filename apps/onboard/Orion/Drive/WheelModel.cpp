@@ -9,17 +9,17 @@
 
 #include "exceptions/ParsingException.h"
 #include "include/interface/IfceSerialObserver.h"
-#include "../../OrionDriveSettings.h"
+#include "settings/DriveSettings.h"
 
 using namespace Orion;
 
 class WheelModel::WheelModelPrivate
 {
-    const QString KEY_ANG_VEL = OrionDriveSettings::instance()->getKeyAngularVelocity();
-    const QString KEY_CURRENT = OrionDriveSettings::instance()->getKeyCurrent();
-    const QString KEY_SINK_TEMP = OrionDriveSettings::instance()->getKeyHeatSinkTemperature();
-    const QString KEY_PWM = OrionDriveSettings::instance()->getKeyPwm();
-    const QString KEY_ERROR_CODE = OrionDriveSettings::instance()->getKeyErrorCode();
+    const QString KEY_ANG_VEL = DriveSettings::instance()->getKeyAngularVelocity();
+    const QString KEY_CURRENT = DriveSettings::instance()->getKeyCurrent();
+    const QString KEY_SINK_TEMP = DriveSettings::instance()->getKeyHeatSinkTemperature();
+    const QString KEY_PWM = DriveSettings::instance()->getKeyPwm();
+    const QString KEY_ERROR_CODE = DriveSettings::instance()->getKeyErrorCode();
 
     friend class WheelModel;
     WheelModel *model;

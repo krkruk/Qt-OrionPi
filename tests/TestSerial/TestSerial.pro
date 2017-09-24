@@ -43,7 +43,6 @@ INCLUDEPATH += $$PWD/../../serial
 DEPENDPATH += $$PWD/../../serial
 
 HEADERS += \
-    ../../GlobalConstants.h \
     MockSerialModel.h \
     MockDeviceFinder.h \
     MockFoundDevice.h

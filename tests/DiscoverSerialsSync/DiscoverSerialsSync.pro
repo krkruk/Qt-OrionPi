@@ -29,6 +29,3 @@ else:unix: LIBS += -L${ORION_BUILDPATH_LIBS} -lserial
 
 INCLUDEPATH += $$PWD/../../serial
 DEPENDPATH += $$PWD/../../serial
-
-HEADERS += \
-    ../../GlobalConstants.h \
