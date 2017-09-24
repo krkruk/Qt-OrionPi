@@ -18,6 +18,8 @@
 #include "Orion/Drive/WheelModel.h"
 #include "Orion/Drive/JsonDriveModeDirect.h"
 #include "Orion/Drive/ChassisModel.h"
+#include "include/IfceServer.h"
+
 
 class QTimer;
 
@@ -34,12 +36,9 @@ signals:
 
 
 private slots:
-    void onNewConnection();
-    void onServerError(QAbstractSocket::SocketError socketError);
-    void onSocketReadyRead();
-    void onSocketError(QAbstractSocket::SocketError socketError);
-    void onSocketDisconnected();
+    void onRemoteMessageReceived(const QByteArray &message);
     void onFeedbackTimerTimeout();
+
 
 private:
     void connections();
@@ -52,8 +51,7 @@ private:
     QSharedPointer<SerialController> serialController;
     QScopedPointer<Orion::ChassisModel> chassisModel;
 
-    QScopedPointer<QTcpServer, QScopedPointerObjectDeleteLater<QTcpServer>> server;
-    QPointer<QTcpSocket> socket;
+    QScopedPointer<IfceServer, QScopedPointerDeleteLater> server;
     QScopedPointer<QTimer> sendFeedbackTimer;
 };
 

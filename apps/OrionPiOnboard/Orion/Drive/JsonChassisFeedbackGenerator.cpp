@@ -54,11 +54,11 @@ QByteArray JsonChassisFeedbackGenerator::generate()
         if( !wheel ) continue;
 
         QJsonObject obj;
-        obj[priv->KEY_ANG_VEL] = wheel->getCurrentAngularVelocity();
-        obj[priv->KEY_CURRENT] = wheel->getCurrent();
-        obj[priv->KEY_SINK_TEMP] = wheel->getHeatSinkTemperature();
-        obj[priv->KEY_PWM] = wheel->getPwm();
-        obj[priv->KEY_ERROR_CODE] = wheel->getErrorCode();
+        obj[priv->KEY_ANG_VEL] = (double)wheel->getCurrentAngularVelocity();
+        obj[priv->KEY_CURRENT] = (double)wheel->getCurrent();
+        obj[priv->KEY_SINK_TEMP] = (double)wheel->getHeatSinkTemperature();
+        obj[priv->KEY_PWM] = (int)wheel->getPwm();
+        obj[priv->KEY_ERROR_CODE] = (int)wheel->getErrorCode();
         QJsonObject id;
         auto idTag { QString::number(wheel->getId()) };
         id[idTag] = obj;

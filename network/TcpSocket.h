@@ -5,12 +5,12 @@
 #include <QHostAddress>
 #include <QDataStream>
 
-#include "include/IpSocket.h"
+#include "include/IfceIpSocket.h"
 
 class QTcpSocket;
 
 
-class TcpSocket : public IpSocket
+class TcpSocket : public IfceIpSocket
 {
     Q_OBJECT
     static const int RECONNECT_INTERVAL;

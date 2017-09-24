@@ -36,25 +36,25 @@ INCLUDEPATH += $$PWD/../../serial
 DEPENDPATH += $$PWD/../../serial
 
 INCLUDEPATH += \
-    ../../apps/onboard/Orion/Drive/ \
-    ../../apps/onboard
+    ../../apps/OrionPiOnboard/Orion/Drive/ \
+    ../../apps/OrionPiOnboard
 DEPENDPATH += \
-    ../../apps/onboardOrion/Drive/ \
-    ../../apps/onboard
+    ../../apps/OrionPiOnboardOrion/Drive/ \
+    ../../apps/OrionPiOnboard
 
 HEADERS += \
-    ../../apps/onboard/GlobalConstants.h \
-    ../../apps/onboard/Orion/Drive/WheelModel.h \
-    ../../apps/onboard/Orion/Drive/ChassisModel.h \
-    ../../apps/onboard/Orion/Drive/JsonDriveModeDirect.h \
-    ../../apps/onboard/settings/DriveSettings.h \
-    ../../apps/onboard/Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
-    ../../apps/onboard/Orion/Drive/JsonChassisFeedbackGenerator.h \
+    ../../apps/OrionPiOnboard/GlobalConstants.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/ChassisModel.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/JsonDriveModeDirect.h \
+    ../../apps/OrionPiOnboard/settings/DriveSettings.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
+    ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.h \
     MockWheelObserver.h
 
 SOURCES += tst_testdrivemodel.cpp \
-    ../../apps/onboard/Orion/Drive/WheelModel.cpp \
-    ../../apps/onboard/Orion/Drive/JsonDriveModeDirect.cpp \
-    ../../apps/onboard/settings/DriveSettings.cpp \
-    ../../apps/onboard/Orion/Drive/ChassisModel.cpp \
-    ../../apps/onboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp
+    ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.cpp \
+    ../../apps/OrionPiOnboard/Orion/Drive/JsonDriveModeDirect.cpp \
+    ../../apps/OrionPiOnboard/settings/DriveSettings.cpp \
+    ../../apps/OrionPiOnboard/Orion/Drive/ChassisModel.cpp \
+    ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp

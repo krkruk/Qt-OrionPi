@@ -5,18 +5,27 @@
 #include <QDebug>
 #include <string>
 
-TcpServer::TcpServer(const QHostAddress &address, int port, QObject *parent)
+TcpServer::TcpServer(QObject *parent)
     : IfceServer(parent),
       server( new QTcpServer(this) )
 {
     connections();
     server->setMaxPendingConnections(1);
+}
+
+TcpServer::TcpServer(const QHostAddress &address, int port, QObject *parent)
+    : TcpServer(parent)
+{
     server->listen(address, port);
 }
 
 TcpServer::~TcpServer()
-{
+{    
+}
 
+void TcpServer::listen(const QHostAddress &address, int port)
+{
+    server->listen(address, port);
 }
 
 void TcpServer::send(const QString &data)
@@ -62,6 +71,9 @@ void TcpServer::_on_socket_data_received()
     in >> data;
     if( !in.commitTransaction() ) return;
     lastReceivedData = data.toStdString();
+    emit signalMessageReceived(data);
+    if( currentSocket && currentSocket ->bytesAvailable() )
+        _on_socket_data_received();
 }
 
 void TcpServer::_on_socket_error(QAbstractSocket::SocketError socketError)

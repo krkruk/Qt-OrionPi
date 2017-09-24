@@ -8,7 +8,7 @@ const int TcpSocket::RECONNECT_INTERVAL = 25;
 
 
 TcpSocket::TcpSocket(const QHostAddress &address, int port, QObject *parent)
-    : IpSocket(parent),
+    : IfceIpSocket(parent),
       socket( new QTcpSocket(this) )
 {
     socket->bind(address, port);
@@ -77,6 +77,10 @@ void TcpSocket::_on_socket_ready_read()
     in >> data;
     if( !in.commitTransaction() ) return;
     lastReceived = data.toStdString();
+    emit signalMessageReceived(data);
+
+    if( socket && socket->bytesAvailable() > 0 )
+        _on_socket_ready_read();
 }
 
 void TcpSocket::connections()

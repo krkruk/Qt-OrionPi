@@ -16,13 +16,16 @@ class TcpServer : public IfceServer
 {
     Q_OBJECT
 public:
+    explicit TcpServer(QObject *parent = nullptr);
     TcpServer(const QHostAddress &address, int port, QObject *parent = nullptr);
     ~TcpServer();
 
+    void listen(const QHostAddress &address, int port) override;
     void send(const QString &data) override;
     void send(const std::string &data) override;
     void setMaxPendingConnections(int numConnections) override;
     std::string lastReceived() const override;
+
 
 private slots:
     void _on_new_connection_received();

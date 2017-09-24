@@ -1,8 +1,10 @@
 #include "OrionEngine.h"
+#include <string>
 #include <QTimer>
 #include <QTime>
 #include "settings/SerialSettings.h"
 #include "Orion/Drive/JsonChassisFeedbackGenerator.h"
+#include <TcpServer.h>
 
 namespace {
 constexpr auto MAX_PENDING_CONN { 1 };
@@ -20,7 +22,7 @@ OrionEngine::OrionEngine(QObject *parent)
       serialManager( new SerialManager(this) ),
       serialController( QSharedPointer<SerialController>::create() ),
       chassisModel ( new Orion::ChassisModel(this) ),
-      server( new QTcpServer(this) ),
+      server( new TcpServer(this) ),
       sendFeedbackTimer( new QTimer(this) )
 {
     connections();
@@ -34,62 +36,27 @@ OrionEngine::~OrionEngine()
 {
 }
 
-void OrionEngine::onNewConnection()
+void OrionEngine::onRemoteMessageReceived(const QByteArray &message)
 {
-    socket = server->nextPendingConnection();
-    server->close();
-    qDebug() << "Socket connected at port:" << LISTEN_PORT;
-    connect(socket.data(), &QTcpSocket::readyRead, this, &OrionEngine::onSocketReadyRead);
-    connect(socket.data(), static_cast< void(QTcpSocket::*)(QAbstractSocket::SocketError) >(&QTcpSocket::error),
-            this, &OrionEngine::onSocketError);
-    connect(socket.data(), &QTcpSocket::disconnected, this, &OrionEngine::onSocketDisconnected);
-}
+    if( !chassisModel )
+        return;
 
-void OrionEngine::onServerError(QAbstractSocket::SocketError socketError)
-{
-    qDebug() << "Error code:" << static_cast<int>(socketError);
-    qDebug() << "Error text: " << server->errorString();
-    server.reset();
-}
-
-void OrionEngine::onSocketReadyRead()
-{
-    if( socket->canReadLine() ) {
-        const auto line { socket->readLine() };
-        chassisModel->updateState(line);
-        chassisModel->notifyAll();
-    }
-}
-
-void OrionEngine::onSocketError(QAbstractSocket::SocketError socketError)
-{
-    qDebug() << "Error code:" << static_cast<int>(socketError);
-    qDebug() << "Error text: " << socket->errorString();
-    if( socket->isOpen() )
-        socket->close();
-
-    socket->deleteLater();
-}
-
-void OrionEngine::onSocketDisconnected()
-{
-    qDebug() << "TCP client disconnected";
-    emit aboutToClose();
+    chassisModel->updateState(QByteArray(message.toStdString().c_str()));
+    chassisModel->notifyAll();
 }
 
 void OrionEngine::onFeedbackTimerTimeout()
 {
-    if( !(socket && chassisModel && socket->isOpen() ) )
+    if( !server )
         return;
 
     auto feedbackData = chassisModel->getFeedbackData();
-    socket->write(feedbackData + "\r\n");
+    server->send(feedbackData.toStdString() + "\r\n");
 }
 
 void OrionEngine::connections()
 {
-    connect(server.data(), &QTcpServer::newConnection, this, &OrionEngine::onNewConnection);
-    connect(server.data(), &QTcpServer::acceptError, this, &OrionEngine::onServerError);
+    connect(server.data(), &IfceServer::signalMessageReceived, this, &OrionEngine::onRemoteMessageReceived);
     connect(serialManager.data(), &SerialManager::serialError, this,
             [&](int id, const QString &errorString){
         qDebug() << QString("Error occured! DeviceId: %1 - error: %2").arg(id).arg(errorString);
@@ -140,9 +107,9 @@ void OrionEngine::setup_serial()
 
 void OrionEngine::setup_server()
 {
-    server->setMaxPendingConnections(MAX_PENDING_CONN);
     server->listen(QHostAddress::Any, LISTEN_PORT);
 }
+
 
 void OrionEngine::echo_found_serials(const QList<QSharedPointer<IfceDevice> > &foundDevices)
 {
