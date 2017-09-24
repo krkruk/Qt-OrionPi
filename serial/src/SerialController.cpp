@@ -20,7 +20,7 @@ void SerialController::onLineReceived(int id, const QByteArray &line)
 {
     lastData[id] = line;
     if( !models.value(id).isNull() )
-        models[id]->update(line);
+        models[id]->updateModel(line);
 }
 
 QByteArray SerialController::getLastReceived(int id) const

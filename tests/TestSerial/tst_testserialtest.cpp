@@ -240,7 +240,7 @@ void TestSerialTest::test_test_controller_data_sent_by_manager()
 void TestSerialTest::test_model_parsing_json_data()
 {
     QSharedPointer<IfceSerialModel> model { QSharedPointer<MockSerialModel>::create(mockId) };
-    model->update(mockSerialData);
+    model->updateModel(mockSerialData);
     QCOMPARE( qSharedPointerDynamicCast<MockSerialModel>(model)->
               getValue(), mockValue );
 }
@@ -270,7 +270,7 @@ void TestSerialTest::test_communication_between_model_and_view()
 
     QSharedPointer<IfceSerialModel> model { QSharedPointer<MockSerialModel>::create(mockId) };
     model->addObserver(manager);
-    model->update(mockSerialData);
+    model->updateModel(mockSerialData);
     model->notifyObservers();
     QCOMPARE( manager->getLastSent(mockId), mockSerialData );
 }

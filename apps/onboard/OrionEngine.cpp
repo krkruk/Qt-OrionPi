@@ -1,7 +1,8 @@
 #include "OrionEngine.h"
+#include <QTimer>
 #include <QTime>
 #include "settings/SerialSettings.h"
-
+#include "Orion/Drive/JsonChassisFeedbackGenerator.h"
 
 namespace {
 constexpr auto MAX_PENDING_CONN { 1 };
@@ -19,11 +20,14 @@ OrionEngine::OrionEngine(QObject *parent)
       serialManager( new SerialManager(this) ),
       serialController( QSharedPointer<SerialController>::create() ),
       chassisModel ( new Orion::ChassisModel(this) ),
-      server( new QTcpServer(this) )
+      server( new QTcpServer(this) ),
+      sendFeedbackTimer( new QTimer(this) )
 {
     connections();
     setup_serial();
     setup_server();
+    sendFeedbackTimer->setInterval(100);
+    sendFeedbackTimer->start();
 }
 
 OrionEngine::~OrionEngine()
@@ -52,8 +56,7 @@ void OrionEngine::onSocketReadyRead()
 {
     if( socket->canReadLine() ) {
         const auto line { socket->readLine() };
-        qDebug() << "Data received:" << line;
-        chassisModel->updateModel(line);
+        chassisModel->updateState(line);
         chassisModel->notifyAll();
     }
 }
@@ -74,6 +77,15 @@ void OrionEngine::onSocketDisconnected()
     emit aboutToClose();
 }
 
+void OrionEngine::onFeedbackTimerTimeout()
+{
+    if( !(socket && chassisModel && socket->isOpen() ) )
+        return;
+
+    auto feedbackData = chassisModel->getFeedbackData();
+    socket->write(feedbackData + "\r\n");
+}
+
 void OrionEngine::connections()
 {
     connect(server.data(), &QTcpServer::newConnection, this, &OrionEngine::onNewConnection);
@@ -82,6 +94,8 @@ void OrionEngine::connections()
             [&](int id, const QString &errorString){
         qDebug() << QString("Error occured! DeviceId: %1 - error: %2").arg(id).arg(errorString);
     });
+
+    connect(sendFeedbackTimer.data(), &QTimer::timeout, this, &OrionEngine::onFeedbackTimerTimeout);
 }
 
 void OrionEngine::setup_serial()
@@ -102,6 +116,7 @@ void OrionEngine::setup_serial()
     auto rearRightWheel { QSharedPointer<Orion::WheelModel>::create(ID_REAR_RIGHT_WHEEL) };
 
     chassisModel->setDriveAlgorithm(QSharedPointer<Orion::JsonDriveModeDirect>::create());
+    chassisModel->setFeedbackGeneratorAlgorithm(QSharedPointer<Orion::JsonChassisFeedbackGenerator>::create());
     chassisModel->addWheel(frontLeftWheel);
     chassisModel->addWheel(frontRightWheel);
     chassisModel->addWheel(rearLeftWheel);
@@ -126,7 +141,7 @@ void OrionEngine::setup_serial()
 void OrionEngine::setup_server()
 {
     server->setMaxPendingConnections(MAX_PENDING_CONN);
-    server->listen(QHostAddress::LocalHost, LISTEN_PORT);
+    server->listen(QHostAddress::Any, LISTEN_PORT);
 }
 
 void OrionEngine::echo_found_serials(const QList<QSharedPointer<IfceDevice> > &foundDevices)

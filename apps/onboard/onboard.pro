@@ -23,7 +23,9 @@ HEADERS += \
     OrionEngine.h \
     settings/SerialConstants.h \
     settings/SerialSettings.h \
-    Orion/Drive/JsonDriveModeDirect.h
+    Orion/Drive/JsonDriveModeDirect.h \
+    Orion/Drive/IfceChassisFeedbackGenerator.h \
+    Orion/Drive/JsonChassisFeedbackGenerator.h
 
 SOURCES += main.cpp \
     Orion/Drive/WheelModel.cpp \
@@ -31,7 +33,8 @@ SOURCES += main.cpp \
     OrionDriveSettings.cpp \
     OrionEngine.cpp \
     settings/SerialSettings.cpp \
-    Orion/Drive/JsonDriveModeDirect.cpp
+    Orion/Drive/JsonDriveModeDirect.cpp \
+    Orion/Drive/JsonChassisFeedbackGenerator.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings

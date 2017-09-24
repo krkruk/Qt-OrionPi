@@ -1,11 +1,12 @@
 #ifndef MOCKWHEELOBSERVER_H
 #define MOCKWHEELOBSERVER_H
 #include <QByteArray>
+#include <QDebug>
 #include <QHash>
 
 #include "include/interface/IfceSerialObserver.h"
 
-class MockWheelObserver : public IfceSerialObserver
+class   MockWheelObserver : public IfceSerialObserver
 {
     QHash<int, QByteArray> dataById;
 public:

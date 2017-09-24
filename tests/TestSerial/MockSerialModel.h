@@ -16,7 +16,7 @@ public:
     MockSerialModel(int id) : IfceSerialModel(id)
     {}
 
-    void update(const QByteArray &line) override
+    void updateModel(const QByteArray &line) override
     {
         rawData = line;
 

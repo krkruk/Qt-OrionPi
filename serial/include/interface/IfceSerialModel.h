@@ -32,10 +32,25 @@ public:
      * @brief update Receives data from the controller.
      * @param line Raw data received from the serial device.
      */
-    virtual void update(const QByteArray &line) = 0;
+    virtual void updateModel(const QByteArray &line) = 0;
 
+    /**
+     * @brief addObserver Adds observer (View)
+     * @param observer
+     */
     virtual void addObserver(QWeakPointer<IfceSerialObserver> observer) = 0;
+
+    /**
+     * @brief delObserver Deletes observer
+     * @param observer
+     * @return
+     */
     virtual bool delObserver(QWeakPointer<IfceSerialObserver> observer) = 0;
+
+    /**
+     * @brief notifyObservers Notifies an observer that internal data of a model
+     * has changed and a serial device has to be updated.
+     */
     virtual void notifyObservers() = 0;
 };
 

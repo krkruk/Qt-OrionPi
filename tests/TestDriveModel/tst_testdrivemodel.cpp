@@ -1,15 +1,18 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
+#include <QJsonArray>
 #include <QScopedPointer>
 #include <QSharedPointer>
 
 #include "MockWheelObserver.h"
 #include "include/interface/IfceSerialModel.h"
+#include "IfceChassisFeedbackGenerator.h"
 #include "WheelModel.h"
 #include "ChassisModel.h"
 #include "IfceDriveMode.h"
 #include "JsonDriveModeDirect.h"
+#include "JsonChassisFeedbackGenerator.h"
 #include "OrionDriveSettings.h"
 #include "DriveConstants.h"
 
@@ -46,6 +49,8 @@ private Q_SLOTS:
     void test_chassis_model_data_acquisition();
     void test_drive_mode_direct_parsing();
     void test_set_drive_mode_algorithm_direct();
+    void test_feedback_generator();
+    void test_full_json_feedback_gen();
 };
 
 TestDriveModel::TestDriveModel()
@@ -75,7 +80,7 @@ void TestDriveModel::test_parse_raw_data_get_ang_velocity_current_temperature()
                           .arg(KEY_ERROR_CODE).arg(errorCode).toLatin1());
     QSharedPointer<IfceSerialModel> wheel { new Orion::WheelModel(wheelId) };
     auto *solidWheel = dynamic_cast<Orion::WheelModel*>(wheel.data());
-    wheel->update(data);
+    wheel->updateModel(data);
 
     QCOMPARE( solidWheel->getCurrentAngularVelocity(), omega );
     QCOMPARE( solidWheel->getCurrent(), current );
@@ -94,14 +99,12 @@ void TestDriveModel::test_wheel_model_notification_ability()
                           .arg(KEY_ANG_VEL).arg(omega)
                           .arg(KEY_CURRENT).arg(current)
                           .arg(KEY_SINK_TEMP).arg(temperature).toLatin1());
-    qDebug() << data;
+
     auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
     QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
     frontLeftWheel->addObserver(observer);
-    frontLeftWheel->update(data);
-    frontLeftWheel->notifyObservers();
-    qDebug() << "OBSERVER:" << observer->getRawData(frontLeftId);
-    QCOMPARE( getAngularVelocity(observer->getRawData(frontLeftId)), omega );
+    frontLeftWheel->updateModel(data);
+    QCOMPARE( frontLeftWheel->getCurrentAngularVelocity(), omega );
 }
 
 void TestDriveModel::test_chassis_model_data_acquisition()
@@ -127,22 +130,22 @@ void TestDriveModel::test_chassis_model_data_acquisition()
                        .arg(KEY_ANG_VEL).arg(KEY_CURRENT).arg(KEY_SINK_TEMP));
     QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
     frontLeftWheel->addObserver(observer);
-    frontLeftWheel->update(data.arg(frontLeftId).toLatin1());
+    frontLeftWheel->updateModel(data.arg(frontLeftId).toLatin1());
 
     frontRightWheel->addObserver(observer);
-    frontRightWheel->update(data.arg(frontRightId).toLatin1());
+    frontRightWheel->updateModel(data.arg(frontRightId).toLatin1());
 
     rearLeftWheel->addObserver(observer);
-    rearLeftWheel->update(data.arg(rearLeftId).toLatin1());
+    rearLeftWheel->updateModel(data.arg(rearLeftId).toLatin1());
 
     rearRightWheel->addObserver(observer);
-    rearRightWheel->update(data.arg(rearRightId).toLatin1());
+    rearRightWheel->updateModel(data.arg(rearRightId).toLatin1());
 
     orionChassis.notifyAll();
-    QCOMPARE( getAngularVelocity(observer->getRawData(frontLeftId)), value );
-    QCOMPARE( getAngularVelocity(observer->getRawData(frontRightId)), value );
-    QCOMPARE( getAngularVelocity(observer->getRawData(rearLeftId)), value );
-    QCOMPARE( getAngularVelocity(observer->getRawData(rearRightId)), value );
+    QCOMPARE( frontLeftWheel->getCurrentAngularVelocity(), value );
+    QCOMPARE( frontRightWheel->getCurrentAngularVelocity(), value );
+    QCOMPARE( rearLeftWheel->getCurrentAngularVelocity(), value );
+    QCOMPARE( rearRightWheel->getCurrentAngularVelocity(), value );
 }
 
 void TestDriveModel::test_drive_mode_direct_parsing()
@@ -172,10 +175,77 @@ void TestDriveModel::test_set_drive_mode_algorithm_direct()
     frontRightWheel->addObserver(observer);
 
     const QByteArray turnLeft( R"({"RROW":100.0, "LROW":-100.0})");
-    orionChassis.updateModel(turnLeft);
+    orionChassis.updateState(turnLeft);
     orionChassis.notifyAll();
     QCOMPARE( frontLeftWheel->getExpectedAngularVelocity(), -100.0 );
     QCOMPARE( frontRightWheel->getExpectedAngularVelocity(), 100.0 );
+}
+
+void TestDriveModel::test_feedback_generator()
+{
+    constexpr auto frontLeftId { 0 };
+    const auto omega{100};
+    const auto current{23.3};
+    const auto heatSinkTemp{45.5};
+    const auto pwm{200};
+    const auto errorCode{0};
+
+    QJsonObject data;
+    data[KEY_ANG_VEL] = omega;
+    data[KEY_CURRENT] = current;
+    data[KEY_SINK_TEMP] = heatSinkTemp;
+    data[KEY_PWM] = pwm;
+    data[KEY_ERROR_CODE] = errorCode;
+    QJsonObject dataWithId;
+    dataWithId[QString::number(frontLeftId)] = data;
+    QJsonObject toBeGenerated;
+    toBeGenerated[OrionDriveSettings::instance()->getKeyGroup()] = QJsonArray{dataWithId};
+
+    auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
+    frontLeftWheel->updateModel(QJsonDocument(data).toJson(QJsonDocument::Compact));
+
+    QSharedPointer<Orion::IfceChassisFeedbackGenerator> generator { QSharedPointer<Orion::JsonChassisFeedbackGenerator>::create() };
+    generator->addInput(frontLeftWheel);
+    auto generated = generator->generate();
+
+    QJsonDocument doc(QJsonDocument::fromJson(generated));
+    QJsonObject obj{doc.object()};
+    QCOMPARE( obj, toBeGenerated );
+}
+
+void TestDriveModel::test_full_json_feedback_gen()
+{
+    constexpr auto frontLeftId { 0 };
+    const auto omega{100};
+    const auto current{23.3};
+    const auto heatSinkTemp{45.5};
+    const auto pwm{200};
+    const auto errorCode{0};
+
+    QJsonObject data;
+    data[KEY_ANG_VEL] = omega;
+    data[KEY_CURRENT] = current;
+    data[KEY_SINK_TEMP] = heatSinkTemp;
+    data[KEY_PWM] = pwm;
+    data[KEY_ERROR_CODE] = errorCode;
+    QJsonObject dataWithId;
+    dataWithId[QString::number(frontLeftId)] = data;
+    QJsonObject toBeGenerated;
+    toBeGenerated[OrionDriveSettings::instance()->getKeyGroup()] = QJsonArray{dataWithId};
+
+    auto frontLeftWheel { QSharedPointer<Orion::WheelModel>::create(frontLeftId) };
+
+    Orion::ChassisModel chassis;
+    chassis.setDriveAlgorithm(QSharedPointer<Orion::JsonDriveModeDirect>::create());
+    chassis.setFeedbackGeneratorAlgorithm(QSharedPointer<Orion::JsonChassisFeedbackGenerator>::create());
+    chassis.addWheel(frontLeftWheel);
+    QSharedPointer<MockWheelObserver> observer { QSharedPointer<MockWheelObserver>::create() };
+    frontLeftWheel->addObserver(observer);
+    frontLeftWheel->updateModel(QJsonDocument(data).toJson(QJsonDocument::Compact));
+    auto dataToCompare = chassis.getFeedbackData();
+    QJsonDocument genDocument {QJsonDocument::fromJson(dataToCompare)};
+    QJsonObject objToCompare {genDocument.object()};
+    QCOMPARE( objToCompare, toBeGenerated );
 }
 
 

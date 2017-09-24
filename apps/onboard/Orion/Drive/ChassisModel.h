@@ -20,8 +20,10 @@ namespace Orion {
         void setDriveAlgorithm(QSharedPointer<IfceDriveMode> algorithm) override;
         void addWheel(QSharedPointer<IfceWheelModel> wheel) override;
         void notifyAll() override;
-        void updateModel(const QByteArray &cmd) override;
+        void updateState(const QByteArray &cmd) override;
 
+        void setFeedbackGeneratorAlgorithm(QSharedPointer<IfceChassisFeedbackGenerator> generator);
+        QByteArray getFeedbackData();
 
     private:
         void update_angular_velocities_left_side(double angVelLeftSide);
@@ -34,6 +36,7 @@ namespace Orion {
         IdToWheelModel leftRowWheels;
         IdToWheelModel rightRowWheels;
         QSharedPointer<IfceDriveMode> driveAlgorithm;
+        QSharedPointer<IfceChassisFeedbackGenerator> feedbackGenerator;
     };
 }
 #endif // CHASSISMODEL_H

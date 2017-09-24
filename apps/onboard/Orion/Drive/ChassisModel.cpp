@@ -1,5 +1,6 @@
 #include "ChassisModel.h"
 #include "IfceWheelModel.h"
+#include "IfceChassisFeedbackGenerator.h"
 #include <QDebug>
 
 using namespace Orion;
@@ -34,7 +35,7 @@ void ChassisModel::notifyAll()
     notify_right_side();
 }
 
-void ChassisModel::updateModel(const QByteArray &cmd)
+void ChassisModel::updateState(const QByteArray &cmd)
 {
     if( driveAlgorithm.isNull() )
         return;
@@ -45,6 +46,26 @@ void ChassisModel::updateModel(const QByteArray &cmd)
 
     update_angular_velocities_left_side(leftSideValue);
     update_angular_velocities_right_side(rightSideValue);
+}
+
+void ChassisModel::setFeedbackGeneratorAlgorithm(QSharedPointer<IfceChassisFeedbackGenerator> generator)
+{
+    feedbackGenerator = generator;
+}
+
+QByteArray ChassisModel::getFeedbackData()
+{
+    if( !feedbackGenerator )
+        return QByteArray();
+    feedbackGenerator->clear();
+
+    for( const auto &leftWheel : leftRowWheels.values() )
+        feedbackGenerator->addInput(leftWheel);
+
+    for( auto &rightWheel : rightRowWheels.values() )
+        feedbackGenerator->addInput(rightWheel);
+
+    return feedbackGenerator->generate();
 }
 
 void ChassisModel::update_angular_velocities_left_side(double angVelLeftSide)

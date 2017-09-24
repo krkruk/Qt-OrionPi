@@ -13,12 +13,13 @@ namespace Orion {
         WheelModel(int id);
         ~WheelModel();
 
-        void update(const QByteArray &line) override;
+        void updateModel(const QByteArray &line) override;
         void addObserver(QWeakPointer<IfceSerialObserver> observer) override;
         bool delObserver(QWeakPointer<IfceSerialObserver> observer) override;
 
         /**
-         * @brief notifyObservers Notifies observers
+         * @brief notifyObservers Notifies observers that internal state
+         * of the model has changed (usually, expectedAngularVelocity is changed)
          *
          * Notifies observers. Creates a message suitable
          * for {@link IfceSerialModel}.
@@ -26,13 +27,13 @@ namespace Orion {
         void notifyObservers() override;
 
         void updateAngularVelocity(double angularVelocity) override;
-        double getCurrentAngularVelocity() const override;
         double getExpectedAngularVelocity() const override;
 
-        double getCurrent() const;
-        double getHeatSinkTemperature() const;
-        int getPwm() const;
-        int getErrorCode() const;
+        double getCurrentAngularVelocity() const override;
+        double getCurrent() const override;
+        double getHeatSinkTemperature() const override;
+        int getPwm() const override;
+        int getErrorCode() const override;
     };
 
 }

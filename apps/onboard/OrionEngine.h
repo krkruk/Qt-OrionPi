@@ -19,6 +19,8 @@
 #include "Orion/Drive/JsonDriveModeDirect.h"
 #include "Orion/Drive/ChassisModel.h"
 
+class QTimer;
+
 
 class OrionEngine : public QObject
 {
@@ -37,7 +39,7 @@ private slots:
     void onSocketReadyRead();
     void onSocketError(QAbstractSocket::SocketError socketError);
     void onSocketDisconnected();
-
+    void onFeedbackTimerTimeout();
 
 private:
     void connections();
@@ -52,6 +54,7 @@ private:
 
     QScopedPointer<QTcpServer, QScopedPointerObjectDeleteLater<QTcpServer>> server;
     QPointer<QTcpSocket> socket;
+    QScopedPointer<QTimer> sendFeedbackTimer;
 };
 
 #endif // ORIONENGINE_H
