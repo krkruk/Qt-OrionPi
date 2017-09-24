@@ -62,7 +62,8 @@ unix:!macx: LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
 INCLUDEPATH += $$PWD/../../network
 DEPENDPATH += $$PWD/../../network
 
-LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+#LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+LIBS += $$(PROTOBUF)/lib/libprotobuf.a
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
 

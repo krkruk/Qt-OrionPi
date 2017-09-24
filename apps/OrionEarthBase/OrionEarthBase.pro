@@ -41,13 +41,14 @@ FORMS    += mainwindow.ui \
 INCLUDEPATH += \
     ../protos/
 
-
 unix:!macx: LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
-
 INCLUDEPATH += $$PWD/../../network
 DEPENDPATH += $$PWD/../../network
 
-LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+# loading statically due to fucking Ubuntu protobuf collisions...
+# to be solved in the future or just use Arch Linux
+#LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+LIBS += $$(PROTOBUF)/lib/libprotobuf.a
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
 
