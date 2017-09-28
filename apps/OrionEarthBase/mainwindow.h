@@ -30,9 +30,12 @@ private slots:
     void on_pushButtonAcceptGamepad_clicked();
     void on_action_Refresh_triggered();
 
+    void on_action_Settings_triggered();
+
 private:
     void connections();
     void setup_gamepad_timer();
+    void start_connection();
     void display_available_gamepads();
     void parse_feedback_data(const QByteArray &data);
     void apply_data_to_feedback_widget(const QString &name, double angularVelocity,

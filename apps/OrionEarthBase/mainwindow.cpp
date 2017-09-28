@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QDebug>
 
+#include "NetworkSettings.h"
 #include "TcpSocket.h"
 #include "earthBaseToRoverComm.pb.h"
 #include "roverToEarthBaseComm.pb.h"
@@ -18,13 +19,15 @@ namespace {
     const QHostAddress bindAddress = QHostAddress::LocalHost;
     constexpr int bindPort { 5001 };
 
-    constexpr int GAMEPAD_REFRESH_INTERVAL { 50 };
+    constexpr int GAMEPAD_REFRESH_INTERVAL { 25 };
     constexpr auto MIN_MULTIPLIER { -1 };
     constexpr auto REVERT_AXIS { true ? -1 : 1 };
     constexpr auto DEAD_ZONE_PERCENT { 0.10 };
 
     const QString LEFT_WHEEL_ROW { "LROW" };
     const QString RIGHT_WHEEL_ROW { "RROW" };
+
+    constexpr char ORGAZNIATION[] { "Project Orion" };
 }
 
 
@@ -38,9 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     inputMultiplier = ui->spinBoxMaximaLimit->value();
     display_available_gamepads();
     connections();
-    socket->connectToHost(QHostAddress::LocalHost, 5000);
     on_pushButtonAcceptGamepad_clicked();
     setup_gamepad_timer();
+    start_connection();
 }
 
 MainWindow::~MainWindow()
@@ -92,6 +95,15 @@ void MainWindow::setup_gamepad_timer()
 {
     gamepadTimer->setInterval(GAMEPAD_REFRESH_INTERVAL);
     gamepadTimer->start();
+}
+
+void MainWindow::start_connection()
+{
+    auto appName { QApplication::applicationName() };
+    QScopedPointer<NetworkSettings> net(new NetworkSettings(ORGAZNIATION, appName, this));
+    auto ip { net->getConnectToAddress() };
+    auto port { net->getConnectToPort() };
+    socket->connectToHost(ip, port);
 }
 
 void MainWindow::display_available_gamepads()
@@ -211,4 +223,18 @@ void MainWindow::on_action_Refresh_triggered()
 {
     gamepad.reset();
     display_available_gamepads();
+}
+
+void MainWindow::on_action_Settings_triggered()
+{
+    auto appName { QApplication::applicationName() };
+    QScopedPointer<NetworkSettings> net(new NetworkSettings(ORGAZNIATION, appName, this));
+    const auto result { net->exec() };
+
+    if( result != QDialog::Accepted )
+        return;
+
+    auto ip { net->getConnectToAddress() };
+    auto port { net->getConnectToPort() };
+    socket->connectToHost(ip, port);
 }

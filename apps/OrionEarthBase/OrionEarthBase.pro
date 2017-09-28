@@ -30,15 +30,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     DriveFeedbackWidget.cpp \
     ../protos/earthBaseToRoverComm.pb.cc \
-    ../protos/roverToEarthBaseComm.pb.cc
+    ../protos/roverToEarthBaseComm.pb.cc \
+    NetworkSettings.cpp
 
 HEADERS  += mainwindow.h \
     DriveFeedbackWidget.h \
     ../protos/earthBaseToRoverComm.pb.h \
-    ../protos/roverToEarthBaseComm.pb.h
+    ../protos/roverToEarthBaseComm.pb.h \
+    NetworkSettings.h
 
 FORMS    += mainwindow.ui \
-    DriveFeedbackWidget.ui
+    DriveFeedbackWidget.ui \
+    NetworkSettings.ui
 
 INCLUDEPATH += \
     ../protos/

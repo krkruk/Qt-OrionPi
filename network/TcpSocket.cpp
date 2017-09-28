@@ -4,7 +4,7 @@
 #include <QTimer>
 #include <QDebug>
 
-const int TcpSocket::RECONNECT_INTERVAL = 25;
+const int TcpSocket::RECONNECT_INTERVAL = 500;
 
 
 TcpSocket::TcpSocket(const QHostAddress &address, int port, QObject *parent)
@@ -72,6 +72,8 @@ void TcpSocket::_on_socket_connected()
 void TcpSocket::_on_socket_error(QAbstractSocket::SocketError socketError)
 {
     qDebug() << "Socket error:" << socketError << socket->errorString();
+//    socket.reset( new QTcpSocket(this) );
+    socket->disconnectFromHost();
     QTimer::singleShot(RECONNECT_INTERVAL, this, &TcpSocket::_on_socket_reconnect);
 }
 

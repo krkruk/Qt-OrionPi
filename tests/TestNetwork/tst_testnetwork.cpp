@@ -72,7 +72,7 @@ void TestNetwork::test_tcp_comm_socket_to_server()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
     QSignalSpy spy(server.data(), SIGNAL(signalMessageReceived(QByteArray)));
-    runEventLoop(55);
+    runEventLoop(1000);
     const QString data { "random send\n\n data \t\tHelloWorld" };
     remoteSocket->send(data);
     runEventLoop(20);
@@ -86,10 +86,10 @@ void TestNetwork::test_tcp_comm_server_to_socket()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
     QSignalSpy spy (remoteSocket.data(), SIGNAL(signalMessageReceived(QByteArray)));
-    runEventLoop(55);
+    runEventLoop(1000);
     const QString data { "random send\n\n data \t\tHelloWorld" };
     server->send(data);
-    runEventLoop(20);
+    runEventLoop(100);
 
     const std::string lastReceived { remoteSocket->lastServerResponse() };
     QCOMPARE( spy.count(), 1 );
@@ -100,8 +100,7 @@ void TestNetwork::test_tcp_comm_send_2_pkgs_at_once_sock_to_serv()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
     QSignalSpy spy(server.data(), SIGNAL(signalMessageReceived(QByteArray)));
-
-    runEventLoop(55);
+    runEventLoop(1000);
     remoteSocket->send(QString("data1"));
     remoteSocket->send(QString("data2"));
     runEventLoop(20);
@@ -112,7 +111,7 @@ void TestNetwork::test_tcp_comm_send_2_pkgs_at_once_serv_to_sock()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
     QSignalSpy spy (remoteSocket.data(), SIGNAL(signalMessageReceived(QByteArray)));
-    runEventLoop(55);
+    runEventLoop(1000);
     const QString data { "random send\n\n data \t\tHelloWorld" };
     server->send(data);
     runEventLoop(20);
@@ -122,7 +121,7 @@ void TestNetwork::test_tcp_comm_send_2_pkgs_at_once_serv_to_sock()
 void TestNetwork::test_tcp_comm_socket_to_server_std_string()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
-    runEventLoop(55);
+    runEventLoop(1000);
     const std::string data { "random send\n\n data \t\tHelloWorld" };
     remoteSocket->send(data);
     runEventLoop(20);
@@ -134,7 +133,7 @@ void TestNetwork::test_tcp_comm_socket_to_server_std_string()
 void TestNetwork::test_tcp_comm_server_to_socket_std_string()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
-    runEventLoop(55);
+    runEventLoop(1000);
     const std::string data { "random send\n\n data \t\tHelloWorld" };
     server->send(data);
     runEventLoop(20);
@@ -146,7 +145,7 @@ void TestNetwork::test_tcp_comm_server_to_socket_std_string()
 void TestNetwork::test_tcp_comm_socket_to_server_std_protobuf()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
-    runEventLoop(55);
+    runEventLoop(1000);
     NetTest::TestMsg msg;
     msg.set_text("Hello world");
     msg.set_integervalue(128);
@@ -165,7 +164,7 @@ void TestNetwork::test_tcp_comm_socket_to_server_std_protobuf()
 void TestNetwork::test_tcp_comm_server_to_socket_std_protobuf()
 {
     QSharedPointer<IfceIpSocket> remoteSocket{ createSocket() };
-    runEventLoop(55);
+    runEventLoop(1000);
     NetTest::TestMsg msg;
     msg.set_text("Hello world");
     msg.set_integervalue(95841);
@@ -186,10 +185,10 @@ void TestNetwork::test_tcp_comm_reconnection_to_server()
     constexpr int testServerPort = 3433;
     QSharedPointer<IfceIpSocket> remoteSocket = QSharedPointer<TcpSocket>::create(socketAddress, 0, this);
     remoteSocket->connectToHost(QHostAddress::LocalHost, testServerPort);
-    runEventLoop(100);
+    runEventLoop(1000);
     auto serv = QSharedPointer<TcpServer>::create(QHostAddress::LocalHost, testServerPort);
     Q_UNUSED(serv);
-    runEventLoop(55);
+    runEventLoop(1000);
     QVERIFY(remoteSocket->isOpen());
 }
 
