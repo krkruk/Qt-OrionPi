@@ -1,24 +1,30 @@
 #include "OrionEngine.h"
 #include <string>
+#include <QCoreApplication>
+#include <QSettings>
 #include <QTimer>
 #include <QTime>
+#include <QFile>
 #include "settings/SerialSettings.h"
 #include "Orion/Drive/JsonChassisFeedbackGenerator.h"
 #include "Orion/Drive/ProtobufDriveModeDirect.h"
 #include "Orion/Drive/ProtobufChassisFeedbackGenerator.h"
-#include "TcpServer.h"
+#include "inputs/TcpInputSource.h"
+#include "inputs/GamepadInputSource.h"
 
 #include "earthBaseToRoverComm.pb.h"
 #include "roverToEarthBaseComm.pb.h"
 
 namespace {
-constexpr auto MAX_PENDING_CONN { 1 };
-constexpr auto LISTEN_PORT { 5000 };
-constexpr auto ID_FRONT_LEFT_WHEEL { 0 };
-constexpr auto ID_FRONT_RIGHT_WHEEL { 1 };
-constexpr auto ID_REAR_LEFT_WHEEL { 2 };
-constexpr auto ID_REAR_RIGHT_WHEEL { 3 };
+    constexpr auto MAX_PENDING_CONN { 1 };
+    constexpr auto LISTEN_PORT { 5000 };
+    constexpr auto ID_FRONT_LEFT_WHEEL { 0 };
+    constexpr auto ID_FRONT_RIGHT_WHEEL { 1 };
+    constexpr auto ID_REAR_LEFT_WHEEL { 2 };
+    constexpr auto ID_REAR_RIGHT_WHEEL { 3 };
 
+    constexpr char GROUP_REMOTE_INPUT_SOURCE[] = "COMMAND_INPUT_SOURCE";
+    constexpr char TAG_SOURCE_TYPE_ID[] = "SOURCE_TYPE_ID";
 }
 
 
@@ -27,18 +33,18 @@ OrionEngine::OrionEngine(QObject *parent)
       serialManager( new SerialManager(this) ),
       serialController( QSharedPointer<SerialController>::create() ),
       chassisModel ( new Orion::ChassisModel(this) ),
-      server( new TcpServer(this) ),
       sendFeedbackTimer( new QTimer(this) )
 {
-    connections();
     setup_serial();
-    setup_server();
+    setup_cmd_source();
+    connections();
     sendFeedbackTimer->setInterval(100);
     sendFeedbackTimer->start();
 }
 
 OrionEngine::~OrionEngine()
 {
+    store_settings();
 }
 
 void OrionEngine::onRemoteMessageReceived(const QByteArray &message)
@@ -60,22 +66,8 @@ void OrionEngine::onRemoteMessageReceived(const QByteArray &message)
 
 void OrionEngine::onFeedbackTimerTimeout()
 {
-    if( !server )
-        return;
-
     auto feedbackData = chassisModel->getFeedbackData();
-    server->send(feedbackData);
-}
-
-void OrionEngine::connections()
-{
-    connect(server.data(), &IfceServer::signalMessageReceived, this, &OrionEngine::onRemoteMessageReceived);
-    connect(serialManager.data(), &SerialManager::serialError, this,
-            [&](int id, const QString &errorString){
-        qDebug() << QString("Error occured! DeviceId: %1 - error: %2").arg(id).arg(errorString);
-    });
-
-    connect(sendFeedbackTimer.data(), &QTimer::timeout, this, &OrionEngine::onFeedbackTimerTimeout);
+    commandSource->send(feedbackData);
 }
 
 void OrionEngine::setup_serial()
@@ -118,11 +110,42 @@ void OrionEngine::setup_serial()
     echo_not_connected_devices(notConnected);
 }
 
-void OrionEngine::setup_server()
+void OrionEngine::setup_cmd_source()
 {
-    server->listen(QHostAddress::Any, LISTEN_PORT);
+    const auto APP_NAME { QCoreApplication::applicationName() };
+    const auto ORGANIZATION { QCoreApplication::organizationName() };
+    QSettings in(ORGANIZATION, APP_NAME);
+    in.beginGroup(GROUP_REMOTE_INPUT_SOURCE);
+    const auto sourceType {(SOURCE_TYPE)in.value(TAG_SOURCE_TYPE_ID, (int)SOURCE_TYPE::TCP).toInt()};
+    in.endGroup();
+
+    switch( sourceType ) {
+    case SOURCE_TYPE::TCP:
+        commandSource.reset(new TcpInputSource(ORGANIZATION, APP_NAME ));
+        break;
+    case SOURCE_TYPE::GAMEPAD:
+        commandSource.reset(new GamepadInputSource(ORGANIZATION, APP_NAME));
+        break;
+    case SOURCE_TYPE::UNDEFINED:
+    default:
+        qDebug() << "Input source undefined. Exit";
+        QCoreApplication::exit(1);
+        return;
+    }
+
+    store_settings();
 }
 
+void OrionEngine::connections()
+{
+    connect(commandSource.data(), &IfceInputSource::signalMessageReceived, this, &OrionEngine::onRemoteMessageReceived);
+    connect(serialManager.data(), &SerialManager::serialError, this,
+            [&](int id, const QString &errorString){
+        qDebug() << QString("Error occured! DeviceId: %1 - error: %2").arg(id).arg(errorString);
+    });
+
+    connect(sendFeedbackTimer.data(), &QTimer::timeout, this, &OrionEngine::onFeedbackTimerTimeout);
+}
 
 void OrionEngine::echo_found_serials(const QList<QSharedPointer<IfceDevice> > &foundDevices)
 {
@@ -136,4 +159,14 @@ void OrionEngine::echo_not_connected_devices(const QList<int> &notConnectedIds)
 {
     for( auto id : notConnectedIds )
         qDebug() << "Could not connect the device with ID:" << id;
+}
+
+void OrionEngine::store_settings()
+{
+    const auto APP_NAME { QCoreApplication::applicationName() };
+    const auto ORGANIZATION { QCoreApplication::organizationName() };
+    QSettings out(ORGANIZATION, APP_NAME , this);
+    out.beginGroup(GROUP_REMOTE_INPUT_SOURCE);
+    out.setValue(TAG_SOURCE_TYPE_ID, (int)commandSource->type());
+    out.endGroup();
 }

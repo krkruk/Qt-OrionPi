@@ -1,6 +1,6 @@
 #include "DriveSettings.h"
-#include "GlobalConstants.h"
 #include "Orion/Drive/DriveConstants.h"
+#include <QCoreApplication>
 #include <QSettings>
 #include <cstring>
 
@@ -39,6 +39,8 @@ DriveSettings::DriveSettings()
 
 DriveSettings::~DriveSettings()
 {
+    const auto APP_NAME { QCoreApplication::applicationName() };
+    const auto ORGANIZATION { QCoreApplication::organizationName() };
     QSettings settings(ORGANIZATION, APP_NAME);
     settings.beginGroup(SETTINGS::DRIVE::GROUP_NAME);
 
@@ -111,6 +113,8 @@ QString DriveSettings::getDriveMode(const char specifiedModeKey[]) const
 
 void DriveSettings::load_data()
 {
+    const auto APP_NAME { QCoreApplication::applicationName() };
+    const auto ORGANIZATION { QCoreApplication::organizationName() };
     QSettings settings(ORGANIZATION, APP_NAME);
     settings.beginGroup(SETTINGS::DRIVE::GROUP_NAME);
 

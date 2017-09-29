@@ -1,4 +1,4 @@
-QT += core serialport concurrent network
+QT += core serialport concurrent network gamepad
 QT -= gui
 
 CONFIG += c++11
@@ -16,7 +16,6 @@ HEADERS += \
     Orion/Drive/interface/IfceChassisModel.h \
     Orion/Drive/interface/IfceWheelModel.h \
     Orion/Drive/interface/IfceChassisFeedbackGenerator.h \
-    GlobalConstants.h \
     Orion/Drive/WheelModel.h \
     Orion/Drive/ChassisModel.h \
     settings/DriveSettings.h \
@@ -29,7 +28,10 @@ HEADERS += \
     Orion/Drive/ProtobufDriveModeDirect.h \
     Orion/Drive/ProtobufChassisFeedbackGenerator.h \
     ../protos/earthBaseToRoverComm.pb.h \
-    ../protos/roverToEarthBaseComm.pb.h
+    ../protos/roverToEarthBaseComm.pb.h \
+    inputs/IfceInputSource.h \
+    inputs/TcpInputSource.h \
+    inputs/GamepadInputSource.h
 
 SOURCES += main.cpp \
     Orion/Drive/WheelModel.cpp \
@@ -42,7 +44,9 @@ SOURCES += main.cpp \
     Orion/Drive/ProtobufDriveModeDirect.cpp \
     Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
     ../protos/earthBaseToRoverComm.pb.cc \
-    ../protos/roverToEarthBaseComm.pb.cc
+    ../protos/roverToEarthBaseComm.pb.cc \
+    inputs/TcpInputSource.cpp \
+    inputs/GamepadInputSource.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings

@@ -19,7 +19,7 @@
 #include "Orion/Drive/JsonDriveModeDirect.h"
 #include "Orion/Drive/ChassisModel.h"
 #include "include/IfceServer.h"
-
+#include "inputs/IfceInputSource.h"
 
 class QTimer;
 
@@ -27,6 +27,7 @@ class QTimer;
 class OrionEngine : public QObject
 {
     Q_OBJECT
+
 public:
     explicit OrionEngine(QObject *parent = 0);
     ~OrionEngine();
@@ -41,17 +42,18 @@ private slots:
 
 
 private:
-    void connections();
     void setup_serial();
-    void setup_server();
+    void setup_cmd_source();
+    void connections();
     void echo_found_serials(const QList<QSharedPointer<IfceDevice> > &foundDevices);
     void echo_not_connected_devices(const QList<int> &notConnectedIds);
+    void store_settings();
 
     QSharedPointer<SerialManager> serialManager;
     QSharedPointer<SerialController> serialController;
     QScopedPointer<Orion::ChassisModel> chassisModel;
 
-    QScopedPointer<IfceServer, QScopedPointerDeleteLater> server;
+    QScopedPointer<IfceInputSource> commandSource;
     QScopedPointer<QTimer> sendFeedbackTimer;
 };
 

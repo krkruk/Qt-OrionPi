@@ -1,7 +1,6 @@
 #include "SerialSettings.h"
-#include "GlobalConstants.h"
 #include "SerialConstants.h"
-
+#include <QCoreApplication>
 #include <QSettings>
 
 
@@ -37,7 +36,9 @@ SerialSettings::SerialSettings()
 
 void SerialSettings::load_data()
 {
-    QSettings settings(CONST::ORGANIZATION, CONST::APP_NAME);
+    const auto APP_NAME { QCoreApplication::applicationName() };
+    const auto ORGANIZATION { QCoreApplication::organizationName() };
+    QSettings settings(ORGANIZATION, APP_NAME);
     settings.beginGroup(CONST::SETTINGS::SERIAL::GROUP_NAME);
 
     vars->id = settings.value(SERIAL::KEYS::ID, SERIAL::DEFAULT::ID_KEY).toString();
@@ -57,7 +58,9 @@ void SerialSettings::load_data()
 
 SerialSettings::~SerialSettings()
 {
-    QSettings settings(CONST::ORGANIZATION, CONST::APP_NAME);
+    const auto APP_NAME { QCoreApplication::applicationName() };
+    const auto ORGANIZATION { QCoreApplication::organizationName() };
+    QSettings settings(ORGANIZATION, APP_NAME);
     settings.beginGroup(CONST::SETTINGS::SERIAL::GROUP_NAME);
 
     store_settings(settings, SERIAL::KEYS::ID, vars->id);
