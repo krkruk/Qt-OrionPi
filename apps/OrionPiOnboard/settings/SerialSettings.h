@@ -12,7 +12,6 @@ class SerialSettings : public IfceSerialSettings
     SerialSettings &operator=(const SerialSettings &) = delete;
     SerialSettings &operator=(SerialSettings &&) = delete;
 
-    void load_data();
 public:
     SerialSettings();
     ~SerialSettings();
@@ -27,6 +26,9 @@ public:
     int getAttemptsForReadLine() const override;
 
 private:
+    void load_data();
+    void store_data();
+
     QScopedPointer<SettingsVariables> vars;
 };
 

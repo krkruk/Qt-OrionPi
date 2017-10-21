@@ -11,7 +11,9 @@ TcpSocket::TcpSocket(const QHostAddress &address, int port, QObject *parent)
     : IfceIpSocket(parent),
       socket( new QTcpSocket(this) )
 {
-    socket->bind(address, port);
+    Q_UNUSED(address)
+    Q_UNUSED(port)
+//    socket->bind(address, port);
     connections();
 }
 

@@ -29,7 +29,9 @@ HEADERS +=  network_global.h \
     include/IfceServer.h \
     TcpServer.h \
     TcpSocket.h \
-    include/IfceIpSocket.h
+    include/IfceIpSocket.h \
+    UdpServer.h \
+    UdpSocket.h
 
 unix {
     target.path = /usr/lib
@@ -38,4 +40,6 @@ unix {
 
 SOURCES += \
     TcpServer.cpp \
-    TcpSocket.cpp
+    TcpSocket.cpp \
+    UdpServer.cpp \
+    UdpSocket.cpp
