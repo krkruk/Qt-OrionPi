@@ -1,6 +1,6 @@
-==================
-(LV2) Qt Orion Pi
-==================
+======================
+Qt Orion Pi (LV2, LV3)
+======================
 
 This repository is a set of libraries and stand alone applications that support a mobile platform ORION. A documentation of the whole project can be found here [1]_ and [2]_\.
 
@@ -36,7 +36,7 @@ The best way to install Qt is to download all required from the repositories. Ma
 
 Protocol-buffers
 ----------------
-The software requires protocol buffers in version 3.3. At this moment no proto file is generated during installation. Some automation will be implemented soon. Qt Orion Pi uses a statically linked lib.
+The software requires protocol buffers in version 3.3. At this moment no proto file is generated during the installation. Some automation will be implemented soon. Qt Orion Pi uses a statically linked lib.
 
 Follow the standard instructions found in here: [4]_\. Configure the project as follows:
 
@@ -47,7 +47,7 @@ Follow the standard instructions found in here: [4]_\. Configure the project as 
 
 Xboxdrv
 -------
-Install xboxdrv by following the instructions related to yours Linux flavor.
+Install xboxdrv by following the instructions related to your Linux flavor.
 
 Qt Orion Pi
 -----------
@@ -63,7 +63,7 @@ Make sure you have installed all required dependencies. Then follow the instruct
     make -j4
 
 If the compilation process is successful, the application will be present under *${HOME}/ORION/OrionPi* location.
-Anytime the app is to be started it is required to execute environmental variables. The convenient way is to add it as *~/.bashrc* or make use of *ldconfig*/.
+Anytime the app is to be started it is required to set environmental variables. A convenient way is to add it as *~/.bashrc* or make use of *ldconfig*/.
 
 License
 =======
