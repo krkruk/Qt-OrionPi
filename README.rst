@@ -58,12 +58,19 @@ Make sure you have installed all required dependencies. Then follow the instruct
     git clone https://github.com/rCorvidae/Qt-OrionPi.git
     mkdir build
     cd build
-    source ../Qt-OrionPi/set_environment_variables.sh 
+    source ../Qt-OrionPi/compile_protobuf_protos.sh.sh 
     qmake ../Qt-OrionPi/OrionPI.pro
     make -j4
 
 If the compilation process is successful, the application will be present under *${HOME}/ORION/OrionPi* location.
-Anytime the app is to be started it is required to set environmental variables. A convenient way is to add it as *~/.bashrc* or make use of *ldconfig*/.
+
+Anytime the app is to be started it is required to set environmental variables. One can do so by running
+
+.. code-block:: bash
+    
+    source set_environment_variables.sh 
+
+A convenient way is to add it as *~/.bashrc*. It can be also useful to add #ORION_BUILDPATH_LIBS to *ldconfig*.
 
 License
 =======
