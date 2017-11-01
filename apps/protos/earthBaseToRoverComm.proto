@@ -1,23 +1,41 @@
 syntax = "proto3";
 
-package ORION_COMM;
+import "protocolEnums.proto";
 
-enum Commands {
-    Undefined = 0;
-    Drive = 1;
+package ORION_COMM.QUERY;
+
+/*
+* User-controlled input. Mostly acts as a standard
+* gamepad.
+*/
+message InputDevice {
+    double x_axis_0 = 1;
+    double y_axis_0 = 2;
+    double x_axis_1 = 3;
+    double y_axis_1 = 4;
+    bool button_0 = 5;
+    bool button_1 = 6;
+    bool button_2 = 7;
+    bool button_3 = 8;
+    bool button_4 = 9;
+    bool button_5 = 10;
+    bool button_6 = 11;
+    bool button_7 = 12;
+    bool button_8 = 13;
+
+    double x_axis_2 = 14;
+    double y_axis_2 = 15;
+    bool button_9 = 16;
+    bool button_10 = 17;
+    bool button_11 = 18;
+    bool button_12 = 19;
 }
 
-message Chassis {
-    int32 leftRowAngularVelocity = 1;
-    int32 rightRowAngularVelocity = 2;
-}
-
-
-message Command {
-    Commands cmdType = 1;
-    
-    oneof cmd_msgs {
-        Chassis drive = 2;
+message Query {
+    ORION_COMM.CMD_TYPE cmd = 1;
+    ORION_COMM.MODULE module = 2;
+    ORION_COMM.MODE mode = 3;
+    oneof cmd_content {
+        InputDevice input = 4;
     }
 }
-

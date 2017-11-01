@@ -12,6 +12,7 @@
 #include "inputs/TcpInputSource.h"
 #include "inputs/GamepadInputSource.h"
 
+#include "protocolEnums.pb.h"
 #include "earthBaseToRoverComm.pb.h"
 #include "roverToEarthBaseComm.pb.h"
 
@@ -52,16 +53,25 @@ void OrionEngine::onRemoteMessageReceived(const QByteArray &message)
     if( !chassisModel )
         return;
 
-    ORION_COMM::Command cmd;
+    ORION_COMM::QUERY::Query cmd;
     cmd.ParseFromArray(message.data(), message.size());
-    if( cmd.cmdtype() != ORION_COMM::Drive )
+    if( cmd.module() != ORION_COMM::DRIVE )
         return;
 
-    auto driveCmd = cmd.drive();
-    QByteArray serialzedDriveCmd(driveCmd.SerializeAsString().c_str(),
-                                 driveCmd.ByteSize());
-    chassisModel->updateState(serialzedDriveCmd);
-    chassisModel->notifyAll();
+    switch( cmd.cmd() )
+    {
+    case ORION_COMM::CREATE:
+        break;
+    case ORION_COMM::READ:
+        break;
+    case ORION_COMM::UPDATE:
+        parse_crud_update(cmd);
+        break;
+    case ORION_COMM::DELETE:
+        break;
+    default:
+        break;
+    }
 }
 
 void OrionEngine::onFeedbackTimerTimeout()
@@ -119,11 +129,14 @@ void OrionEngine::setup_cmd_source()
     const auto sourceType {(SOURCE_TYPE)in.value(TAG_SOURCE_TYPE_ID, (int)SOURCE_TYPE::TCP).toInt()};
     in.endGroup();
 
+    QString sourceTypeText = "undefined";
     switch( sourceType ) {
     case SOURCE_TYPE::TCP:
+        sourceTypeText = "TCP";
         commandSource.reset(new TcpInputSource(ORGANIZATION, APP_NAME ));
         break;
     case SOURCE_TYPE::GAMEPAD:
+        sourceTypeText = "Gamepad";
         commandSource.reset(new GamepadInputSource(ORGANIZATION, APP_NAME));
         break;
     case SOURCE_TYPE::UNDEFINED:
@@ -133,6 +146,7 @@ void OrionEngine::setup_cmd_source()
         return;
     }
 
+    qDebug() << tr("Input source: %1(%2)").arg(sourceTypeText).arg((int)sourceType);
     store_settings();
 }
 
@@ -169,4 +183,29 @@ void OrionEngine::store_settings()
     out.beginGroup(GROUP_REMOTE_INPUT_SOURCE);
     out.setValue(TAG_SOURCE_TYPE_ID, (int)commandSource->type());
     out.endGroup();
+}
+
+void OrionEngine::parse_crud_update(const ORION_COMM::QUERY::Query &query)
+{
+    switch( query.mode() )
+    {
+    case ORION_COMM::USER_CONTROLLED:
+        parse_user_controlled_message(query);
+        break;
+    case ORION_COMM::SCRIPTED:
+        break;
+    case ORION_COMM::AUTONOMOUS:
+        break;
+    default:
+        break;
+    }
+}
+
+void OrionEngine::parse_user_controlled_message(const ORION_COMM::QUERY::Query &query)
+{
+    auto driveCmd = query.input();
+    QByteArray serialzedDriveCmd(driveCmd.SerializeAsString().c_str(),
+                                 driveCmd.ByteSize());
+    chassisModel->updateState(serialzedDriveCmd);
+    chassisModel->notifyAll();
 }

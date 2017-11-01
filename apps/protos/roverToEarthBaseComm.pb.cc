@@ -18,14 +18,15 @@
 // @@protoc_insertion_point(includes)
 
 namespace ORION_COMM {
+namespace REPLY {
 class WheelTelemetryDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<WheelTelemetry> {
 } _WheelTelemetry_default_instance_;
-class ChassisTelemetryDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<ChassisTelemetry> {
-} _ChassisTelemetry_default_instance_;
-class FeedbackDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Feedback> {
+class DriveModuleTelemetryDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<DriveModuleTelemetry> {
+} _DriveModuleTelemetry_default_instance_;
+class ReplyDefaultTypeInternal : public ::google::protobuf::internal::ExplicitlyConstructed<Reply> {
   public:
-  const ::ORION_COMM::ChassisTelemetry* chassis_;
-} _Feedback_default_instance_;
+  const ::ORION_COMM::REPLY::DriveModuleTelemetry* chassis_;
+} _Reply_default_instance_;
 
 namespace protobuf_roverToEarthBaseComm_2eproto {
 
@@ -65,31 +66,32 @@ const ::google::protobuf::uint32 TableStruct::offsets[] = {
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(WheelTelemetry, pwm_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(WheelTelemetry, errorcode_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ChassisTelemetry, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DriveModuleTelemetry, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ChassisTelemetry, wheel_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DriveModuleTelemetry, wheel_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Feedback, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Reply, _internal_metadata_),
   ~0u,  // no _extensions_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Feedback, _oneof_case_[0]),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Reply, _oneof_case_[0]),
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Feedback, cmd_),
-  GOOGLE_PROTOBUF_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET((&_Feedback_default_instance_), chassis_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Feedback, feedback_content_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Reply, reply_type_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Reply, module_),
+  GOOGLE_PROTOBUF_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET((&_Reply_default_instance_), chassis_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Reply, feedback_content_),
 };
 
 static const ::google::protobuf::internal::MigrationSchema schemas[] = {
   { 0, -1, sizeof(WheelTelemetry)},
-  { 11, -1, sizeof(ChassisTelemetry)},
-  { 17, -1, sizeof(Feedback)},
+  { 11, -1, sizeof(DriveModuleTelemetry)},
+  { 17, -1, sizeof(Reply)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&_WheelTelemetry_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&_ChassisTelemetry_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&_Feedback_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_DriveModuleTelemetry_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_Reply_default_instance_),
 };
 
 namespace {
@@ -118,9 +120,9 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void TableStruct::Shutdown() {
   _WheelTelemetry_default_instance_.Shutdown();
   delete file_level_metadata[0].reflection;
-  _ChassisTelemetry_default_instance_.Shutdown();
+  _DriveModuleTelemetry_default_instance_.Shutdown();
   delete file_level_metadata[1].reflection;
-  _Feedback_default_instance_.Shutdown();
+  _Reply_default_instance_.Shutdown();
   delete file_level_metadata[2].reflection;
 }
 
@@ -128,12 +130,12 @@ void TableStruct::InitDefaultsImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::internal::InitProtobufDefaults();
-  ::ORION_COMM::protobuf_earthBaseToRoverComm_2eproto::InitDefaults();
+  ::ORION_COMM::protobuf_protocolEnums_2eproto::InitDefaults();
   _WheelTelemetry_default_instance_.DefaultConstruct();
-  _ChassisTelemetry_default_instance_.DefaultConstruct();
-  _Feedback_default_instance_.DefaultConstruct();
-  _Feedback_default_instance_.chassis_ = const_cast< ::ORION_COMM::ChassisTelemetry*>(
-      ::ORION_COMM::ChassisTelemetry::internal_default_instance());
+  _DriveModuleTelemetry_default_instance_.DefaultConstruct();
+  _Reply_default_instance_.DefaultConstruct();
+  _Reply_default_instance_.chassis_ = const_cast< ::ORION_COMM::REPLY::DriveModuleTelemetry*>(
+      ::ORION_COMM::REPLY::DriveModuleTelemetry::internal_default_instance());
 }
 
 void InitDefaults() {
@@ -143,22 +145,24 @@ void InitDefaults() {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] = {
-      "\n\032roverToEarthBaseComm.proto\022\nORION_COMM"
-      "\032\032earthBaseToRoverComm.proto\"\203\001\n\016WheelTe"
-      "lemetry\022\n\n\002ID\030\001 \001(\005\022\027\n\017angularVelocity\030\002"
-      " \001(\001\022\017\n\007current\030\003 \001(\001\022\033\n\023heatSinkTempera"
-      "ture\030\004 \001(\001\022\013\n\003pwm\030\005 \001(\005\022\021\n\terrorCode\030\006 \001"
-      "(\005\"=\n\020ChassisTelemetry\022)\n\005wheel\030\001 \003(\0132\032."
-      "ORION_COMM.WheelTelemetry\"r\n\010Feedback\022!\n"
-      "\003cmd\030\001 \001(\0162\024.ORION_COMM.Commands\022/\n\007chas"
-      "sis\030\002 \001(\0132\034.ORION_COMM.ChassisTelemetryH"
-      "\000B\022\n\020feedback_contentb\006proto3"
+      "\n\032roverToEarthBaseComm.proto\022\020ORION_COMM"
+      ".REPLY\032\023protocolEnums.proto\"\203\001\n\016WheelTel"
+      "emetry\022\n\n\002ID\030\001 \001(\005\022\027\n\017angularVelocity\030\002 "
+      "\001(\001\022\017\n\007current\030\003 \001(\001\022\033\n\023heatSinkTemperat"
+      "ure\030\004 \001(\001\022\013\n\003pwm\030\005 \001(\005\022\021\n\terrorCode\030\006 \001("
+      "\005\"G\n\024DriveModuleTelemetry\022/\n\005wheel\030\001 \003(\013"
+      "2 .ORION_COMM.REPLY.WheelTelemetry\"\244\001\n\005R"
+      "eply\022(\n\nreply_type\030\001 \001(\0162\024.ORION_COMM.CM"
+      "D_TYPE\022\"\n\006module\030\002 \001(\0162\022.ORION_COMM.MODU"
+      "LE\0229\n\007chassis\030\003 \001(\0132&.ORION_COMM.REPLY.D"
+      "riveModuleTelemetryH\000B\022\n\020feedback_conten"
+      "tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 389);
+      descriptor, 449);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "roverToEarthBaseComm.proto", &protobuf_RegisterTypes);
-  ::ORION_COMM::protobuf_earthBaseToRoverComm_2eproto::AddDescriptors();
+  ::ORION_COMM::protobuf_protocolEnums_2eproto::AddDescriptors();
   ::google::protobuf::internal::OnShutdown(&TableStruct::Shutdown);
 }
 
@@ -193,7 +197,7 @@ WheelTelemetry::WheelTelemetry()
     protobuf_roverToEarthBaseComm_2eproto::InitDefaults();
   }
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(constructor:ORION_COMM.REPLY.WheelTelemetry)
 }
 WheelTelemetry::WheelTelemetry(const WheelTelemetry& from)
   : ::google::protobuf::Message(),
@@ -203,7 +207,7 @@ WheelTelemetry::WheelTelemetry(const WheelTelemetry& from)
   ::memcpy(&angularvelocity_, &from.angularvelocity_,
     reinterpret_cast<char*>(&errorcode_) -
     reinterpret_cast<char*>(&angularvelocity_) + sizeof(errorcode_));
-  // @@protoc_insertion_point(copy_constructor:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(copy_constructor:ORION_COMM.REPLY.WheelTelemetry)
 }
 
 void WheelTelemetry::SharedCtor() {
@@ -213,7 +217,7 @@ void WheelTelemetry::SharedCtor() {
 }
 
 WheelTelemetry::~WheelTelemetry() {
-  // @@protoc_insertion_point(destructor:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(destructor:ORION_COMM.REPLY.WheelTelemetry)
   SharedDtor();
 }
 
@@ -244,7 +248,7 @@ WheelTelemetry* WheelTelemetry::New(::google::protobuf::Arena* arena) const {
 }
 
 void WheelTelemetry::Clear() {
-// @@protoc_insertion_point(message_clear_start:ORION_COMM.WheelTelemetry)
+// @@protoc_insertion_point(message_clear_start:ORION_COMM.REPLY.WheelTelemetry)
   ::memset(&angularvelocity_, 0, reinterpret_cast<char*>(&errorcode_) -
     reinterpret_cast<char*>(&angularvelocity_) + sizeof(errorcode_));
 }
@@ -253,7 +257,7 @@ bool WheelTelemetry::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(parse_start:ORION_COMM.REPLY.WheelTelemetry)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -356,17 +360,17 @@ bool WheelTelemetry::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(parse_success:ORION_COMM.REPLY.WheelTelemetry)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(parse_failure:ORION_COMM.REPLY.WheelTelemetry)
   return false;
 #undef DO_
 }
 
 void WheelTelemetry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(serialize_start:ORION_COMM.REPLY.WheelTelemetry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -400,12 +404,12 @@ void WheelTelemetry::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->errorcode(), output);
   }
 
-  // @@protoc_insertion_point(serialize_end:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(serialize_end:ORION_COMM.REPLY.WheelTelemetry)
 }
 
 ::google::protobuf::uint8* WheelTelemetry::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(serialize_to_array_start:ORION_COMM.REPLY.WheelTelemetry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -439,12 +443,12 @@ void WheelTelemetry::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->errorcode(), target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(serialize_to_array_end:ORION_COMM.REPLY.WheelTelemetry)
   return target;
 }
 
 size_t WheelTelemetry::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ORION_COMM.WheelTelemetry)
+// @@protoc_insertion_point(message_byte_size_start:ORION_COMM.REPLY.WheelTelemetry)
   size_t total_size = 0;
 
   // double angularVelocity = 2;
@@ -491,22 +495,22 @@ size_t WheelTelemetry::ByteSizeLong() const {
 }
 
 void WheelTelemetry::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ORION_COMM.WheelTelemetry)
+// @@protoc_insertion_point(generalized_merge_from_start:ORION_COMM.REPLY.WheelTelemetry)
   GOOGLE_DCHECK_NE(&from, this);
   const WheelTelemetry* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const WheelTelemetry>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ORION_COMM.REPLY.WheelTelemetry)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ORION_COMM.REPLY.WheelTelemetry)
     MergeFrom(*source);
   }
 }
 
 void WheelTelemetry::MergeFrom(const WheelTelemetry& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ORION_COMM.WheelTelemetry)
+// @@protoc_insertion_point(class_specific_merge_from_start:ORION_COMM.REPLY.WheelTelemetry)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -533,14 +537,14 @@ void WheelTelemetry::MergeFrom(const WheelTelemetry& from) {
 }
 
 void WheelTelemetry::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ORION_COMM.WheelTelemetry)
+// @@protoc_insertion_point(generalized_copy_from_start:ORION_COMM.REPLY.WheelTelemetry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void WheelTelemetry::CopyFrom(const WheelTelemetry& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ORION_COMM.WheelTelemetry)
+// @@protoc_insertion_point(class_specific_copy_from_start:ORION_COMM.REPLY.WheelTelemetry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -577,13 +581,13 @@ void WheelTelemetry::clear_id() {
   id_ = 0;
 }
 ::google::protobuf::int32 WheelTelemetry::id() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.ID)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.ID)
   return id_;
 }
 void WheelTelemetry::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.ID)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.ID)
 }
 
 // double angularVelocity = 2;
@@ -591,13 +595,13 @@ void WheelTelemetry::clear_angularvelocity() {
   angularvelocity_ = 0;
 }
 double WheelTelemetry::angularvelocity() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.angularVelocity)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.angularVelocity)
   return angularvelocity_;
 }
 void WheelTelemetry::set_angularvelocity(double value) {
   
   angularvelocity_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.angularVelocity)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.angularVelocity)
 }
 
 // double current = 3;
@@ -605,13 +609,13 @@ void WheelTelemetry::clear_current() {
   current_ = 0;
 }
 double WheelTelemetry::current() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.current)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.current)
   return current_;
 }
 void WheelTelemetry::set_current(double value) {
   
   current_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.current)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.current)
 }
 
 // double heatSinkTemperature = 4;
@@ -619,13 +623,13 @@ void WheelTelemetry::clear_heatsinktemperature() {
   heatsinktemperature_ = 0;
 }
 double WheelTelemetry::heatsinktemperature() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.heatSinkTemperature)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.heatSinkTemperature)
   return heatsinktemperature_;
 }
 void WheelTelemetry::set_heatsinktemperature(double value) {
   
   heatsinktemperature_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.heatSinkTemperature)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.heatSinkTemperature)
 }
 
 // int32 pwm = 5;
@@ -633,13 +637,13 @@ void WheelTelemetry::clear_pwm() {
   pwm_ = 0;
 }
 ::google::protobuf::int32 WheelTelemetry::pwm() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.pwm)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.pwm)
   return pwm_;
 }
 void WheelTelemetry::set_pwm(::google::protobuf::int32 value) {
   
   pwm_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.pwm)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.pwm)
 }
 
 // int32 errorCode = 6;
@@ -647,13 +651,13 @@ void WheelTelemetry::clear_errorcode() {
   errorcode_ = 0;
 }
 ::google::protobuf::int32 WheelTelemetry::errorcode() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.errorCode)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.errorCode)
   return errorcode_;
 }
 void WheelTelemetry::set_errorcode(::google::protobuf::int32 value) {
   
   errorcode_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.errorCode)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.errorCode)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -661,77 +665,77 @@ void WheelTelemetry::set_errorcode(::google::protobuf::int32 value) {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ChassisTelemetry::kWheelFieldNumber;
+const int DriveModuleTelemetry::kWheelFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ChassisTelemetry::ChassisTelemetry()
+DriveModuleTelemetry::DriveModuleTelemetry()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
     protobuf_roverToEarthBaseComm_2eproto::InitDefaults();
   }
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(constructor:ORION_COMM.REPLY.DriveModuleTelemetry)
 }
-ChassisTelemetry::ChassisTelemetry(const ChassisTelemetry& from)
+DriveModuleTelemetry::DriveModuleTelemetry(const DriveModuleTelemetry& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       wheel_(from.wheel_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(copy_constructor:ORION_COMM.REPLY.DriveModuleTelemetry)
 }
 
-void ChassisTelemetry::SharedCtor() {
+void DriveModuleTelemetry::SharedCtor() {
   _cached_size_ = 0;
 }
 
-ChassisTelemetry::~ChassisTelemetry() {
-  // @@protoc_insertion_point(destructor:ORION_COMM.ChassisTelemetry)
+DriveModuleTelemetry::~DriveModuleTelemetry() {
+  // @@protoc_insertion_point(destructor:ORION_COMM.REPLY.DriveModuleTelemetry)
   SharedDtor();
 }
 
-void ChassisTelemetry::SharedDtor() {
+void DriveModuleTelemetry::SharedDtor() {
 }
 
-void ChassisTelemetry::SetCachedSize(int size) const {
+void DriveModuleTelemetry::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* ChassisTelemetry::descriptor() {
+const ::google::protobuf::Descriptor* DriveModuleTelemetry::descriptor() {
   protobuf_roverToEarthBaseComm_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_roverToEarthBaseComm_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ChassisTelemetry& ChassisTelemetry::default_instance() {
+const DriveModuleTelemetry& DriveModuleTelemetry::default_instance() {
   protobuf_roverToEarthBaseComm_2eproto::InitDefaults();
   return *internal_default_instance();
 }
 
-ChassisTelemetry* ChassisTelemetry::New(::google::protobuf::Arena* arena) const {
-  ChassisTelemetry* n = new ChassisTelemetry;
+DriveModuleTelemetry* DriveModuleTelemetry::New(::google::protobuf::Arena* arena) const {
+  DriveModuleTelemetry* n = new DriveModuleTelemetry;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void ChassisTelemetry::Clear() {
-// @@protoc_insertion_point(message_clear_start:ORION_COMM.ChassisTelemetry)
+void DriveModuleTelemetry::Clear() {
+// @@protoc_insertion_point(message_clear_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   wheel_.Clear();
 }
 
-bool ChassisTelemetry::MergePartialFromCodedStream(
+bool DriveModuleTelemetry::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(parse_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .ORION_COMM.WheelTelemetry wheel = 1;
+      // repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u)) {
@@ -756,51 +760,51 @@ bool ChassisTelemetry::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(parse_success:ORION_COMM.REPLY.DriveModuleTelemetry)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(parse_failure:ORION_COMM.REPLY.DriveModuleTelemetry)
   return false;
 #undef DO_
 }
 
-void ChassisTelemetry::SerializeWithCachedSizes(
+void DriveModuleTelemetry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(serialize_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .ORION_COMM.WheelTelemetry wheel = 1;
+  // repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
   for (unsigned int i = 0, n = this->wheel_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->wheel(i), output);
   }
 
-  // @@protoc_insertion_point(serialize_end:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(serialize_end:ORION_COMM.REPLY.DriveModuleTelemetry)
 }
 
-::google::protobuf::uint8* ChassisTelemetry::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* DriveModuleTelemetry::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(serialize_to_array_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .ORION_COMM.WheelTelemetry wheel = 1;
+  // repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
   for (unsigned int i = 0, n = this->wheel_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
         1, this->wheel(i), deterministic, target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(serialize_to_array_end:ORION_COMM.REPLY.DriveModuleTelemetry)
   return target;
 }
 
-size_t ChassisTelemetry::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ORION_COMM.ChassisTelemetry)
+size_t DriveModuleTelemetry::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   size_t total_size = 0;
 
-  // repeated .ORION_COMM.WheelTelemetry wheel = 1;
+  // repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
   {
     unsigned int count = this->wheel_size();
     total_size += 1UL * count;
@@ -818,23 +822,23 @@ size_t ChassisTelemetry::ByteSizeLong() const {
   return total_size;
 }
 
-void ChassisTelemetry::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ORION_COMM.ChassisTelemetry)
+void DriveModuleTelemetry::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   GOOGLE_DCHECK_NE(&from, this);
-  const ChassisTelemetry* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ChassisTelemetry>(
+  const DriveModuleTelemetry* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const DriveModuleTelemetry>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ORION_COMM.REPLY.DriveModuleTelemetry)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ORION_COMM.REPLY.DriveModuleTelemetry)
     MergeFrom(*source);
   }
 }
 
-void ChassisTelemetry::MergeFrom(const ChassisTelemetry& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ORION_COMM.ChassisTelemetry)
+void DriveModuleTelemetry::MergeFrom(const DriveModuleTelemetry& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -843,68 +847,68 @@ void ChassisTelemetry::MergeFrom(const ChassisTelemetry& from) {
   wheel_.MergeFrom(from.wheel_);
 }
 
-void ChassisTelemetry::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ORION_COMM.ChassisTelemetry)
+void DriveModuleTelemetry::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ChassisTelemetry::CopyFrom(const ChassisTelemetry& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ORION_COMM.ChassisTelemetry)
+void DriveModuleTelemetry::CopyFrom(const DriveModuleTelemetry& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ORION_COMM.REPLY.DriveModuleTelemetry)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ChassisTelemetry::IsInitialized() const {
+bool DriveModuleTelemetry::IsInitialized() const {
   return true;
 }
 
-void ChassisTelemetry::Swap(ChassisTelemetry* other) {
+void DriveModuleTelemetry::Swap(DriveModuleTelemetry* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ChassisTelemetry::InternalSwap(ChassisTelemetry* other) {
+void DriveModuleTelemetry::InternalSwap(DriveModuleTelemetry* other) {
   wheel_.InternalSwap(&other->wheel_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata ChassisTelemetry::GetMetadata() const {
+::google::protobuf::Metadata DriveModuleTelemetry::GetMetadata() const {
   protobuf_roverToEarthBaseComm_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_roverToEarthBaseComm_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
-// ChassisTelemetry
+// DriveModuleTelemetry
 
-// repeated .ORION_COMM.WheelTelemetry wheel = 1;
-int ChassisTelemetry::wheel_size() const {
+// repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
+int DriveModuleTelemetry::wheel_size() const {
   return wheel_.size();
 }
-void ChassisTelemetry::clear_wheel() {
+void DriveModuleTelemetry::clear_wheel() {
   wheel_.Clear();
 }
-const ::ORION_COMM::WheelTelemetry& ChassisTelemetry::wheel(int index) const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.ChassisTelemetry.wheel)
+const ::ORION_COMM::REPLY::WheelTelemetry& DriveModuleTelemetry::wheel(int index) const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_.Get(index);
 }
-::ORION_COMM::WheelTelemetry* ChassisTelemetry::mutable_wheel(int index) {
-  // @@protoc_insertion_point(field_mutable:ORION_COMM.ChassisTelemetry.wheel)
+::ORION_COMM::REPLY::WheelTelemetry* DriveModuleTelemetry::mutable_wheel(int index) {
+  // @@protoc_insertion_point(field_mutable:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_.Mutable(index);
 }
-::ORION_COMM::WheelTelemetry* ChassisTelemetry::add_wheel() {
-  // @@protoc_insertion_point(field_add:ORION_COMM.ChassisTelemetry.wheel)
+::ORION_COMM::REPLY::WheelTelemetry* DriveModuleTelemetry::add_wheel() {
+  // @@protoc_insertion_point(field_add:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_.Add();
 }
-::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry >*
-ChassisTelemetry::mutable_wheel() {
-  // @@protoc_insertion_point(field_mutable_list:ORION_COMM.ChassisTelemetry.wheel)
+::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry >*
+DriveModuleTelemetry::mutable_wheel() {
+  // @@protoc_insertion_point(field_mutable_list:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return &wheel_;
 }
-const ::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry >&
-ChassisTelemetry::wheel() const {
-  // @@protoc_insertion_point(field_list:ORION_COMM.ChassisTelemetry.wheel)
+const ::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry >&
+DriveModuleTelemetry::wheel() const {
+  // @@protoc_insertion_point(field_list:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_;
 }
 
@@ -913,79 +917,83 @@ ChassisTelemetry::wheel() const {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Feedback::kCmdFieldNumber;
-const int Feedback::kChassisFieldNumber;
+const int Reply::kReplyTypeFieldNumber;
+const int Reply::kModuleFieldNumber;
+const int Reply::kChassisFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-Feedback::Feedback()
+Reply::Reply()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
     protobuf_roverToEarthBaseComm_2eproto::InitDefaults();
   }
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(constructor:ORION_COMM.REPLY.Reply)
 }
-Feedback::Feedback(const Feedback& from)
+Reply::Reply(const Reply& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  cmd_ = from.cmd_;
+  ::memcpy(&reply_type_, &from.reply_type_,
+    reinterpret_cast<char*>(&module_) -
+    reinterpret_cast<char*>(&reply_type_) + sizeof(module_));
   clear_has_feedback_content();
   switch (from.feedback_content_case()) {
     case kChassis: {
-      mutable_chassis()->::ORION_COMM::ChassisTelemetry::MergeFrom(from.chassis());
+      mutable_chassis()->::ORION_COMM::REPLY::DriveModuleTelemetry::MergeFrom(from.chassis());
       break;
     }
     case FEEDBACK_CONTENT_NOT_SET: {
       break;
     }
   }
-  // @@protoc_insertion_point(copy_constructor:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(copy_constructor:ORION_COMM.REPLY.Reply)
 }
 
-void Feedback::SharedCtor() {
-  cmd_ = 0;
+void Reply::SharedCtor() {
+  ::memset(&reply_type_, 0, reinterpret_cast<char*>(&module_) -
+    reinterpret_cast<char*>(&reply_type_) + sizeof(module_));
   clear_has_feedback_content();
   _cached_size_ = 0;
 }
 
-Feedback::~Feedback() {
-  // @@protoc_insertion_point(destructor:ORION_COMM.Feedback)
+Reply::~Reply() {
+  // @@protoc_insertion_point(destructor:ORION_COMM.REPLY.Reply)
   SharedDtor();
 }
 
-void Feedback::SharedDtor() {
+void Reply::SharedDtor() {
   if (has_feedback_content()) {
     clear_feedback_content();
   }
 }
 
-void Feedback::SetCachedSize(int size) const {
+void Reply::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Feedback::descriptor() {
+const ::google::protobuf::Descriptor* Reply::descriptor() {
   protobuf_roverToEarthBaseComm_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_roverToEarthBaseComm_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const Feedback& Feedback::default_instance() {
+const Reply& Reply::default_instance() {
   protobuf_roverToEarthBaseComm_2eproto::InitDefaults();
   return *internal_default_instance();
 }
 
-Feedback* Feedback::New(::google::protobuf::Arena* arena) const {
-  Feedback* n = new Feedback;
+Reply* Reply::New(::google::protobuf::Arena* arena) const {
+  Reply* n = new Reply;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void Feedback::clear_feedback_content() {
-// @@protoc_insertion_point(one_of_clear_start:ORION_COMM.Feedback)
+void Reply::clear_feedback_content() {
+// @@protoc_insertion_point(one_of_clear_start:ORION_COMM.REPLY.Reply)
   switch (feedback_content_case()) {
     case kChassis: {
       delete feedback_content_.chassis_;
@@ -999,23 +1007,24 @@ void Feedback::clear_feedback_content() {
 }
 
 
-void Feedback::Clear() {
-// @@protoc_insertion_point(message_clear_start:ORION_COMM.Feedback)
-  cmd_ = 0;
+void Reply::Clear() {
+// @@protoc_insertion_point(message_clear_start:ORION_COMM.REPLY.Reply)
+  ::memset(&reply_type_, 0, reinterpret_cast<char*>(&module_) -
+    reinterpret_cast<char*>(&reply_type_) + sizeof(module_));
   clear_feedback_content();
 }
 
-bool Feedback::MergePartialFromCodedStream(
+bool Reply::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(parse_start:ORION_COMM.REPLY.Reply)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // .ORION_COMM.Commands cmd = 1;
+      // .ORION_COMM.CMD_TYPE reply_type = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u)) {
@@ -1023,17 +1032,32 @@ bool Feedback::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          set_cmd(static_cast< ::ORION_COMM::Commands >(value));
+          set_reply_type(static_cast< ::ORION_COMM::CMD_TYPE >(value));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .ORION_COMM.ChassisTelemetry chassis = 2;
+      // .ORION_COMM.MODULE module = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u)) {
+            static_cast< ::google::protobuf::uint8>(16u)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_module(static_cast< ::ORION_COMM::MODULE >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_chassis()));
         } else {
@@ -1055,70 +1079,88 @@ bool Feedback::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(parse_success:ORION_COMM.REPLY.Reply)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(parse_failure:ORION_COMM.REPLY.Reply)
   return false;
 #undef DO_
 }
 
-void Feedback::SerializeWithCachedSizes(
+void Reply::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(serialize_start:ORION_COMM.REPLY.Reply)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .ORION_COMM.Commands cmd = 1;
-  if (this->cmd() != 0) {
+  // .ORION_COMM.CMD_TYPE reply_type = 1;
+  if (this->reply_type() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->cmd(), output);
+      1, this->reply_type(), output);
   }
 
-  // .ORION_COMM.ChassisTelemetry chassis = 2;
+  // .ORION_COMM.MODULE module = 2;
+  if (this->module() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->module(), output);
+  }
+
+  // .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
   if (has_chassis()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *feedback_content_.chassis_, output);
+      3, *feedback_content_.chassis_, output);
   }
 
-  // @@protoc_insertion_point(serialize_end:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(serialize_end:ORION_COMM.REPLY.Reply)
 }
 
-::google::protobuf::uint8* Feedback::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Reply::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(serialize_to_array_start:ORION_COMM.REPLY.Reply)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .ORION_COMM.Commands cmd = 1;
-  if (this->cmd() != 0) {
+  // .ORION_COMM.CMD_TYPE reply_type = 1;
+  if (this->reply_type() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->cmd(), target);
+      1, this->reply_type(), target);
   }
 
-  // .ORION_COMM.ChassisTelemetry chassis = 2;
+  // .ORION_COMM.MODULE module = 2;
+  if (this->module() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      2, this->module(), target);
+  }
+
+  // .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
   if (has_chassis()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageNoVirtualToArray(
-        2, *feedback_content_.chassis_, deterministic, target);
+        3, *feedback_content_.chassis_, deterministic, target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(serialize_to_array_end:ORION_COMM.REPLY.Reply)
   return target;
 }
 
-size_t Feedback::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ORION_COMM.Feedback)
+size_t Reply::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ORION_COMM.REPLY.Reply)
   size_t total_size = 0;
 
-  // .ORION_COMM.Commands cmd = 1;
-  if (this->cmd() != 0) {
+  // .ORION_COMM.CMD_TYPE reply_type = 1;
+  if (this->reply_type() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->cmd());
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->reply_type());
+  }
+
+  // .ORION_COMM.MODULE module = 2;
+  if (this->module() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->module());
   }
 
   switch (feedback_content_case()) {
-    // .ORION_COMM.ChassisTelemetry chassis = 2;
+    // .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
     case kChassis: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1136,34 +1178,37 @@ size_t Feedback::ByteSizeLong() const {
   return total_size;
 }
 
-void Feedback::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ORION_COMM.Feedback)
+void Reply::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ORION_COMM.REPLY.Reply)
   GOOGLE_DCHECK_NE(&from, this);
-  const Feedback* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const Feedback>(
+  const Reply* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Reply>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ORION_COMM.REPLY.Reply)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ORION_COMM.REPLY.Reply)
     MergeFrom(*source);
   }
 }
 
-void Feedback::MergeFrom(const Feedback& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ORION_COMM.Feedback)
+void Reply::MergeFrom(const Reply& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ORION_COMM.REPLY.Reply)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.cmd() != 0) {
-    set_cmd(from.cmd());
+  if (from.reply_type() != 0) {
+    set_reply_type(from.reply_type());
+  }
+  if (from.module() != 0) {
+    set_module(from.module());
   }
   switch (from.feedback_content_case()) {
     case kChassis: {
-      mutable_chassis()->::ORION_COMM::ChassisTelemetry::MergeFrom(from.chassis());
+      mutable_chassis()->::ORION_COMM::REPLY::DriveModuleTelemetry::MergeFrom(from.chassis());
       break;
     }
     case FEEDBACK_CONTENT_NOT_SET: {
@@ -1172,118 +1217,134 @@ void Feedback::MergeFrom(const Feedback& from) {
   }
 }
 
-void Feedback::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ORION_COMM.Feedback)
+void Reply::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ORION_COMM.REPLY.Reply)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Feedback::CopyFrom(const Feedback& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ORION_COMM.Feedback)
+void Reply::CopyFrom(const Reply& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ORION_COMM.REPLY.Reply)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Feedback::IsInitialized() const {
+bool Reply::IsInitialized() const {
   return true;
 }
 
-void Feedback::Swap(Feedback* other) {
+void Reply::Swap(Reply* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void Feedback::InternalSwap(Feedback* other) {
-  std::swap(cmd_, other->cmd_);
+void Reply::InternalSwap(Reply* other) {
+  std::swap(reply_type_, other->reply_type_);
+  std::swap(module_, other->module_);
   std::swap(feedback_content_, other->feedback_content_);
   std::swap(_oneof_case_[0], other->_oneof_case_[0]);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata Feedback::GetMetadata() const {
+::google::protobuf::Metadata Reply::GetMetadata() const {
   protobuf_roverToEarthBaseComm_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_roverToEarthBaseComm_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
-// Feedback
+// Reply
 
-// .ORION_COMM.Commands cmd = 1;
-void Feedback::clear_cmd() {
-  cmd_ = 0;
+// .ORION_COMM.CMD_TYPE reply_type = 1;
+void Reply::clear_reply_type() {
+  reply_type_ = 0;
 }
-::ORION_COMM::Commands Feedback::cmd() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Feedback.cmd)
-  return static_cast< ::ORION_COMM::Commands >(cmd_);
+::ORION_COMM::CMD_TYPE Reply::reply_type() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.Reply.reply_type)
+  return static_cast< ::ORION_COMM::CMD_TYPE >(reply_type_);
 }
-void Feedback::set_cmd(::ORION_COMM::Commands value) {
+void Reply::set_reply_type(::ORION_COMM::CMD_TYPE value) {
   
-  cmd_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.Feedback.cmd)
+  reply_type_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.Reply.reply_type)
 }
 
-// .ORION_COMM.ChassisTelemetry chassis = 2;
-bool Feedback::has_chassis() const {
+// .ORION_COMM.MODULE module = 2;
+void Reply::clear_module() {
+  module_ = 0;
+}
+::ORION_COMM::MODULE Reply::module() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.Reply.module)
+  return static_cast< ::ORION_COMM::MODULE >(module_);
+}
+void Reply::set_module(::ORION_COMM::MODULE value) {
+  
+  module_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.Reply.module)
+}
+
+// .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
+bool Reply::has_chassis() const {
   return feedback_content_case() == kChassis;
 }
-void Feedback::set_has_chassis() {
+void Reply::set_has_chassis() {
   _oneof_case_[0] = kChassis;
 }
-void Feedback::clear_chassis() {
+void Reply::clear_chassis() {
   if (has_chassis()) {
     delete feedback_content_.chassis_;
     clear_has_feedback_content();
   }
 }
- const ::ORION_COMM::ChassisTelemetry& Feedback::chassis() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Feedback.chassis)
+ const ::ORION_COMM::REPLY::DriveModuleTelemetry& Reply::chassis() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.Reply.chassis)
   return has_chassis()
       ? *feedback_content_.chassis_
-      : ::ORION_COMM::ChassisTelemetry::default_instance();
+      : ::ORION_COMM::REPLY::DriveModuleTelemetry::default_instance();
 }
-::ORION_COMM::ChassisTelemetry* Feedback::mutable_chassis() {
+::ORION_COMM::REPLY::DriveModuleTelemetry* Reply::mutable_chassis() {
   if (!has_chassis()) {
     clear_feedback_content();
     set_has_chassis();
-    feedback_content_.chassis_ = new ::ORION_COMM::ChassisTelemetry;
+    feedback_content_.chassis_ = new ::ORION_COMM::REPLY::DriveModuleTelemetry;
   }
-  // @@protoc_insertion_point(field_mutable:ORION_COMM.Feedback.chassis)
+  // @@protoc_insertion_point(field_mutable:ORION_COMM.REPLY.Reply.chassis)
   return feedback_content_.chassis_;
 }
-::ORION_COMM::ChassisTelemetry* Feedback::release_chassis() {
-  // @@protoc_insertion_point(field_release:ORION_COMM.Feedback.chassis)
+::ORION_COMM::REPLY::DriveModuleTelemetry* Reply::release_chassis() {
+  // @@protoc_insertion_point(field_release:ORION_COMM.REPLY.Reply.chassis)
   if (has_chassis()) {
     clear_has_feedback_content();
-    ::ORION_COMM::ChassisTelemetry* temp = feedback_content_.chassis_;
+    ::ORION_COMM::REPLY::DriveModuleTelemetry* temp = feedback_content_.chassis_;
     feedback_content_.chassis_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-void Feedback::set_allocated_chassis(::ORION_COMM::ChassisTelemetry* chassis) {
+void Reply::set_allocated_chassis(::ORION_COMM::REPLY::DriveModuleTelemetry* chassis) {
   clear_feedback_content();
   if (chassis) {
     set_has_chassis();
     feedback_content_.chassis_ = chassis;
   }
-  // @@protoc_insertion_point(field_set_allocated:ORION_COMM.Feedback.chassis)
+  // @@protoc_insertion_point(field_set_allocated:ORION_COMM.REPLY.Reply.chassis)
 }
 
-bool Feedback::has_feedback_content() const {
+bool Reply::has_feedback_content() const {
   return feedback_content_case() != FEEDBACK_CONTENT_NOT_SET;
 }
-void Feedback::clear_has_feedback_content() {
+void Reply::clear_has_feedback_content() {
   _oneof_case_[0] = FEEDBACK_CONTENT_NOT_SET;
 }
-Feedback::FeedbackContentCase Feedback::feedback_content_case() const {
-  return Feedback::FeedbackContentCase(_oneof_case_[0]);
+Reply::FeedbackContentCase Reply::feedback_content_case() const {
+  return Reply::FeedbackContentCase(_oneof_case_[0]);
 }
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace REPLY
 }  // namespace ORION_COMM
 
 // @@protoc_insertion_point(global_scope)

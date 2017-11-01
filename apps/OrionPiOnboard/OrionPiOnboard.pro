@@ -29,6 +29,7 @@ HEADERS += \
     Orion/Drive/ProtobufChassisFeedbackGenerator.h \
     ../protos/earthBaseToRoverComm.pb.h \
     ../protos/roverToEarthBaseComm.pb.h \
+    ../protos/protocolEnums.pb.h \
     inputs/IfceInputSource.h \
     inputs/TcpInputSource.h \
     inputs/GamepadInputSource.h
@@ -45,6 +46,7 @@ SOURCES += main.cpp \
     Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
     ../protos/earthBaseToRoverComm.pb.cc \
     ../protos/roverToEarthBaseComm.pb.cc \
+    ../protos/protocolEnums.pb.cc \
     inputs/TcpInputSource.cpp \
     inputs/GamepadInputSource.cpp
 
@@ -79,4 +81,5 @@ QMAKE_CXXFLAGS += -isystem ../protos
 
 DISTFILES += \
     ../protos/earthBaseToRoverComm.proto \
-    ../protos/roverToEarthBaseComm.proto
+    ../protos/roverToEarthBaseComm.proto \
+    ../protos/protocolEnums.proto

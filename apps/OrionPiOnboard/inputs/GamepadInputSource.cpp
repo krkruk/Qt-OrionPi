@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <cmath>
 
+#include "../protos/protocolEnums.pb.h"
 #include "../protos/earthBaseToRoverComm.pb.h"
 #include "../protos/roverToEarthBaseComm.pb.h"
 
@@ -110,11 +111,13 @@ double GamepadInputSource::apply_dead_zone(double input) const
 
 void GamepadInputSource::broadcast_gamepad_results()
 {
-    ORION_COMM::Command cmd;
-    cmd.set_cmdtype(ORION_COMM::Drive);
-    ORION_COMM::Chassis *chassis = cmd.mutable_drive();
-    chassis->set_leftrowangularvelocity(leftAxis);
-    chassis->set_rightrowangularvelocity(rightAxis);
+    ORION_COMM::QUERY::Query cmd;
+    cmd.set_cmd(ORION_COMM::UPDATE);
+    cmd.set_module(ORION_COMM::DRIVE);
+    cmd.set_mode(ORION_COMM::USER_CONTROLLED);
+    ORION_COMM::QUERY::InputDevice *mockGamepad = cmd.mutable_input();
+    mockGamepad->set_x_axis_0(leftAxis);
+    mockGamepad->set_y_axis_0(rightAxis);
 
     auto serialized = cmd.SerializeAsString();
     QByteArray data(serialized.data(), serialized.size());

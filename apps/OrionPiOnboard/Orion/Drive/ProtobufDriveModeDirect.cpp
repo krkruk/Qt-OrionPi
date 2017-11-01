@@ -1,5 +1,6 @@
 #include "ProtobufDriveModeDirect.h"
 #include <QByteArray>
+#include "protocolEnums.pb.h"
 #include "earthBaseToRoverComm.pb.h"
 
 
@@ -11,7 +12,7 @@ class ProtobufDriveModeDirect::DriveModeDirectPrivate
 public:
     ~DriveModeDirectPrivate() = default;
 private:
-    ORION_COMM::Chassis chassisData;
+    ORION_COMM::QUERY::InputDevice chassisData;
 };
 
 
@@ -26,7 +27,7 @@ ProtobufDriveModeDirect::~ProtobufDriveModeDirect()
 
 void ProtobufDriveModeDirect::processInput(const QByteArray &rawData)
 {
-    ORION_COMM::Chassis chassisCmd;
+    ORION_COMM::QUERY::InputDevice chassisCmd;
     chassisCmd.ParseFromArray(rawData, rawData.size());
     priv->chassisData = chassisCmd;
 }
@@ -38,6 +39,6 @@ double ProtobufDriveModeDirect::getValue(int wheel)
      * Right row of wheels is number in 1,3,5... manner (odd numbers)
      */
     return isLeftRow(wheel)
-            ? priv->chassisData.leftrowangularvelocity()
-            : priv->chassisData.rightrowangularvelocity();
+            ? priv->chassisData.x_axis_0()
+            : priv->chassisData.y_axis_0();
 }

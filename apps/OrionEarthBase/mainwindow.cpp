@@ -12,6 +12,9 @@
 
 #include "NetworkSettings.h"
 #include "TcpSocket.h"
+
+#include <google/protobuf/util/json_util.h>
+#include "protocolEnums.pb.h"
 #include "earthBaseToRoverComm.pb.h"
 #include "roverToEarthBaseComm.pb.h"
 
@@ -27,7 +30,7 @@ namespace {
     const QString LEFT_WHEEL_ROW { "LROW" };
     const QString RIGHT_WHEEL_ROW { "RROW" };
 
-    constexpr char ORGAZNIATION[] { "Project Orion" };
+    constexpr char ORGAZNIATION[] { "Orion Project" };
 }
 
 
@@ -140,11 +143,18 @@ void MainWindow::parse_feedback_data(const QByteArray &data)
 //                                      errorCode);
 //    }
 
-    ORION_COMM::Feedback msg;
+    ORION_COMM::REPLY::Reply msg;
     msg.ParseFromArray(data.data(), data.size());
+    std::string json;
+    google::protobuf::util::MessageToJsonString(msg, &json);
+
+    if( msg.reply_type() != ORION_COMM::UPDATE )
+        return;
+    if( msg.module() != ORION_COMM::DRIVE )
+        return;
 
     auto wheels = msg.chassis().wheel();
-    for( const ORION_COMM::WheelTelemetry &wheel : wheels ) {
+    for( const ORION_COMM::REPLY::WheelTelemetry &wheel : wheels ) {
         const auto wheelName = QString::number(wheel.id());
         const auto angVelocity = wheel.angularvelocity();
         const auto heatSinkTemp = wheel.heatsinktemperature();
@@ -203,11 +213,14 @@ void MainWindow::write_gamepad_input_to_server()
 //    };
 //    QJsonDocument doc(obj);
 
-    ORION_COMM::Command cmd;
-    cmd.set_cmdtype(ORION_COMM::Drive);
-    auto *drive = cmd.mutable_drive();
-    drive->set_leftrowangularvelocity(leftAxis);
-    drive->set_rightrowangularvelocity(rightAxis);
+    ORION_COMM::QUERY::Query cmd;
+    cmd.set_cmd(ORION_COMM::UPDATE);
+    cmd.set_mode(ORION_COMM::USER_CONTROLLED);
+    cmd.set_module(ORION_COMM::DRIVE);
+
+    ORION_COMM::QUERY::InputDevice *drive = cmd.mutable_input();
+    drive->set_x_axis_0(leftAxis);
+    drive->set_y_axis_0(rightAxis);
     if( socket )
         socket->send(cmd.SerializeAsString());
 }

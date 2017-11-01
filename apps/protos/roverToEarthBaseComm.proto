@@ -1,7 +1,8 @@
 syntax = "proto3";
 
-package ORION_COMM;
-import "earthBaseToRoverComm.proto";
+import "protocolEnums.proto";
+package ORION_COMM.REPLY;
+
 
 message WheelTelemetry {
     int32 ID = 1;
@@ -12,14 +13,15 @@ message WheelTelemetry {
     int32 errorCode = 6;
 }
 
-message ChassisTelemetry {
+message DriveModuleTelemetry {
     repeated WheelTelemetry wheel = 1;
 }
 
-message Feedback {
-    Commands cmd = 1;
+message Reply {
+    ORION_COMM.CMD_TYPE reply_type = 1;
+    ORION_COMM.MODULE module = 2;
 
     oneof feedback_content {
-        ChassisTelemetry chassis = 2;
+        DriveModuleTelemetry chassis = 3;
     }
 }

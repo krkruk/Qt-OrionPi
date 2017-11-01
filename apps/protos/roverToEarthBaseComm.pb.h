@@ -29,27 +29,24 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
-#include "earthBaseToRoverComm.pb.h"
+#include "protocolEnums.pb.h"
 // @@protoc_insertion_point(includes)
 namespace ORION_COMM {
-class Chassis;
-class ChassisDefaultTypeInternal;
-extern ChassisDefaultTypeInternal _Chassis_default_instance_;
-class ChassisTelemetry;
-class ChassisTelemetryDefaultTypeInternal;
-extern ChassisTelemetryDefaultTypeInternal _ChassisTelemetry_default_instance_;
-class Command;
-class CommandDefaultTypeInternal;
-extern CommandDefaultTypeInternal _Command_default_instance_;
-class Feedback;
-class FeedbackDefaultTypeInternal;
-extern FeedbackDefaultTypeInternal _Feedback_default_instance_;
+namespace REPLY {
+class DriveModuleTelemetry;
+class DriveModuleTelemetryDefaultTypeInternal;
+extern DriveModuleTelemetryDefaultTypeInternal _DriveModuleTelemetry_default_instance_;
+class Reply;
+class ReplyDefaultTypeInternal;
+extern ReplyDefaultTypeInternal _Reply_default_instance_;
 class WheelTelemetry;
 class WheelTelemetryDefaultTypeInternal;
 extern WheelTelemetryDefaultTypeInternal _WheelTelemetry_default_instance_;
+}  // namespace REPLY
 }  // namespace ORION_COMM
 
 namespace ORION_COMM {
+namespace REPLY {
 
 namespace protobuf_roverToEarthBaseComm_2eproto {
 // Internal implementation detail -- do not call these.
@@ -67,7 +64,7 @@ void InitDefaults();
 
 // ===================================================================
 
-class WheelTelemetry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.WheelTelemetry) */ {
+class WheelTelemetry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.REPLY.WheelTelemetry) */ {
  public:
   WheelTelemetry();
   virtual ~WheelTelemetry();
@@ -167,7 +164,7 @@ class WheelTelemetry : public ::google::protobuf::Message /* @@protoc_insertion_
   ::google::protobuf::int32 errorcode() const;
   void set_errorcode(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:ORION_COMM.WheelTelemetry)
+  // @@protoc_insertion_point(class_scope:ORION_COMM.REPLY.WheelTelemetry)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -182,39 +179,39 @@ class WheelTelemetry : public ::google::protobuf::Message /* @@protoc_insertion_
 };
 // -------------------------------------------------------------------
 
-class ChassisTelemetry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.ChassisTelemetry) */ {
+class DriveModuleTelemetry : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.REPLY.DriveModuleTelemetry) */ {
  public:
-  ChassisTelemetry();
-  virtual ~ChassisTelemetry();
+  DriveModuleTelemetry();
+  virtual ~DriveModuleTelemetry();
 
-  ChassisTelemetry(const ChassisTelemetry& from);
+  DriveModuleTelemetry(const DriveModuleTelemetry& from);
 
-  inline ChassisTelemetry& operator=(const ChassisTelemetry& from) {
+  inline DriveModuleTelemetry& operator=(const DriveModuleTelemetry& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ChassisTelemetry& default_instance();
+  static const DriveModuleTelemetry& default_instance();
 
-  static inline const ChassisTelemetry* internal_default_instance() {
-    return reinterpret_cast<const ChassisTelemetry*>(
-               &_ChassisTelemetry_default_instance_);
+  static inline const DriveModuleTelemetry* internal_default_instance() {
+    return reinterpret_cast<const DriveModuleTelemetry*>(
+               &_DriveModuleTelemetry_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     1;
 
-  void Swap(ChassisTelemetry* other);
+  void Swap(DriveModuleTelemetry* other);
 
   // implements Message ----------------------------------------------
 
-  inline ChassisTelemetry* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline DriveModuleTelemetry* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  ChassisTelemetry* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  DriveModuleTelemetry* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ChassisTelemetry& from);
-  void MergeFrom(const ChassisTelemetry& from);
+  void CopyFrom(const DriveModuleTelemetry& from);
+  void MergeFrom(const DriveModuleTelemetry& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -230,7 +227,7 @@ class ChassisTelemetry : public ::google::protobuf::Message /* @@protoc_insertio
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ChassisTelemetry* other);
+  void InternalSwap(DriveModuleTelemetry* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -246,66 +243,66 @@ class ChassisTelemetry : public ::google::protobuf::Message /* @@protoc_insertio
 
   // accessors -------------------------------------------------------
 
-  // repeated .ORION_COMM.WheelTelemetry wheel = 1;
+  // repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
   int wheel_size() const;
   void clear_wheel();
   static const int kWheelFieldNumber = 1;
-  const ::ORION_COMM::WheelTelemetry& wheel(int index) const;
-  ::ORION_COMM::WheelTelemetry* mutable_wheel(int index);
-  ::ORION_COMM::WheelTelemetry* add_wheel();
-  ::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry >*
+  const ::ORION_COMM::REPLY::WheelTelemetry& wheel(int index) const;
+  ::ORION_COMM::REPLY::WheelTelemetry* mutable_wheel(int index);
+  ::ORION_COMM::REPLY::WheelTelemetry* add_wheel();
+  ::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry >*
       mutable_wheel();
-  const ::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry >&
+  const ::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry >&
       wheel() const;
 
-  // @@protoc_insertion_point(class_scope:ORION_COMM.ChassisTelemetry)
+  // @@protoc_insertion_point(class_scope:ORION_COMM.REPLY.DriveModuleTelemetry)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry > wheel_;
+  ::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry > wheel_;
   mutable int _cached_size_;
   friend struct protobuf_roverToEarthBaseComm_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class Feedback : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.Feedback) */ {
+class Reply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.REPLY.Reply) */ {
  public:
-  Feedback();
-  virtual ~Feedback();
+  Reply();
+  virtual ~Reply();
 
-  Feedback(const Feedback& from);
+  Reply(const Reply& from);
 
-  inline Feedback& operator=(const Feedback& from) {
+  inline Reply& operator=(const Reply& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Feedback& default_instance();
+  static const Reply& default_instance();
 
   enum FeedbackContentCase {
-    kChassis = 2,
+    kChassis = 3,
     FEEDBACK_CONTENT_NOT_SET = 0,
   };
 
-  static inline const Feedback* internal_default_instance() {
-    return reinterpret_cast<const Feedback*>(
-               &_Feedback_default_instance_);
+  static inline const Reply* internal_default_instance() {
+    return reinterpret_cast<const Reply*>(
+               &_Reply_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     2;
 
-  void Swap(Feedback* other);
+  void Swap(Reply* other);
 
   // implements Message ----------------------------------------------
 
-  inline Feedback* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline Reply* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  Feedback* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  Reply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const Feedback& from);
-  void MergeFrom(const Feedback& from);
+  void CopyFrom(const Reply& from);
+  void MergeFrom(const Reply& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -321,7 +318,7 @@ class Feedback : public ::google::protobuf::Message /* @@protoc_insertion_point(
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(Feedback* other);
+  void InternalSwap(Reply* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -337,23 +334,29 @@ class Feedback : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // .ORION_COMM.Commands cmd = 1;
-  void clear_cmd();
-  static const int kCmdFieldNumber = 1;
-  ::ORION_COMM::Commands cmd() const;
-  void set_cmd(::ORION_COMM::Commands value);
+  // .ORION_COMM.CMD_TYPE reply_type = 1;
+  void clear_reply_type();
+  static const int kReplyTypeFieldNumber = 1;
+  ::ORION_COMM::CMD_TYPE reply_type() const;
+  void set_reply_type(::ORION_COMM::CMD_TYPE value);
 
-  // .ORION_COMM.ChassisTelemetry chassis = 2;
+  // .ORION_COMM.MODULE module = 2;
+  void clear_module();
+  static const int kModuleFieldNumber = 2;
+  ::ORION_COMM::MODULE module() const;
+  void set_module(::ORION_COMM::MODULE value);
+
+  // .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
   bool has_chassis() const;
   void clear_chassis();
-  static const int kChassisFieldNumber = 2;
-  const ::ORION_COMM::ChassisTelemetry& chassis() const;
-  ::ORION_COMM::ChassisTelemetry* mutable_chassis();
-  ::ORION_COMM::ChassisTelemetry* release_chassis();
-  void set_allocated_chassis(::ORION_COMM::ChassisTelemetry* chassis);
+  static const int kChassisFieldNumber = 3;
+  const ::ORION_COMM::REPLY::DriveModuleTelemetry& chassis() const;
+  ::ORION_COMM::REPLY::DriveModuleTelemetry* mutable_chassis();
+  ::ORION_COMM::REPLY::DriveModuleTelemetry* release_chassis();
+  void set_allocated_chassis(::ORION_COMM::REPLY::DriveModuleTelemetry* chassis);
 
   FeedbackContentCase feedback_content_case() const;
-  // @@protoc_insertion_point(class_scope:ORION_COMM.Feedback)
+  // @@protoc_insertion_point(class_scope:ORION_COMM.REPLY.Reply)
  private:
   void set_has_chassis();
 
@@ -362,10 +365,11 @@ class Feedback : public ::google::protobuf::Message /* @@protoc_insertion_point(
   inline void clear_has_feedback_content();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  int cmd_;
+  int reply_type_;
+  int module_;
   union FeedbackContentUnion {
     FeedbackContentUnion() {}
-    ::ORION_COMM::ChassisTelemetry* chassis_;
+    ::ORION_COMM::REPLY::DriveModuleTelemetry* chassis_;
   } feedback_content_;
   mutable int _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -385,13 +389,13 @@ inline void WheelTelemetry::clear_id() {
   id_ = 0;
 }
 inline ::google::protobuf::int32 WheelTelemetry::id() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.ID)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.ID)
   return id_;
 }
 inline void WheelTelemetry::set_id(::google::protobuf::int32 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.ID)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.ID)
 }
 
 // double angularVelocity = 2;
@@ -399,13 +403,13 @@ inline void WheelTelemetry::clear_angularvelocity() {
   angularvelocity_ = 0;
 }
 inline double WheelTelemetry::angularvelocity() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.angularVelocity)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.angularVelocity)
   return angularvelocity_;
 }
 inline void WheelTelemetry::set_angularvelocity(double value) {
   
   angularvelocity_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.angularVelocity)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.angularVelocity)
 }
 
 // double current = 3;
@@ -413,13 +417,13 @@ inline void WheelTelemetry::clear_current() {
   current_ = 0;
 }
 inline double WheelTelemetry::current() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.current)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.current)
   return current_;
 }
 inline void WheelTelemetry::set_current(double value) {
   
   current_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.current)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.current)
 }
 
 // double heatSinkTemperature = 4;
@@ -427,13 +431,13 @@ inline void WheelTelemetry::clear_heatsinktemperature() {
   heatsinktemperature_ = 0;
 }
 inline double WheelTelemetry::heatsinktemperature() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.heatSinkTemperature)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.heatSinkTemperature)
   return heatsinktemperature_;
 }
 inline void WheelTelemetry::set_heatsinktemperature(double value) {
   
   heatsinktemperature_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.heatSinkTemperature)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.heatSinkTemperature)
 }
 
 // int32 pwm = 5;
@@ -441,13 +445,13 @@ inline void WheelTelemetry::clear_pwm() {
   pwm_ = 0;
 }
 inline ::google::protobuf::int32 WheelTelemetry::pwm() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.pwm)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.pwm)
   return pwm_;
 }
 inline void WheelTelemetry::set_pwm(::google::protobuf::int32 value) {
   
   pwm_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.pwm)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.pwm)
 }
 
 // int32 errorCode = 6;
@@ -455,123 +459,137 @@ inline void WheelTelemetry::clear_errorcode() {
   errorcode_ = 0;
 }
 inline ::google::protobuf::int32 WheelTelemetry::errorcode() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.WheelTelemetry.errorCode)
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.WheelTelemetry.errorCode)
   return errorcode_;
 }
 inline void WheelTelemetry::set_errorcode(::google::protobuf::int32 value) {
   
   errorcode_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.WheelTelemetry.errorCode)
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.WheelTelemetry.errorCode)
 }
 
 // -------------------------------------------------------------------
 
-// ChassisTelemetry
+// DriveModuleTelemetry
 
-// repeated .ORION_COMM.WheelTelemetry wheel = 1;
-inline int ChassisTelemetry::wheel_size() const {
+// repeated .ORION_COMM.REPLY.WheelTelemetry wheel = 1;
+inline int DriveModuleTelemetry::wheel_size() const {
   return wheel_.size();
 }
-inline void ChassisTelemetry::clear_wheel() {
+inline void DriveModuleTelemetry::clear_wheel() {
   wheel_.Clear();
 }
-inline const ::ORION_COMM::WheelTelemetry& ChassisTelemetry::wheel(int index) const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.ChassisTelemetry.wheel)
+inline const ::ORION_COMM::REPLY::WheelTelemetry& DriveModuleTelemetry::wheel(int index) const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_.Get(index);
 }
-inline ::ORION_COMM::WheelTelemetry* ChassisTelemetry::mutable_wheel(int index) {
-  // @@protoc_insertion_point(field_mutable:ORION_COMM.ChassisTelemetry.wheel)
+inline ::ORION_COMM::REPLY::WheelTelemetry* DriveModuleTelemetry::mutable_wheel(int index) {
+  // @@protoc_insertion_point(field_mutable:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_.Mutable(index);
 }
-inline ::ORION_COMM::WheelTelemetry* ChassisTelemetry::add_wheel() {
-  // @@protoc_insertion_point(field_add:ORION_COMM.ChassisTelemetry.wheel)
+inline ::ORION_COMM::REPLY::WheelTelemetry* DriveModuleTelemetry::add_wheel() {
+  // @@protoc_insertion_point(field_add:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry >*
-ChassisTelemetry::mutable_wheel() {
-  // @@protoc_insertion_point(field_mutable_list:ORION_COMM.ChassisTelemetry.wheel)
+inline ::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry >*
+DriveModuleTelemetry::mutable_wheel() {
+  // @@protoc_insertion_point(field_mutable_list:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return &wheel_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::ORION_COMM::WheelTelemetry >&
-ChassisTelemetry::wheel() const {
-  // @@protoc_insertion_point(field_list:ORION_COMM.ChassisTelemetry.wheel)
+inline const ::google::protobuf::RepeatedPtrField< ::ORION_COMM::REPLY::WheelTelemetry >&
+DriveModuleTelemetry::wheel() const {
+  // @@protoc_insertion_point(field_list:ORION_COMM.REPLY.DriveModuleTelemetry.wheel)
   return wheel_;
 }
 
 // -------------------------------------------------------------------
 
-// Feedback
+// Reply
 
-// .ORION_COMM.Commands cmd = 1;
-inline void Feedback::clear_cmd() {
-  cmd_ = 0;
+// .ORION_COMM.CMD_TYPE reply_type = 1;
+inline void Reply::clear_reply_type() {
+  reply_type_ = 0;
 }
-inline ::ORION_COMM::Commands Feedback::cmd() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Feedback.cmd)
-  return static_cast< ::ORION_COMM::Commands >(cmd_);
+inline ::ORION_COMM::CMD_TYPE Reply::reply_type() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.Reply.reply_type)
+  return static_cast< ::ORION_COMM::CMD_TYPE >(reply_type_);
 }
-inline void Feedback::set_cmd(::ORION_COMM::Commands value) {
+inline void Reply::set_reply_type(::ORION_COMM::CMD_TYPE value) {
   
-  cmd_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.Feedback.cmd)
+  reply_type_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.Reply.reply_type)
 }
 
-// .ORION_COMM.ChassisTelemetry chassis = 2;
-inline bool Feedback::has_chassis() const {
+// .ORION_COMM.MODULE module = 2;
+inline void Reply::clear_module() {
+  module_ = 0;
+}
+inline ::ORION_COMM::MODULE Reply::module() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.Reply.module)
+  return static_cast< ::ORION_COMM::MODULE >(module_);
+}
+inline void Reply::set_module(::ORION_COMM::MODULE value) {
+  
+  module_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.REPLY.Reply.module)
+}
+
+// .ORION_COMM.REPLY.DriveModuleTelemetry chassis = 3;
+inline bool Reply::has_chassis() const {
   return feedback_content_case() == kChassis;
 }
-inline void Feedback::set_has_chassis() {
+inline void Reply::set_has_chassis() {
   _oneof_case_[0] = kChassis;
 }
-inline void Feedback::clear_chassis() {
+inline void Reply::clear_chassis() {
   if (has_chassis()) {
     delete feedback_content_.chassis_;
     clear_has_feedback_content();
   }
 }
-inline  const ::ORION_COMM::ChassisTelemetry& Feedback::chassis() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Feedback.chassis)
+inline  const ::ORION_COMM::REPLY::DriveModuleTelemetry& Reply::chassis() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.REPLY.Reply.chassis)
   return has_chassis()
       ? *feedback_content_.chassis_
-      : ::ORION_COMM::ChassisTelemetry::default_instance();
+      : ::ORION_COMM::REPLY::DriveModuleTelemetry::default_instance();
 }
-inline ::ORION_COMM::ChassisTelemetry* Feedback::mutable_chassis() {
+inline ::ORION_COMM::REPLY::DriveModuleTelemetry* Reply::mutable_chassis() {
   if (!has_chassis()) {
     clear_feedback_content();
     set_has_chassis();
-    feedback_content_.chassis_ = new ::ORION_COMM::ChassisTelemetry;
+    feedback_content_.chassis_ = new ::ORION_COMM::REPLY::DriveModuleTelemetry;
   }
-  // @@protoc_insertion_point(field_mutable:ORION_COMM.Feedback.chassis)
+  // @@protoc_insertion_point(field_mutable:ORION_COMM.REPLY.Reply.chassis)
   return feedback_content_.chassis_;
 }
-inline ::ORION_COMM::ChassisTelemetry* Feedback::release_chassis() {
-  // @@protoc_insertion_point(field_release:ORION_COMM.Feedback.chassis)
+inline ::ORION_COMM::REPLY::DriveModuleTelemetry* Reply::release_chassis() {
+  // @@protoc_insertion_point(field_release:ORION_COMM.REPLY.Reply.chassis)
   if (has_chassis()) {
     clear_has_feedback_content();
-    ::ORION_COMM::ChassisTelemetry* temp = feedback_content_.chassis_;
+    ::ORION_COMM::REPLY::DriveModuleTelemetry* temp = feedback_content_.chassis_;
     feedback_content_.chassis_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline void Feedback::set_allocated_chassis(::ORION_COMM::ChassisTelemetry* chassis) {
+inline void Reply::set_allocated_chassis(::ORION_COMM::REPLY::DriveModuleTelemetry* chassis) {
   clear_feedback_content();
   if (chassis) {
     set_has_chassis();
     feedback_content_.chassis_ = chassis;
   }
-  // @@protoc_insertion_point(field_set_allocated:ORION_COMM.Feedback.chassis)
+  // @@protoc_insertion_point(field_set_allocated:ORION_COMM.REPLY.Reply.chassis)
 }
 
-inline bool Feedback::has_feedback_content() const {
+inline bool Reply::has_feedback_content() const {
   return feedback_content_case() != FEEDBACK_CONTENT_NOT_SET;
 }
-inline void Feedback::clear_has_feedback_content() {
+inline void Reply::clear_has_feedback_content() {
   _oneof_case_[0] = FEEDBACK_CONTENT_NOT_SET;
 }
-inline Feedback::FeedbackContentCase Feedback::feedback_content_case() const {
-  return Feedback::FeedbackContentCase(_oneof_case_[0]);
+inline Reply::FeedbackContentCase Reply::feedback_content_case() const {
+  return Reply::FeedbackContentCase(_oneof_case_[0]);
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 // -------------------------------------------------------------------
@@ -582,6 +600,7 @@ inline Feedback::FeedbackContentCase Feedback::feedback_content_case() const {
 // @@protoc_insertion_point(namespace_scope)
 
 
+}  // namespace REPLY
 }  // namespace ORION_COMM
 
 // @@protoc_insertion_point(global_scope)

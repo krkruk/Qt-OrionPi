@@ -56,7 +56,8 @@ HEADERS += \
     ../../apps/OrionPiOnboard/Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
     MockWheelObserver.h \
     ../../apps/protos/earthBaseToRoverComm.pb.h \
-    ../../apps/protos/roverToEarthBaseComm.pb.h
+    ../../apps/protos/roverToEarthBaseComm.pb.h \
+    ../../apps/protos/protocolEnums.pb.h
 
 SOURCES += tst_testdrivemodel.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.cpp \
@@ -67,7 +68,8 @@ SOURCES += tst_testdrivemodel.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonChassisFeedbackGenerator.cpp \
     ../../apps/OrionPiOnboard/Orion/Drive/ProtobufChassisFeedbackGenerator.cpp \
     ../../apps/protos/earthBaseToRoverComm.pb.cc \
-    ../../apps/protos/roverToEarthBaseComm.pb.cc
+    ../../apps/protos/roverToEarthBaseComm.pb.cc \
+    ../../apps/protos/protocolEnums.pb.cc
 
 LIBS += -L$$(PROTOBUF)/lib -lprotobuf
 INCLUDEPATH += $$(PROTOBUF)/include

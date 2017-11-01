@@ -28,19 +28,22 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "protocolEnums.pb.h"
 // @@protoc_insertion_point(includes)
 namespace ORION_COMM {
-class Chassis;
-class ChassisDefaultTypeInternal;
-extern ChassisDefaultTypeInternal _Chassis_default_instance_;
-class Command;
-class CommandDefaultTypeInternal;
-extern CommandDefaultTypeInternal _Command_default_instance_;
+namespace QUERY {
+class InputDevice;
+class InputDeviceDefaultTypeInternal;
+extern InputDeviceDefaultTypeInternal _InputDevice_default_instance_;
+class Query;
+class QueryDefaultTypeInternal;
+extern QueryDefaultTypeInternal _Query_default_instance_;
+}  // namespace QUERY
 }  // namespace ORION_COMM
 
 namespace ORION_COMM {
+namespace QUERY {
 
 namespace protobuf_earthBaseToRoverComm_2eproto {
 // Internal implementation detail -- do not call these.
@@ -56,62 +59,41 @@ void AddDescriptors();
 void InitDefaults();
 }  // namespace protobuf_earthBaseToRoverComm_2eproto
 
-enum Commands {
-  Undefined = 0,
-  Drive = 1,
-  Commands_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Commands_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool Commands_IsValid(int value);
-const Commands Commands_MIN = Undefined;
-const Commands Commands_MAX = Drive;
-const int Commands_ARRAYSIZE = Commands_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* Commands_descriptor();
-inline const ::std::string& Commands_Name(Commands value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    Commands_descriptor(), value);
-}
-inline bool Commands_Parse(
-    const ::std::string& name, Commands* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Commands>(
-    Commands_descriptor(), name, value);
-}
 // ===================================================================
 
-class Chassis : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.Chassis) */ {
+class InputDevice : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.QUERY.InputDevice) */ {
  public:
-  Chassis();
-  virtual ~Chassis();
+  InputDevice();
+  virtual ~InputDevice();
 
-  Chassis(const Chassis& from);
+  InputDevice(const InputDevice& from);
 
-  inline Chassis& operator=(const Chassis& from) {
+  inline InputDevice& operator=(const InputDevice& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Chassis& default_instance();
+  static const InputDevice& default_instance();
 
-  static inline const Chassis* internal_default_instance() {
-    return reinterpret_cast<const Chassis*>(
-               &_Chassis_default_instance_);
+  static inline const InputDevice* internal_default_instance() {
+    return reinterpret_cast<const InputDevice*>(
+               &_InputDevice_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     0;
 
-  void Swap(Chassis* other);
+  void Swap(InputDevice* other);
 
   // implements Message ----------------------------------------------
 
-  inline Chassis* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline InputDevice* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  Chassis* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  InputDevice* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const Chassis& from);
-  void MergeFrom(const Chassis& from);
+  void CopyFrom(const InputDevice& from);
+  void MergeFrom(const InputDevice& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -127,7 +109,7 @@ class Chassis : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(Chassis* other);
+  void InternalSwap(InputDevice* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -143,67 +125,186 @@ class Chassis : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // int32 leftRowAngularVelocity = 1;
-  void clear_leftrowangularvelocity();
-  static const int kLeftRowAngularVelocityFieldNumber = 1;
-  ::google::protobuf::int32 leftrowangularvelocity() const;
-  void set_leftrowangularvelocity(::google::protobuf::int32 value);
+  // double x_axis_0 = 1;
+  void clear_x_axis_0();
+  static const int kXAxis0FieldNumber = 1;
+  double x_axis_0() const;
+  void set_x_axis_0(double value);
 
-  // int32 rightRowAngularVelocity = 2;
-  void clear_rightrowangularvelocity();
-  static const int kRightRowAngularVelocityFieldNumber = 2;
-  ::google::protobuf::int32 rightrowangularvelocity() const;
-  void set_rightrowangularvelocity(::google::protobuf::int32 value);
+  // double y_axis_0 = 2;
+  void clear_y_axis_0();
+  static const int kYAxis0FieldNumber = 2;
+  double y_axis_0() const;
+  void set_y_axis_0(double value);
 
-  // @@protoc_insertion_point(class_scope:ORION_COMM.Chassis)
+  // double x_axis_1 = 3;
+  void clear_x_axis_1();
+  static const int kXAxis1FieldNumber = 3;
+  double x_axis_1() const;
+  void set_x_axis_1(double value);
+
+  // double y_axis_1 = 4;
+  void clear_y_axis_1();
+  static const int kYAxis1FieldNumber = 4;
+  double y_axis_1() const;
+  void set_y_axis_1(double value);
+
+  // bool button_0 = 5;
+  void clear_button_0();
+  static const int kButton0FieldNumber = 5;
+  bool button_0() const;
+  void set_button_0(bool value);
+
+  // bool button_1 = 6;
+  void clear_button_1();
+  static const int kButton1FieldNumber = 6;
+  bool button_1() const;
+  void set_button_1(bool value);
+
+  // bool button_2 = 7;
+  void clear_button_2();
+  static const int kButton2FieldNumber = 7;
+  bool button_2() const;
+  void set_button_2(bool value);
+
+  // bool button_3 = 8;
+  void clear_button_3();
+  static const int kButton3FieldNumber = 8;
+  bool button_3() const;
+  void set_button_3(bool value);
+
+  // bool button_4 = 9;
+  void clear_button_4();
+  static const int kButton4FieldNumber = 9;
+  bool button_4() const;
+  void set_button_4(bool value);
+
+  // bool button_5 = 10;
+  void clear_button_5();
+  static const int kButton5FieldNumber = 10;
+  bool button_5() const;
+  void set_button_5(bool value);
+
+  // bool button_6 = 11;
+  void clear_button_6();
+  static const int kButton6FieldNumber = 11;
+  bool button_6() const;
+  void set_button_6(bool value);
+
+  // bool button_7 = 12;
+  void clear_button_7();
+  static const int kButton7FieldNumber = 12;
+  bool button_7() const;
+  void set_button_7(bool value);
+
+  // double x_axis_2 = 14;
+  void clear_x_axis_2();
+  static const int kXAxis2FieldNumber = 14;
+  double x_axis_2() const;
+  void set_x_axis_2(double value);
+
+  // double y_axis_2 = 15;
+  void clear_y_axis_2();
+  static const int kYAxis2FieldNumber = 15;
+  double y_axis_2() const;
+  void set_y_axis_2(double value);
+
+  // bool button_8 = 13;
+  void clear_button_8();
+  static const int kButton8FieldNumber = 13;
+  bool button_8() const;
+  void set_button_8(bool value);
+
+  // bool button_9 = 16;
+  void clear_button_9();
+  static const int kButton9FieldNumber = 16;
+  bool button_9() const;
+  void set_button_9(bool value);
+
+  // bool button_10 = 17;
+  void clear_button_10();
+  static const int kButton10FieldNumber = 17;
+  bool button_10() const;
+  void set_button_10(bool value);
+
+  // bool button_11 = 18;
+  void clear_button_11();
+  static const int kButton11FieldNumber = 18;
+  bool button_11() const;
+  void set_button_11(bool value);
+
+  // bool button_12 = 19;
+  void clear_button_12();
+  static const int kButton12FieldNumber = 19;
+  bool button_12() const;
+  void set_button_12(bool value);
+
+  // @@protoc_insertion_point(class_scope:ORION_COMM.QUERY.InputDevice)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::int32 leftrowangularvelocity_;
-  ::google::protobuf::int32 rightrowangularvelocity_;
+  double x_axis_0_;
+  double y_axis_0_;
+  double x_axis_1_;
+  double y_axis_1_;
+  bool button_0_;
+  bool button_1_;
+  bool button_2_;
+  bool button_3_;
+  bool button_4_;
+  bool button_5_;
+  bool button_6_;
+  bool button_7_;
+  double x_axis_2_;
+  double y_axis_2_;
+  bool button_8_;
+  bool button_9_;
+  bool button_10_;
+  bool button_11_;
+  bool button_12_;
   mutable int _cached_size_;
   friend struct protobuf_earthBaseToRoverComm_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.Command) */ {
+class Query : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ORION_COMM.QUERY.Query) */ {
  public:
-  Command();
-  virtual ~Command();
+  Query();
+  virtual ~Query();
 
-  Command(const Command& from);
+  Query(const Query& from);
 
-  inline Command& operator=(const Command& from) {
+  inline Query& operator=(const Query& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Command& default_instance();
+  static const Query& default_instance();
 
-  enum CmdMsgsCase {
-    kDrive = 2,
-    CMD_MSGS_NOT_SET = 0,
+  enum CmdContentCase {
+    kInput = 4,
+    CMD_CONTENT_NOT_SET = 0,
   };
 
-  static inline const Command* internal_default_instance() {
-    return reinterpret_cast<const Command*>(
-               &_Command_default_instance_);
+  static inline const Query* internal_default_instance() {
+    return reinterpret_cast<const Query*>(
+               &_Query_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     1;
 
-  void Swap(Command* other);
+  void Swap(Query* other);
 
   // implements Message ----------------------------------------------
 
-  inline Command* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline Query* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  Command* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  Query* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const Command& from);
-  void MergeFrom(const Command& from);
+  void CopyFrom(const Query& from);
+  void MergeFrom(const Query& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -219,7 +320,7 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(Command* other);
+  void InternalSwap(Query* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -235,36 +336,50 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   // accessors -------------------------------------------------------
 
-  // .ORION_COMM.Commands cmdType = 1;
-  void clear_cmdtype();
-  static const int kCmdTypeFieldNumber = 1;
-  ::ORION_COMM::Commands cmdtype() const;
-  void set_cmdtype(::ORION_COMM::Commands value);
+  // .ORION_COMM.CMD_TYPE cmd = 1;
+  void clear_cmd();
+  static const int kCmdFieldNumber = 1;
+  ::ORION_COMM::CMD_TYPE cmd() const;
+  void set_cmd(::ORION_COMM::CMD_TYPE value);
 
-  // .ORION_COMM.Chassis drive = 2;
-  bool has_drive() const;
-  void clear_drive();
-  static const int kDriveFieldNumber = 2;
-  const ::ORION_COMM::Chassis& drive() const;
-  ::ORION_COMM::Chassis* mutable_drive();
-  ::ORION_COMM::Chassis* release_drive();
-  void set_allocated_drive(::ORION_COMM::Chassis* drive);
+  // .ORION_COMM.MODULE module = 2;
+  void clear_module();
+  static const int kModuleFieldNumber = 2;
+  ::ORION_COMM::MODULE module() const;
+  void set_module(::ORION_COMM::MODULE value);
 
-  CmdMsgsCase cmd_msgs_case() const;
-  // @@protoc_insertion_point(class_scope:ORION_COMM.Command)
+  // .ORION_COMM.MODE mode = 3;
+  void clear_mode();
+  static const int kModeFieldNumber = 3;
+  ::ORION_COMM::MODE mode() const;
+  void set_mode(::ORION_COMM::MODE value);
+
+  // .ORION_COMM.QUERY.InputDevice input = 4;
+  bool has_input() const;
+  void clear_input();
+  static const int kInputFieldNumber = 4;
+  const ::ORION_COMM::QUERY::InputDevice& input() const;
+  ::ORION_COMM::QUERY::InputDevice* mutable_input();
+  ::ORION_COMM::QUERY::InputDevice* release_input();
+  void set_allocated_input(::ORION_COMM::QUERY::InputDevice* input);
+
+  CmdContentCase cmd_content_case() const;
+  // @@protoc_insertion_point(class_scope:ORION_COMM.QUERY.Query)
  private:
-  void set_has_drive();
+  void set_has_input();
 
-  inline bool has_cmd_msgs() const;
-  void clear_cmd_msgs();
-  inline void clear_has_cmd_msgs();
+  inline bool has_cmd_content() const;
+  void clear_cmd_content();
+  inline void clear_has_cmd_content();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  int cmdtype_;
-  union CmdMsgsUnion {
-    CmdMsgsUnion() {}
-    ::ORION_COMM::Chassis* drive_;
-  } cmd_msgs_;
+  int cmd_;
+  int module_;
+  int mode_;
+  union CmdContentUnion {
+    CmdContentUnion() {}
+    ::ORION_COMM::QUERY::InputDevice* input_;
+  } cmd_content_;
   mutable int _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
 
@@ -276,110 +391,376 @@ class Command : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// Chassis
+// InputDevice
 
-// int32 leftRowAngularVelocity = 1;
-inline void Chassis::clear_leftrowangularvelocity() {
-  leftrowangularvelocity_ = 0;
+// double x_axis_0 = 1;
+inline void InputDevice::clear_x_axis_0() {
+  x_axis_0_ = 0;
 }
-inline ::google::protobuf::int32 Chassis::leftrowangularvelocity() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Chassis.leftRowAngularVelocity)
-  return leftrowangularvelocity_;
+inline double InputDevice::x_axis_0() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.x_axis_0)
+  return x_axis_0_;
 }
-inline void Chassis::set_leftrowangularvelocity(::google::protobuf::int32 value) {
+inline void InputDevice::set_x_axis_0(double value) {
   
-  leftrowangularvelocity_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.Chassis.leftRowAngularVelocity)
+  x_axis_0_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.x_axis_0)
 }
 
-// int32 rightRowAngularVelocity = 2;
-inline void Chassis::clear_rightrowangularvelocity() {
-  rightrowangularvelocity_ = 0;
+// double y_axis_0 = 2;
+inline void InputDevice::clear_y_axis_0() {
+  y_axis_0_ = 0;
 }
-inline ::google::protobuf::int32 Chassis::rightrowangularvelocity() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Chassis.rightRowAngularVelocity)
-  return rightrowangularvelocity_;
+inline double InputDevice::y_axis_0() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.y_axis_0)
+  return y_axis_0_;
 }
-inline void Chassis::set_rightrowangularvelocity(::google::protobuf::int32 value) {
+inline void InputDevice::set_y_axis_0(double value) {
   
-  rightrowangularvelocity_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.Chassis.rightRowAngularVelocity)
+  y_axis_0_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.y_axis_0)
+}
+
+// double x_axis_1 = 3;
+inline void InputDevice::clear_x_axis_1() {
+  x_axis_1_ = 0;
+}
+inline double InputDevice::x_axis_1() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.x_axis_1)
+  return x_axis_1_;
+}
+inline void InputDevice::set_x_axis_1(double value) {
+  
+  x_axis_1_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.x_axis_1)
+}
+
+// double y_axis_1 = 4;
+inline void InputDevice::clear_y_axis_1() {
+  y_axis_1_ = 0;
+}
+inline double InputDevice::y_axis_1() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.y_axis_1)
+  return y_axis_1_;
+}
+inline void InputDevice::set_y_axis_1(double value) {
+  
+  y_axis_1_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.y_axis_1)
+}
+
+// bool button_0 = 5;
+inline void InputDevice::clear_button_0() {
+  button_0_ = false;
+}
+inline bool InputDevice::button_0() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_0)
+  return button_0_;
+}
+inline void InputDevice::set_button_0(bool value) {
+  
+  button_0_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_0)
+}
+
+// bool button_1 = 6;
+inline void InputDevice::clear_button_1() {
+  button_1_ = false;
+}
+inline bool InputDevice::button_1() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_1)
+  return button_1_;
+}
+inline void InputDevice::set_button_1(bool value) {
+  
+  button_1_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_1)
+}
+
+// bool button_2 = 7;
+inline void InputDevice::clear_button_2() {
+  button_2_ = false;
+}
+inline bool InputDevice::button_2() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_2)
+  return button_2_;
+}
+inline void InputDevice::set_button_2(bool value) {
+  
+  button_2_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_2)
+}
+
+// bool button_3 = 8;
+inline void InputDevice::clear_button_3() {
+  button_3_ = false;
+}
+inline bool InputDevice::button_3() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_3)
+  return button_3_;
+}
+inline void InputDevice::set_button_3(bool value) {
+  
+  button_3_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_3)
+}
+
+// bool button_4 = 9;
+inline void InputDevice::clear_button_4() {
+  button_4_ = false;
+}
+inline bool InputDevice::button_4() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_4)
+  return button_4_;
+}
+inline void InputDevice::set_button_4(bool value) {
+  
+  button_4_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_4)
+}
+
+// bool button_5 = 10;
+inline void InputDevice::clear_button_5() {
+  button_5_ = false;
+}
+inline bool InputDevice::button_5() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_5)
+  return button_5_;
+}
+inline void InputDevice::set_button_5(bool value) {
+  
+  button_5_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_5)
+}
+
+// bool button_6 = 11;
+inline void InputDevice::clear_button_6() {
+  button_6_ = false;
+}
+inline bool InputDevice::button_6() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_6)
+  return button_6_;
+}
+inline void InputDevice::set_button_6(bool value) {
+  
+  button_6_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_6)
+}
+
+// bool button_7 = 12;
+inline void InputDevice::clear_button_7() {
+  button_7_ = false;
+}
+inline bool InputDevice::button_7() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_7)
+  return button_7_;
+}
+inline void InputDevice::set_button_7(bool value) {
+  
+  button_7_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_7)
+}
+
+// bool button_8 = 13;
+inline void InputDevice::clear_button_8() {
+  button_8_ = false;
+}
+inline bool InputDevice::button_8() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_8)
+  return button_8_;
+}
+inline void InputDevice::set_button_8(bool value) {
+  
+  button_8_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_8)
+}
+
+// double x_axis_2 = 14;
+inline void InputDevice::clear_x_axis_2() {
+  x_axis_2_ = 0;
+}
+inline double InputDevice::x_axis_2() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.x_axis_2)
+  return x_axis_2_;
+}
+inline void InputDevice::set_x_axis_2(double value) {
+  
+  x_axis_2_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.x_axis_2)
+}
+
+// double y_axis_2 = 15;
+inline void InputDevice::clear_y_axis_2() {
+  y_axis_2_ = 0;
+}
+inline double InputDevice::y_axis_2() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.y_axis_2)
+  return y_axis_2_;
+}
+inline void InputDevice::set_y_axis_2(double value) {
+  
+  y_axis_2_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.y_axis_2)
+}
+
+// bool button_9 = 16;
+inline void InputDevice::clear_button_9() {
+  button_9_ = false;
+}
+inline bool InputDevice::button_9() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_9)
+  return button_9_;
+}
+inline void InputDevice::set_button_9(bool value) {
+  
+  button_9_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_9)
+}
+
+// bool button_10 = 17;
+inline void InputDevice::clear_button_10() {
+  button_10_ = false;
+}
+inline bool InputDevice::button_10() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_10)
+  return button_10_;
+}
+inline void InputDevice::set_button_10(bool value) {
+  
+  button_10_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_10)
+}
+
+// bool button_11 = 18;
+inline void InputDevice::clear_button_11() {
+  button_11_ = false;
+}
+inline bool InputDevice::button_11() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_11)
+  return button_11_;
+}
+inline void InputDevice::set_button_11(bool value) {
+  
+  button_11_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_11)
+}
+
+// bool button_12 = 19;
+inline void InputDevice::clear_button_12() {
+  button_12_ = false;
+}
+inline bool InputDevice::button_12() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.InputDevice.button_12)
+  return button_12_;
+}
+inline void InputDevice::set_button_12(bool value) {
+  
+  button_12_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.InputDevice.button_12)
 }
 
 // -------------------------------------------------------------------
 
-// Command
+// Query
 
-// .ORION_COMM.Commands cmdType = 1;
-inline void Command::clear_cmdtype() {
-  cmdtype_ = 0;
+// .ORION_COMM.CMD_TYPE cmd = 1;
+inline void Query::clear_cmd() {
+  cmd_ = 0;
 }
-inline ::ORION_COMM::Commands Command::cmdtype() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Command.cmdType)
-  return static_cast< ::ORION_COMM::Commands >(cmdtype_);
+inline ::ORION_COMM::CMD_TYPE Query::cmd() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.Query.cmd)
+  return static_cast< ::ORION_COMM::CMD_TYPE >(cmd_);
 }
-inline void Command::set_cmdtype(::ORION_COMM::Commands value) {
+inline void Query::set_cmd(::ORION_COMM::CMD_TYPE value) {
   
-  cmdtype_ = value;
-  // @@protoc_insertion_point(field_set:ORION_COMM.Command.cmdType)
+  cmd_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.Query.cmd)
 }
 
-// .ORION_COMM.Chassis drive = 2;
-inline bool Command::has_drive() const {
-  return cmd_msgs_case() == kDrive;
+// .ORION_COMM.MODULE module = 2;
+inline void Query::clear_module() {
+  module_ = 0;
 }
-inline void Command::set_has_drive() {
-  _oneof_case_[0] = kDrive;
+inline ::ORION_COMM::MODULE Query::module() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.Query.module)
+  return static_cast< ::ORION_COMM::MODULE >(module_);
 }
-inline void Command::clear_drive() {
-  if (has_drive()) {
-    delete cmd_msgs_.drive_;
-    clear_has_cmd_msgs();
+inline void Query::set_module(::ORION_COMM::MODULE value) {
+  
+  module_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.Query.module)
+}
+
+// .ORION_COMM.MODE mode = 3;
+inline void Query::clear_mode() {
+  mode_ = 0;
+}
+inline ::ORION_COMM::MODE Query::mode() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.Query.mode)
+  return static_cast< ::ORION_COMM::MODE >(mode_);
+}
+inline void Query::set_mode(::ORION_COMM::MODE value) {
+  
+  mode_ = value;
+  // @@protoc_insertion_point(field_set:ORION_COMM.QUERY.Query.mode)
+}
+
+// .ORION_COMM.QUERY.InputDevice input = 4;
+inline bool Query::has_input() const {
+  return cmd_content_case() == kInput;
+}
+inline void Query::set_has_input() {
+  _oneof_case_[0] = kInput;
+}
+inline void Query::clear_input() {
+  if (has_input()) {
+    delete cmd_content_.input_;
+    clear_has_cmd_content();
   }
 }
-inline  const ::ORION_COMM::Chassis& Command::drive() const {
-  // @@protoc_insertion_point(field_get:ORION_COMM.Command.drive)
-  return has_drive()
-      ? *cmd_msgs_.drive_
-      : ::ORION_COMM::Chassis::default_instance();
+inline  const ::ORION_COMM::QUERY::InputDevice& Query::input() const {
+  // @@protoc_insertion_point(field_get:ORION_COMM.QUERY.Query.input)
+  return has_input()
+      ? *cmd_content_.input_
+      : ::ORION_COMM::QUERY::InputDevice::default_instance();
 }
-inline ::ORION_COMM::Chassis* Command::mutable_drive() {
-  if (!has_drive()) {
-    clear_cmd_msgs();
-    set_has_drive();
-    cmd_msgs_.drive_ = new ::ORION_COMM::Chassis;
+inline ::ORION_COMM::QUERY::InputDevice* Query::mutable_input() {
+  if (!has_input()) {
+    clear_cmd_content();
+    set_has_input();
+    cmd_content_.input_ = new ::ORION_COMM::QUERY::InputDevice;
   }
-  // @@protoc_insertion_point(field_mutable:ORION_COMM.Command.drive)
-  return cmd_msgs_.drive_;
+  // @@protoc_insertion_point(field_mutable:ORION_COMM.QUERY.Query.input)
+  return cmd_content_.input_;
 }
-inline ::ORION_COMM::Chassis* Command::release_drive() {
-  // @@protoc_insertion_point(field_release:ORION_COMM.Command.drive)
-  if (has_drive()) {
-    clear_has_cmd_msgs();
-    ::ORION_COMM::Chassis* temp = cmd_msgs_.drive_;
-    cmd_msgs_.drive_ = NULL;
+inline ::ORION_COMM::QUERY::InputDevice* Query::release_input() {
+  // @@protoc_insertion_point(field_release:ORION_COMM.QUERY.Query.input)
+  if (has_input()) {
+    clear_has_cmd_content();
+    ::ORION_COMM::QUERY::InputDevice* temp = cmd_content_.input_;
+    cmd_content_.input_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline void Command::set_allocated_drive(::ORION_COMM::Chassis* drive) {
-  clear_cmd_msgs();
-  if (drive) {
-    set_has_drive();
-    cmd_msgs_.drive_ = drive;
+inline void Query::set_allocated_input(::ORION_COMM::QUERY::InputDevice* input) {
+  clear_cmd_content();
+  if (input) {
+    set_has_input();
+    cmd_content_.input_ = input;
   }
-  // @@protoc_insertion_point(field_set_allocated:ORION_COMM.Command.drive)
+  // @@protoc_insertion_point(field_set_allocated:ORION_COMM.QUERY.Query.input)
 }
 
-inline bool Command::has_cmd_msgs() const {
-  return cmd_msgs_case() != CMD_MSGS_NOT_SET;
+inline bool Query::has_cmd_content() const {
+  return cmd_content_case() != CMD_CONTENT_NOT_SET;
 }
-inline void Command::clear_has_cmd_msgs() {
-  _oneof_case_[0] = CMD_MSGS_NOT_SET;
+inline void Query::clear_has_cmd_content() {
+  _oneof_case_[0] = CMD_CONTENT_NOT_SET;
 }
-inline Command::CmdMsgsCase Command::cmd_msgs_case() const {
-  return Command::CmdMsgsCase(_oneof_case_[0]);
+inline Query::CmdContentCase Query::cmd_content_case() const {
+  return Query::CmdContentCase(_oneof_case_[0]);
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 // -------------------------------------------------------------------
@@ -388,21 +769,8 @@ inline Command::CmdMsgsCase Command::cmd_msgs_case() const {
 // @@protoc_insertion_point(namespace_scope)
 
 
+}  // namespace QUERY
 }  // namespace ORION_COMM
-
-#ifndef SWIG
-namespace google {
-namespace protobuf {
-
-template <> struct is_proto_enum< ::ORION_COMM::Commands> : ::google::protobuf::internal::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ORION_COMM::Commands>() {
-  return ::ORION_COMM::Commands_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
-#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 

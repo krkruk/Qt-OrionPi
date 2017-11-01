@@ -31,12 +31,14 @@ SOURCES += main.cpp\
     DriveFeedbackWidget.cpp \
     ../protos/earthBaseToRoverComm.pb.cc \
     ../protos/roverToEarthBaseComm.pb.cc \
+    ../protos/protocolEnums.pb.cc \
     NetworkSettings.cpp
 
 HEADERS  += mainwindow.h \
     DriveFeedbackWidget.h \
     ../protos/earthBaseToRoverComm.pb.h \
     ../protos/roverToEarthBaseComm.pb.h \
+    ../protos/protocolEnums.pb.h \
     NetworkSettings.h
 
 FORMS    += mainwindow.ui \
@@ -61,4 +63,5 @@ QMAKE_CXXFLAGS += -isystem ../protos
 
 DISTFILES += \
     ../protos/earthBaseToRoverComm.proto \
-    ../protos/roverToEarthBaseComm.proto
+    ../protos/roverToEarthBaseComm.proto \
+    ../protos/protocolEnums.proto

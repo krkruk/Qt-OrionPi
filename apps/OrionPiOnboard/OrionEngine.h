@@ -22,6 +22,11 @@
 #include "inputs/IfceInputSource.h"
 
 class QTimer;
+namespace ORION_COMM {
+    namespace QUERY {
+        class Query;
+    }
+}
 
 
 class OrionEngine : public QObject
@@ -48,6 +53,9 @@ private:
     void echo_found_serials(const QList<QSharedPointer<IfceDevice> > &foundDevices);
     void echo_not_connected_devices(const QList<int> &notConnectedIds);
     void store_settings();
+    void parse_crud_update(const ORION_COMM::QUERY::Query &query);
+    void parse_user_controlled_message(const ORION_COMM::QUERY::Query &query);
+
 
     QSharedPointer<SerialManager> serialManager;
     QSharedPointer<SerialController> serialController;

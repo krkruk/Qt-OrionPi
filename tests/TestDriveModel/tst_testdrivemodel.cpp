@@ -20,6 +20,7 @@
 
 #include <google/protobuf/util/message_differencer.h>
 #include <google/protobuf/util/json_util.h>
+#include "protocolEnums.pb.h"
 #include "earthBaseToRoverComm.pb.h"
 #include "roverToEarthBaseComm.pb.h"
 
@@ -205,9 +206,9 @@ void TestDriveModel::test_protobuf_algorithm_direct()
     frontLeftWheel->addObserver(observer);
     frontRightWheel->addObserver(observer);
 
-    ORION_COMM::Chassis data;
-    data.set_leftrowangularvelocity(-100);
-    data.set_rightrowangularvelocity(100);
+    ORION_COMM::QUERY::InputDevice data;
+    data.set_x_axis_0(-100);
+    data.set_y_axis_0(100);
     auto serialized = data.SerializeAsString();
     const QByteArray turnLeft(serialized.c_str(), serialized.size());
     orionChassis.updateState(turnLeft);
@@ -309,13 +310,14 @@ void TestDriveModel::test_full_protobuf_feedback_gen()
     frontLeftWheel->updateModel(QJsonDocument(data).toJson(QJsonDocument::Compact));
     auto dataToCompare = chassis.getFeedbackData();
     if( dataToCompare.isEmpty() ) QFAIL("No feedback data received");
-    ORION_COMM::Feedback received;
+    ORION_COMM::REPLY::Reply received;
     received.ParseFromArray(dataToCompare.data(), dataToCompare.size());
 
-    ORION_COMM::Feedback feedback;
-    feedback.set_cmd(ORION_COMM::Drive);
-    ORION_COMM::ChassisTelemetry *chassisTelemetry = feedback.mutable_chassis();
-    ORION_COMM::WheelTelemetry *wheel = chassisTelemetry->add_wheel();
+    ORION_COMM::REPLY::Reply feedback;
+    feedback.set_reply_type(ORION_COMM::UPDATE);
+    feedback.set_module(ORION_COMM::DRIVE);
+    ORION_COMM::REPLY::DriveModuleTelemetry *chassisTelemetry = feedback.mutable_chassis();
+    ORION_COMM::REPLY::WheelTelemetry *wheel = chassisTelemetry->add_wheel();
     wheel->set_id(frontLeftId);
     wheel->set_angularvelocity(omega);
     wheel->set_current(current);

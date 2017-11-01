@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ORION_COMM;
+
+/*
+* Only CRUD operations allowed
+*/
+enum CMD_TYPE {
+    UNDEFINED = 0;
+    CREATE = 1;
+    READ = 2;
+    UPDATE = 3;
+    DELETE = 4;
+}
+
+enum MODULE {
+    NO_MODULE = 0;
+    DRIVE = 1;
+    MANIPULATOR = 2;
+    HARDWARE_CTRL_PANEL = 3;
+    LAB_MODULE = 4;
+
+}
+
+enum MODE {
+    NO_MODE = 0;
+    USER_CONTROLLED = 1;
+    SCRIPTED = 2;
+    AUTONOMOUS = 3;
+}

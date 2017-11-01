@@ -34,9 +34,10 @@ void Orion::ProtobufChassisFeedbackGenerator::addInput(QWeakPointer<IfceWheelMod
 
 QByteArray Orion::ProtobufChassisFeedbackGenerator::generate()
 {
-    ORION_COMM::Feedback msg;
-    ORION_COMM::ChassisTelemetry *chassis { msg.mutable_chassis() };
-    msg.set_cmd(ORION_COMM::Drive);
+    ORION_COMM::REPLY::Reply msg;
+    ORION_COMM::REPLY::DriveModuleTelemetry *chassis { msg.mutable_chassis() };
+    msg.set_reply_type(ORION_COMM::UPDATE);
+    msg.set_module(ORION_COMM::DRIVE);
 
     for( QSharedPointer<Orion::IfceWheelModel> wheel : priv->wheels )
     {
