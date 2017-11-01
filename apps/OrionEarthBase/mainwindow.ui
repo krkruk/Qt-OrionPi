@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>656</width>
-    <height>557</height>
+    <width>475</width>
+    <height>261</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,7 +134,7 @@
       <property name="title">
        <string>Feedback data</string>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayoutFeedbackEntries"/>
+      <layout class="QGridLayout" name="gridLayout" columnstretch="0" columnminimumwidth="0"/>
      </widget>
     </item>
    </layout>
@@ -144,7 +144,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>656</width>
+     <width>475</width>
      <height>22</height>
     </rect>
    </property>

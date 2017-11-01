@@ -1,5 +1,6 @@
 #include "DriveFeedbackWidget.h"
 #include "ui_DriveFeedbackWidget.h"
+#include <QPalette>
 #include <QDebug>
 
 
@@ -8,6 +9,9 @@ DriveFeedbackWidget::DriveFeedbackWidget(QWidget *parent) :
     ui(new Ui::DriveFeedbackWidget)
 {
     ui->setupUi(this);
+    ui->frame->setAutoFillBackground(true);
+    ui->frame->setFrameShape(QFrame::Box);
+    ui->frame->setFrameShadow(QFrame::Plain);
 }
 
 DriveFeedbackWidget::~DriveFeedbackWidget()
@@ -42,6 +46,11 @@ void DriveFeedbackWidget::setPwm(int pwm)
 
 void DriveFeedbackWidget::setErrorCode(int error)
 {
+    QColor bgColor = error == 0 ? Qt::transparent : Qt::red;
+    QPalette palette = ui->frame->palette();
+    palette.setColor(QPalette::Background, bgColor);
+    ui->frame->setPalette(palette);
+
     ui->labelErrorCode->setText(QString::number(error));
 }
 

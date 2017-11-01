@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QTimer>
 #include <QDebug>
+#include <QMap>
 
 #include "NetworkSettings.h"
 #include "TcpSocket.h"
@@ -41,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     gamepadTimer(new QTimer(this))
 {
     ui->setupUi(this);
+    ui->gridLayout->setColumnStretch(0, 1);
+    ui->gridLayout->setColumnStretch(1, 1);
     inputMultiplier = ui->spinBoxMaximaLimit->value();
     display_available_gamepads();
     connections();
@@ -154,13 +157,19 @@ void MainWindow::parse_feedback_data(const QByteArray &data)
         return;
 
     auto wheels = msg.chassis().wheel();
+    using WheelById = QMap<int, const ORION_COMM::REPLY::WheelTelemetry*>;
+    WheelById sorted;
     for( const ORION_COMM::REPLY::WheelTelemetry &wheel : wheels ) {
-        const auto wheelName = QString::number(wheel.id());
-        const auto angVelocity = wheel.angularvelocity();
-        const auto heatSinkTemp = wheel.heatsinktemperature();
-        const auto current = wheel.current();
-        const auto pwm = wheel.pwm();
-        const auto errorCode = wheel.errorcode();
+        sorted.insert(wheel.id(), &wheel);
+    }
+
+    for( auto it = sorted.cbegin(); it != sorted.cend(); ++it ) {
+        const auto wheelName = QString::number(it.key());
+        const auto angVelocity = it.value()->angularvelocity();
+        const auto heatSinkTemp = it.value()->heatsinktemperature();
+        const auto current = it.value()->current();
+        const auto pwm = it.value()->pwm();
+        const auto errorCode = it.value()->errorcode();
         apply_data_to_feedback_widget(wheelName,
                                       angVelocity,
                                       heatSinkTemp,
@@ -174,7 +183,7 @@ void MainWindow::apply_data_to_feedback_widget(const QString &name, double angul
 {
     if( !feedbackWidgets.contains(name) ) {
         auto widget = QPointer<DriveFeedbackWidget>(new DriveFeedbackWidget(this));
-        ui->verticalLayoutFeedbackEntries->addWidget(widget.data());
+        ui->gridLayout->addWidget(widget.data());
         feedbackWidgets.insert(name, widget);
     }
 
