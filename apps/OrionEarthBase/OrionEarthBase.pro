@@ -64,8 +64,8 @@ equals( IS_PROTOBUF_STATIC , true ) {
 
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
-QMAKE_CXXFLAGS += -isystem $$(PROTOBUF)/include
-QMAKE_CXXFLAGS += -isystem ../protos
+ 
+ 
 
 DISTFILES += \
     ../protos/earthBaseToRoverComm.proto \
