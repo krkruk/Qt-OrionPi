@@ -4,3 +4,7 @@
 #ignore autosave files
 *.autosave
 
+# ignore protobuf headers and sources
+*.pb.h
+*.pb.cc
+

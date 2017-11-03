@@ -52,10 +52,16 @@ unix:!macx: LIBS += -L$$(ORION_BUILDPATH_LIBS) -lnetwork
 INCLUDEPATH += $$PWD/../../network
 DEPENDPATH += $$PWD/../../network
 
-# loading statically due to fucking Ubuntu protobuf collisions...
-# to be solved in the future or just use Arch Linux
-#LIBS += -L$$(PROTOBUF)/lib -lprotobuf
-LIBS += $$(PROTOBUF)/lib/libprotobuf.a
+
+IS_PROTOBUF_STATIC = $$(PROTOBUF_STATIC)
+equals( IS_PROTOBUF_STATIC , true ) {
+    message("STATIC protobuf libs")
+    LIBS += $$(PROTOBUF)/lib/libprotobuf.a
+} else {
+    message("Dynamically loaded protobuf libs")
+    LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+}
+
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
 QMAKE_CXXFLAGS += -isystem $$(PROTOBUF)/include

@@ -51,7 +51,13 @@ else:unix: LIBS += -L${ORION_BUILDPATH_LIBS} -lnetwork
 INCLUDEPATH += $$PWD/../../network
 DEPENDPATH += $$PWD/../../network
 
-LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+IS_PROTOBUF_STATIC = $$(PROTOBUF_STATIC)
+equals( IS_PROTOBUF_STATIC , true ) {
+    LIBS += $$(PROTOBUF)/lib/libprotobuf.a
+} else {
+    LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+}
+
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
 

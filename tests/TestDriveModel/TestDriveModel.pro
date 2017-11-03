@@ -45,7 +45,6 @@ DEPENDPATH += \
     ../../apps/OrionPiOnboard
 
 HEADERS += \
-    ../../apps/OrionPiOnboard/GlobalConstants.h \
     ../../apps/OrionPiOnboard/Orion/Drive/WheelModel.h \
     ../../apps/OrionPiOnboard/Orion/Drive/ChassisModel.h \
     ../../apps/OrionPiOnboard/Orion/Drive/JsonDriveModeDirect.h \
@@ -71,7 +70,13 @@ SOURCES += tst_testdrivemodel.cpp \
     ../../apps/protos/roverToEarthBaseComm.pb.cc \
     ../../apps/protos/protocolEnums.pb.cc
 
-LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+IS_PROTOBUF_STATIC = $$(PROTOBUF_STATIC)
+equals( IS_PROTOBUF_STATIC , true ) {
+    LIBS += $$(PROTOBUF)/lib/libprotobuf.a
+} else {
+    LIBS += -L$$(PROTOBUF)/lib -lprotobuf
+}
+
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
 QMAKE_CXXFLAGS += -isystem $$(PROTOBUF)/include

@@ -56,9 +56,11 @@ Make sure you have installed all required dependencies. Then follow the instruct
 .. code-block:: bash
 
     git clone https://github.com/rCorvidae/Qt-OrionPi.git
+    cd Qt-OrionPi
+    source ../compile_protobuf_protos.sh
+    cd ..
     mkdir build
     cd build
-    source ../Qt-OrionPi/compile_protobuf_protos.sh.sh 
     qmake ../Qt-OrionPi/OrionPI.pro
     make -j4
 
