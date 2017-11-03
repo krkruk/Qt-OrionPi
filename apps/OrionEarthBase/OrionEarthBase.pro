@@ -7,7 +7,7 @@
 QT       += core gui network gamepad
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+QMAKE_CFLAGS_ISYSTEM = -I
 TARGET = OrionEarthBase
 DESTDIR = $$(ORION_BUILDPATH)
 TEMPLATE = app

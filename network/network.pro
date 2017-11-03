@@ -12,7 +12,7 @@ TARGET = network
 TEMPLATE = lib
 DESTDIR = ${ORION_BUILDPATH_LIBS}
 DEFINES += NETWORK_LIBRARY
-
+QMAKE_CFLAGS_ISYSTEM = -I
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the

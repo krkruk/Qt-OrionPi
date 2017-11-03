@@ -2,7 +2,7 @@ QT += core serialport concurrent network gamepad
 QT -= gui
 
 CONFIG += c++11
-
+QMAKE_CFLAGS_ISYSTEM = -I
 TARGET = OrionPiOnboard
 DESTDIR = $$(ORION_BUILDPATH)
 
@@ -83,8 +83,6 @@ equals( IS_PROTOBUF_STATIC , true ) {
 
 INCLUDEPATH += $$(PROTOBUF)/include
 DEPENDPATH += $$(PROTOBUF)/include
-
-
 
 DISTFILES += \
     ../protos/earthBaseToRoverComm.proto \

@@ -14,7 +14,7 @@ TARGET = tst_testserialtest
 CONFIG   += console
 CONFIG   -= app_bundle
 CONFIG += c++11
-
+QMAKE_CFLAGS_ISYSTEM = -I
 DESTDIR = $$(ORION_BUILDPATH_TEST)/tst
 
 TEMPLATE = app

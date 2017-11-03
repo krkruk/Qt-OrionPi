@@ -7,7 +7,7 @@ TARGET = DiscoverSerialsSync
 CONFIG += console
 CONFIG -= app_bundle
 DESTDIR = $$(ORION_BUILDPATH_TEST)/apps
-
+QMAKE_CFLAGS_ISYSTEM = -I
 TEMPLATE = app
 
 SOURCES += main.cpp
