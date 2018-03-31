@@ -21,6 +21,7 @@ public:
     SerialManager(QObject *parent = nullptr);
     ~SerialManager();
 
+    void setSettings(QSharedPointer<IfceSerialSettings> settings);
     void setDevices(const QList<QSharedPointer<IfceDevice>> &devices);
     bool hasSerial(int id) const;
 
@@ -48,6 +49,7 @@ private:
     QHash<QString, QSharedPointer<QSerialPort>> serialsByPortName;
     QHash<int, QByteArray> lastSent;
     QSharedPointer<IfceSerialController> controller;
+    QSharedPointer<IfceSerialSettings> settings;
 
     bool setup_port(QSharedPointer<QSerialPort> serial);
     void connections(QSharedPointer<QSerialPort> serial);

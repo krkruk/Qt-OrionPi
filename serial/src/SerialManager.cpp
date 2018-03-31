@@ -20,9 +20,15 @@ SerialManager::~SerialManager()
 
 }
 
+void SerialManager::setSettings(QSharedPointer<IfceSerialSettings> settings)
+{
+    this->settings = settings;
+}
+
 void SerialManager::setDevices(const QList<QSharedPointer<IfceDevice> > &devices)
 {
     SerialFactory serialFactory;
+    serialFactory.setSerialSettings(settings);
     for( const auto &device : devices )
     {
         const auto id { device->getId() };

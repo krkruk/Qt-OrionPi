@@ -5,5 +5,4 @@ CONFIG += ordered
 SUBDIRS += \
     serial \
     network \
-    apps \
-    tests
+    apps 

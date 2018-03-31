@@ -1,7 +1,7 @@
 #include "SerialFactory.h"
 #include "DefaultSerialSettings.h"
 #include <QSerialPort>
-
+#include <QDebug>
 SerialFactory::SerialFactory()
     : settings { QSharedPointer<DefaultSerialSettings>::create() }
 {
@@ -21,6 +21,7 @@ QSharedPointer<QSerialPort> SerialFactory::create(const QSerialPortInfo &info, b
     else
         serial = QSharedPointer<QSerialPort>::create(info);
 
+    qDebug() << "AT port: " << serial->portName() << settings->getBaudrate();
     serial->setBaudRate( static_cast<QSerialPort::BaudRate>(settings->getBaudrate()),
                          QSerialPort::AllDirections);
     serial->setDataBits( static_cast<QSerialPort::DataBits>(settings->getDataBits()) );
@@ -33,5 +34,6 @@ QSharedPointer<QSerialPort> SerialFactory::create(const QSerialPortInfo &info, b
 
 void SerialFactory::setSerialSettings(QSharedPointer<IfceSerialSettings> settings)
 {
+    qDebug() << "Changing serial settings";
     this->settings = settings;
 }

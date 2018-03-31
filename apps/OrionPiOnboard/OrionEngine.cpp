@@ -39,7 +39,7 @@ OrionEngine::OrionEngine(QObject *parent)
     setup_serial();
     setup_cmd_source();
     connections();
-    sendFeedbackTimer->setInterval(100);
+    sendFeedbackTimer->setInterval(150);
     sendFeedbackTimer->start();
 }
 
@@ -83,7 +83,8 @@ void OrionEngine::onFeedbackTimerTimeout()
 void OrionEngine::setup_serial()
 {
     QScopedPointer<DeviceFinder> finder(new ThreadedDeviceFinder( new JsonDeviceFactory, this));
-    finder->setSerialSettings(QSharedPointer<SerialSettings>::create());
+    auto settings = QSharedPointer<SerialSettings>::create();
+    finder->setSerialSettings(settings);
     QTime t1 = QTime::currentTime();
     t1.start();
     qDebug() << "Starting discovery of serial devices...";
@@ -115,6 +116,7 @@ void OrionEngine::setup_serial()
     rearLeftWheel->addObserver(serialManager);
     rearRightWheel->addObserver(serialManager);
 
+    serialManager->setSettings(settings);
     serialManager->setDevices(devices);
     auto notConnected { serialManager->start() };
     echo_not_connected_devices(notConnected);
